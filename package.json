@@ -1,0 +1,25 @@
+{
+  "name": "ttrpg_cards",
+  "version": "0.0.0",
+  "description": "An attempt to make a system for creating printable TTRPG cards.",
+  "scripts": {
+    "start": "http-server ./public",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint --fix '**/*.js'",
+    "types": "tsc --project jsconfig.json"
+  },
+  "author": "James Wright <hello@jameswright.me>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thewrongjames/ttrpg_cards.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thewrongjames/ttrpg_cards/issues"
+  },
+  "homepage": "https://github.com/thewrongjames/ttrpg_cards#readme",
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "http-server": "^14.1.1",
+    "typescript": "^5.3.3"
+  }
+}
