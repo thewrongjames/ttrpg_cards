@@ -12,10 +12,11 @@ body {
   height: 297mm;
   margin: 1rem auto;
   background-color: white;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding-top: 5mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  padding: 2mm;
 }
 
 .card {
@@ -26,7 +27,7 @@ body {
 }
 
 @media print {
-  #page {
+  .page {
     margin: 0;
   }
 }
