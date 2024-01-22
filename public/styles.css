@@ -2,9 +2,14 @@
   box-sizing: border-box;
 }
 
+:root {
+  font-size: 7pt;
+}
+
 body {
   margin: 0;
   background-color: grey;
+  font-family: sans-serif;
 }
 
 .page {
@@ -14,8 +19,7 @@ body {
   background-color: white;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
-  align-items: center;
+  place-items: center;
   padding: 2mm;
 }
 
@@ -23,7 +27,56 @@ body {
   width: 63mm;
   height: 88mm;
   border: 1px solid black;
-  background-color: red;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+img.card {
+  padding: 0;
+}
+
+.card p {
+  margin: 0;
+}
+
+.card .card-name {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.card .card-type {
+  text-align: center;
+  font-style: italic;
+}
+
+.card .card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+
+.card .card-tags > div {
+  background-color: lightgrey;
+  font-size: 0.9rem;
+  padding: 0.2rem;
+}
+
+.card .card-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.card .card-detail-key {
+  font-weight: bold;
+}
+
+.card .card-detail-key::after {
+  content: ":";
 }
 
 @media print {
