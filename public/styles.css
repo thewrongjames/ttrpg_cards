@@ -34,6 +34,7 @@ body {
   overflow: hidden;
 }
 
+/* For if I use an example image as a card for scaling. */
 img.card {
   padding: 0;
 }
@@ -44,7 +45,7 @@ img.card {
 
 .card .card-name {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: bold;
 }
 
