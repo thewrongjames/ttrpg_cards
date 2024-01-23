@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+.card {
+  width: 63mm;
+  height: 88mm;
+  border: 1px solid black;
+  padding: 2mm;
+  display: flex;
+  flex-direction: column;
+  gap: 1mm;
+  overflow: hidden;
+}
+
+.card p {
+  margin: 0;
+}
+
+.card .card-name {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.card .card-type {
+  text-align: center;
+  font-style: italic;
+}

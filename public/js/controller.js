@@ -1,4 +1,4 @@
-import { CardComponent } from '/js/components/card-component.js'
+import { CardComponent } from '/js/components/card-component/index.js'
 import { Card } from '/js/models/card.js'
 
 function setup() {

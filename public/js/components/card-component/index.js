@@ -13,6 +13,10 @@ export class CardComponent extends HTMLElement {
   connectedCallback() {
     const shadow = this.attachShadow({mode: 'open'})
 
+    const stylesLink = document.createElement('link')
+    stylesLink.setAttribute('rel', 'stylesheet')
+    stylesLink.setAttribute('href', '/js/components/card-component/styles.css')
+
     const container = document.createElement('div')
     container.setAttribute('class', 'card')
 
@@ -25,9 +29,11 @@ export class CardComponent extends HTMLElement {
     this.#card.subscribe('name', () => name.innerText = this.#card.name)
     this.#card.subscribe('type', () => type.innerText = this.#card.type)
 
+    shadow.appendChild(stylesLink)
     shadow.appendChild(container)
     container.appendChild(name)
     container.appendChild(type)
+    
   }
 }
 
