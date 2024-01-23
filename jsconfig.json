@@ -9,6 +9,9 @@
     "target": "ES2015",
     "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": true,
+    "paths": {
+      "/js/*": ["./public/js/*"],
+    }
   },
   "include": [
     "public/**/*.js",
