@@ -2,14 +2,16 @@
   box-sizing: border-box;
 }
 
-:root {
-  font-size: 7pt;
-}
-
 body {
   margin: 0;
   background-color: grey;
   font-family: sans-serif;
+}
+
+#controls {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .page {
@@ -32,6 +34,7 @@ body {
   flex-direction: column;
   gap: 1mm;
   overflow: hidden;
+  font-size: 7pt;
 }
 
 /* For if I use an example image as a card for scaling. */
@@ -45,7 +48,7 @@ img.card {
 
 .card .card-name {
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   font-weight: bold;
 }
 
@@ -62,7 +65,7 @@ img.card {
 
 .card .card-tags > div {
   background-color: lightgrey;
-  font-size: 0.9rem;
+  font-size: 0.9em;
   padding: 0.5mm;
 }
 
@@ -70,7 +73,7 @@ img.card {
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: 1mm;
-  font-size: 0.9rem;
+  font-size: 0.9em;
 }
 
 .card .card-detail-key {

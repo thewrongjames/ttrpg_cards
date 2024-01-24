@@ -30,7 +30,6 @@ export class CardComponent extends StyledComponent {
     shadow.appendChild(container)
     container.appendChild(name)
     container.appendChild(type)
-    
   }
 }
 

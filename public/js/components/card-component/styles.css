@@ -7,6 +7,7 @@
   flex-direction: column;
   gap: 1mm;
   overflow: hidden;
+  font-size: 7pt;
 }
 
 .card p {
@@ -15,7 +16,7 @@
 
 .card .card-name {
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   font-weight: bold;
 }
 
