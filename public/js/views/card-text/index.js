@@ -3,22 +3,21 @@ import { StyledComponent } from '/js/library/styled-component/index.js'
 /** @typedef {import('/js/models/card-sections').CardText} CardText */
 
 export class CardTextView extends StyledComponent {
-  #cardText
+  #text
 
-  /** @param {CardText} cardText */
-  constructor(cardText) {
+  constructor() {
     super()
 
-    this.#cardText = cardText
+    this.#text = document.createElement('p')
   }
 
   connectedCallback() {
     const shadow = this.getStyledShadow('/js/views/card-text/styles.css')
-    const text = document.createElement('p')
-    
-    this.#cardText.subscribe('text', () => text.innerText = this.#cardText.text)
+    shadow.appendChild(this.#text)
+  }
 
-    shadow.appendChild(text)
+  get text() {
+    return this.#text
   }
 }
 

@@ -1,12 +1,10 @@
 import { Listenable } from '/js/library/models/listenable.js'
 
-/** @typedef {[('add'|'remove'), {index: number}]} TriggerDetails */
-
 /**
  * A collection with listenable add and remove methods. Added items are keyed by numeric indices
  * returned by the add method, and may be removed by those indices.
  * @template Element
- * @extends Listenable<TriggerDetails>
+ * @extends Listenable<'add'|'remove', {index: number, section: Element}>
  */
 export class ListenableSections extends Listenable {
   /** @type {Record<number, Element>} */
@@ -29,14 +27,17 @@ export class ListenableSections extends Listenable {
     const index = this.#nextSectionIndex++
     
     this.#sections[index] = section
-    this._trigger('add', {index})
+    this._trigger('add', {index, section})
 
     return index
   }
   
   /** @param {number} index */
   remove(index) {
+    const section = this.#sections[index]
+    if (section === undefined) return
+
     delete this.#sections[index]
-    this._trigger('remove', {index})
+    this._trigger('remove', {index, section})
   }
 }

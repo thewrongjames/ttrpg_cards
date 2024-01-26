@@ -1,10 +1,10 @@
 /**
  * A base class to support classes that wish to notify subscribers.
- * @template {[name: string|number, event: object]} ListenableNameAndEvent
+ * @template {string|number} ListenableName
+ * @template {object} Event
  */
 export class Listenable {
-  /** @typedef {ListenableNameAndEvent[0]} ListenableName */
-  /** @typedef {(...triggerDetails: ListenableNameAndEvent) => void} Listener */
+  /** @typedef {(event: Event) => void} Listener */
 
   /** @type {Map<ListenableName, Set<Listener>>} */
   #subscriptions = new Map()
@@ -12,7 +12,7 @@ export class Listenable {
   /**
    * Subscribe the given listener to be triggered on the given name.
    * @param {ListenableName} listenedName 
-   * @param {(...triggerDetails: ListenableNameAndEvent) => void} listener 
+   * @param {Listener} listener 
    */
   subscribe(listenedName, listener) {
     const subscriptions = this.#subscriptions.get(listenedName) || new Set()
@@ -40,16 +40,19 @@ export class Listenable {
     return subscriptions.delete(listener)
   }
 
+  unsubscribeAll() {
+    this.#subscriptions.clear()
+  }
+
   /**
    * Trigger all the subscriptions for the given name. The subclasses must invoke this, which is why
    * it isn't private.
-   * @param {ListenableNameAndEvent} triggerDetails 
+   * @param {ListenableName} name 
+   * @param {Event} event 
    */
-  _trigger(...triggerDetails) {
-    const [name] = triggerDetails
-
+  _trigger(name, event) {
     for (const subscription of this.#subscriptions.get(name) || []) {
-      subscription(...triggerDetails)
+      subscription(event)
     }
   }
 }

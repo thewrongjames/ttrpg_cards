@@ -1,12 +1,13 @@
 import { Listenable } from '/js/library/models/listenable.js'
 import { ListenableSections } from '/js/library/models/listenable-sections.js'
 
-/** @typedef {[('name'|'type'), {}]} TriggerDetails */
-/** @extends Listenable<TriggerDetails> */
+/** @typedef {import('/js/models/card-sections.js').CardSection} CardSection */
+
+/** @extends Listenable<'name'|'type', {}> */
 export class Card extends Listenable {
   #name = ''
   #type = ''
-  /** @type {ListenableSections<unknown>} */
+  /** @type {ListenableSections<CardSection>} */
   #sections = new ListenableSections()
 
   /** @param {string} newName */

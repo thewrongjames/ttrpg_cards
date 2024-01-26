@@ -1,5 +1,7 @@
 import { Listenable } from '/js/library/models/listenable.js'
 
+/** @typedef {CardText} CardSection */
+
 export class CardTags {
   #tags
 
@@ -18,8 +20,7 @@ export class CardDetails {
   }
 }
 
-/** @typedef {[('text'), {}]} TriggerDetails */
-/** @extends Listenable<TriggerDetails> */
+/** @extends Listenable<'text', {}> */
 export class CardText extends Listenable {
   #text = ''
 
@@ -30,5 +31,10 @@ export class CardText extends Listenable {
   set text(newText) {
     this.#text = newText
     this._trigger('text', {})
+  }
+
+  /** @returns {'CardText'} */
+  get sectionName() {
+    return 'CardText'
   }
 }
