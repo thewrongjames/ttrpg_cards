@@ -15,3 +15,5 @@
 - Can I just have them take the model in their constructor?
 - Do I still want to bind things to listeners?
 - How does that work for arrays?
+- I don't think this generic proxy stuff is the path I want to go down. I think I should keep everything strict. The card sections (like, the collection) should be a class that also extends listenable.
+- Need some way of telling listeners about additions and removals. Maybe I could have an action type?

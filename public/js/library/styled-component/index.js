@@ -12,7 +12,7 @@ export class StyledComponent extends HTMLElement {
 
     const commonStylesLink = document.createElement('link')
     commonStylesLink.setAttribute('rel', 'stylesheet')
-    commonStylesLink.setAttribute('href', '/js/components/styled-component/common-styles.css')
+    commonStylesLink.setAttribute('href', '/js/library/styled-component/common-styles.css')
 
     const componentStylesLink = document.createElement('link')
     componentStylesLink.setAttribute('rel', 'stylesheet')

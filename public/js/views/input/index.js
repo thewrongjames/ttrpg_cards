@@ -1,8 +1,8 @@
-import { StyledComponent } from '/js/components/styled-component/index.js'
+import { StyledComponent } from '/js/library/styled-component/index.js'
 
 /** @typedef {import("/js/models/card.js").Card} Card */
 
-export class InputComponent extends StyledComponent {
+export class InputView extends StyledComponent {
   #card
   
   /** @param {Card} card */
@@ -13,7 +13,7 @@ export class InputComponent extends StyledComponent {
   }
 
   connectedCallback() {
-    const shadow = this.getStyledShadow('/js/components/input-component/styles.css')
+    const shadow = this.getStyledShadow('/js/views/input/styles.css')
 
     const container = document.createElement('div')
     container.setAttribute('class', 'input')
@@ -47,4 +47,4 @@ export class InputComponent extends StyledComponent {
   }
 }
 
-customElements.define('input-component', InputComponent)
+customElements.define('input-view', InputView)

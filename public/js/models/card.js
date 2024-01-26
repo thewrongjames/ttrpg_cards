@@ -1,23 +1,18 @@
-import { Listenable } from '/js/models/listenable.js'
+import { Listenable } from '/js/library/models/listenable.js'
+import { ListenableSections } from '/js/library/models/listenable-sections.js'
 
-/** @typedef {import("/js/models/card-sections.js").CardSection} CardSection */
-
-/**
- * @class
- * @extends Listenable<"name"|"type">
- */
+/** @typedef {[("name"|"type"), {}]} TriggerDetails */
+/** @extends Listenable<TriggerDetails> */
 export class Card extends Listenable {
   #name = ''
   #type = ''
-
-  /** @type {Record<number, CardSection>} */
-  #sections = {}
-  #nextSectionIndex = 0
+  /** @type {ListenableSections<unknown>} */
+  #sections = new ListenableSections()
 
   /** @param {string} newName */
   set name(newName) {
     this.#name = newName
-    this._trigger('name')
+    this._trigger('name', {})
   }
   get name() {
     return this.#name
@@ -26,25 +21,13 @@ export class Card extends Listenable {
   /** @param {string} newType */
   set type(newType) {
     this.#type = newType
-    this._trigger('type')
+    this._trigger('type', {})
   }
   get type() {
     return this.#type
   }
 
   get sections() {
-    // Destructure so that mutating this object doesn't mutate the private
-    // value.
-    return {...this.#sections}
-  }
-
-  /** @param {CardSection} newSection */
-  addSection(newSection) {
-    this.#sections[this.#nextSectionIndex++] = newSection
-  }
-
-  /** @param {number} sectionIndex */
-  removeSection(sectionIndex) {
-    delete this.#sections[sectionIndex]
+    return this.#sections
   }
 }
