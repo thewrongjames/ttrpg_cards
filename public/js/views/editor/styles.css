@@ -11,3 +11,30 @@
 .editor > input {
   margin-bottom: 1rem;
 }
+
+.sections {
+  margin-bottom: 1rem;
+}
+
+.sections > div {
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.sections .card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sections .card-text textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.section-adder {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr auto;
+}

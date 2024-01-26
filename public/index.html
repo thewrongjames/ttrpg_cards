@@ -6,54 +6,27 @@
     <script type="module" src="/js/setup.js"></script>
   </head>
   <body>
+    <template id="editor-sections-test">
+      <div class="sections">
+        <div class="card-text">
+          <textarea></textarea>
+          <button>Remove</button>
+        </div>
+      </div>
+      <div class="section-adder">
+        <select>
+          <option value="Card-Text">Text</option>
+          <option value="Card-Tags">Tags</option>
+          <option value="Card-Details">Details</option>
+        </select>
+        <button>Add</button>
+      </div>
+    </template>
     <div id="controls"></div>
     <div id="pages">
       <div class="page">
-        <div class="card">
-          <p class="card-name">
-            Message
-          </p>
-          <p class="card-type">
-            Cantrip 1
-          </p>
-          <div class="card-tags">
-            <div>Auditory</div>
-            <div>Cantrip</div>
-            <div>Illusion</div>
-            <div>Linguistic</div>
-            <div>Mental</div>
-          </div>
-          <div class="card-details">
-            <div class="card-detail-key">Cast</div>
-            <div>1 action, verbal</div>
-            <div class="card-detail-key">Range</div>
-            <div>120 feet</div>
-            <div class="card-detail-key">Targets</div>
-            <div>120 feet</div>
-          </div>
-          <p class="card-text">
-            You mouth words quietly, but instead of coming out of your mouth,
-            they're transferred directly to the ears of the target. While others
-            can't hear your words any better than if you normally mouthed them,
-            the target can hear your words as if they were standing next to you.
-            The target can give a brief response as a reaction, or as a free
-            action on their next turn if they wish, but they must be able to see
-            you and be within range to do so. If they respond, their response is
-            delivered directly to your ear, just like the original message.
-          </p>
-          <div class="card-details">
-            <div class="card-detail-key">Heightened (3rd)</div>
-            <div>The spell's range increases to 500 feet.</div>
-          </div>
-        </div>
-        <img class="card" src="/mtg_example.jpg" />
-        <div class="card"></div>
         <div id="web-component-test"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        <img class="card" src="/mtg_example.jpg" />
       </div>
     </div>
   </body>

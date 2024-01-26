@@ -32,11 +32,18 @@ export class EditorView extends StyledComponent {
     typeLabel.setAttribute('for', 'editor-type')
     typeLabel.innerText = 'Type:'
 
-    shadow.appendChild(container)
+    const sectionsTest = document.getElementById('editor-sections-test')
+
     container.appendChild(nameLabel)
     container.appendChild(this.#nameInput)
     container.appendChild(typeLabel)
     container.appendChild(this.#typeInput)
+
+    if (sectionsTest instanceof HTMLTemplateElement) {
+      container.appendChild(sectionsTest.content.cloneNode(true))
+    }
+
+    shadow.appendChild(container)
   }
 
   get nameInput() {

@@ -21,67 +21,15 @@ body {
   background-color: white;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   place-items: center;
   padding: 2mm;
 }
 
+/* For if I use an example image as a card for scaling. */
 .card {
   width: 63mm;
   height: 88mm;
-  border: 1px solid black;
-  padding: 2mm;
-  display: flex;
-  flex-direction: column;
-  gap: 1mm;
-  overflow: hidden;
-  font-size: 7pt;
-}
-
-/* For if I use an example image as a card for scaling. */
-img.card {
-  padding: 0;
-}
-
-.card p {
-  margin: 0;
-}
-
-.card .card-name {
-  text-align: center;
-  font-size: 1.3em;
-  font-weight: bold;
-}
-
-.card .card-type {
-  text-align: center;
-  font-style: italic;
-}
-
-.card .card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5mm;
-}
-
-.card .card-tags > div {
-  background-color: lightgrey;
-  font-size: 0.9em;
-  padding: 0.5mm;
-}
-
-.card .card-details {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 1mm;
-  font-size: 0.9em;
-}
-
-.card .card-detail-key {
-  font-weight: bold;
-}
-
-.card .card-detail-key::after {
-  content: ":";
 }
 
 @media print {
