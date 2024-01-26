@@ -8,11 +8,11 @@ import { EditorController } from '/js/controllers/editor.js'
 function setup() {
   const container = document.getElementById('web-component-test')
   if (container === null) {
-    throw new Error('no element with the ID "web-component-test"')
+    throw new Error('no element with the ID 'web-component-test'')
   }
   const controls = document.getElementById('controls')
   if (controls === null) {
-    throw new Error('no element with the ID "controls"')
+    throw new Error('no element with the ID 'controls'')
   }
 
   const card = new Card()

@@ -1,6 +1,6 @@
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
-/** @typedef {import("/js/models/card-sections").CardText} CardText */
+/** @typedef {import('/js/models/card-sections').CardText} CardText */
 
 export class CardTextView extends StyledComponent {
   #cardText

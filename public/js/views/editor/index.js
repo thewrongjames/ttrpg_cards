@@ -1,6 +1,6 @@
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
-/** @typedef {import("/js/models/card.js").Card} Card */
+/** @typedef {import('/js/models/card.js').Card} Card */
 
 export class EditorView extends StyledComponent {
   #nameInput

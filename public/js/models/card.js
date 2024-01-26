@@ -1,7 +1,7 @@
 import { Listenable } from '/js/library/models/listenable.js'
 import { ListenableSections } from '/js/library/models/listenable-sections.js'
 
-/** @typedef {[("name"|"type"), {}]} TriggerDetails */
+/** @typedef {[('name'|'type'), {}]} TriggerDetails */
 /** @extends Listenable<TriggerDetails> */
 export class Card extends Listenable {
   #name = ''

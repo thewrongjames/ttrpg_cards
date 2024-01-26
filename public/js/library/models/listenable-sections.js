@@ -1,6 +1,6 @@
 import { Listenable } from '/js/library/models/listenable.js'
 
-/** @typedef {[("add"|"remove"), {index: number}]} TriggerDetails */
+/** @typedef {[('add'|'remove'), {index: number}]} TriggerDetails */
 
 /**
  * A collection with listenable add and remove methods. Added items are keyed by numeric indices

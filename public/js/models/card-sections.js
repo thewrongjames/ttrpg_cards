@@ -18,7 +18,7 @@ export class CardDetails {
   }
 }
 
-/** @typedef {[("text"), {}]} TriggerDetails */
+/** @typedef {[('text'), {}]} TriggerDetails */
 /** @extends Listenable<TriggerDetails> */
 export class CardText extends Listenable {
   #text = ''
