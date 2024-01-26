@@ -1,10 +1,12 @@
 import { CardTextView } from '/js/views/card-text/index.js'
 import { CardTagsView } from '/js/views/card-tags/index.js'
+import { CardDetailsView } from '/js/views/card-details/index.js'
 
 /** @typedef {import('/js/models/card.js').Card} Card */
 /** @typedef {import('/js/models/card-sections/index.js').CardSection} CardSection */
 /** @typedef {import('/js/models/card-sections/index.js').CardText} CardText */
 /** @typedef {import('/js/models/card-sections/index.js').CardTags} CardTags */
+/** @typedef {import('/js/models/card-sections/index.js').CardDetails} CardDetails */
 
 /** @typedef {import('/js/views/card/index.js').CardView} CardView */
 
@@ -42,6 +44,9 @@ export class CardController {
     case 'CardTags':
       view = this.#getViewConnectedToCardTags(cardSection)
       break
+    case 'CardDetails':
+      view = this.#getViewConntectToCardDetails(cardSection)
+      break
     }
 
     this.#cardView.addSection(index, view)
@@ -58,6 +63,9 @@ export class CardController {
       break
     case 'CardTags':
       this.#disconnectCardTags(cardSection)
+      break
+    case 'CardDetails':
+      this.#disconnectCardDetails(cardSection)
       break
     default: {
       /** @type {never} */
@@ -96,5 +104,32 @@ export class CardController {
   /** @param {CardTags} cardTags */
   #disconnectCardTags(cardTags) {
     cardTags.tags.unsubscribeAll()
+  }
+
+  /**
+   * @param {CardDetails} cardDetails
+   * @returns {CardDetailsView} 
+   */
+  #getViewConntectToCardDetails(cardDetails) {
+    const cardDetailsView = new CardDetailsView()
+
+    cardDetails.details.subscribe('add', ({index, item: detail}) => {
+      cardDetailsView.addDetail(index, detail.key, detail.value)
+      detail.subscribe('key', () => cardDetailsView.setDetailKey(index, detail.key))
+      detail.subscribe('value', () => cardDetailsView.setDetailValue(index, detail.value))
+    })
+    
+    cardDetails.details.subscribe('remove', ({index, item: detail}) => {
+      cardDetailsView.removeDetail(index)
+      detail.unsubscribeAll()
+    })
+
+    return cardDetailsView
+  }
+
+  /** @param {CardDetails} cardDetails  */
+  #disconnectCardDetails(cardDetails) {
+    cardDetails.details.all().forEach(detail => detail.unsubscribeAll())
+    cardDetails.details.unsubscribeAll()
   }
 }

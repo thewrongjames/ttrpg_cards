@@ -8,5 +8,4 @@ export {
   CardDetails,
 }
 
-
-/** @typedef {CardText|CardTags} CardSection */
+/** @typedef {CardText|CardTags|CardDetails} CardSection */

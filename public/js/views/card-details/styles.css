@@ -1,0 +1,14 @@
+.card-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1mm;
+  font-size: 0.9em;
+}
+
+.card-detail-key {
+  font-weight: bold;
+}
+
+.card-detail-key::after {
+  content: ":";
+}

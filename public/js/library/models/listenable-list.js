@@ -40,4 +40,8 @@ export class ListenableList extends Listenable {
     delete this.#items[index]
     this._trigger('remove', {index, item})
   }
+
+  all() {
+    return Object.values(this.#items)
+  }
 }
