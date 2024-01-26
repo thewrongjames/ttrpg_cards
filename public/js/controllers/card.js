@@ -15,7 +15,5 @@ export class CardController {
 
     this.#card.subscribe('name', () => this.#cardView.name = this.#card.name)
     this.#card.subscribe('type', () => this.#cardView.type = this.#card.type)
-
-    console.log('hi')
   } 
 }

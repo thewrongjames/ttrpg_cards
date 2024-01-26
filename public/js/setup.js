@@ -1,8 +1,9 @@
-import { InputView } from '/js/views/input/index.js'
+import { EditorView } from '/js/views/editor/index.js'
 import { CardView } from '/js/views/card/index.js'
 import { Card } from '/js/models/card.js'
 import { CardText } from '/js/models/card-sections.js'
 import { CardController } from '/js/controllers/card.js'
+import { EditorController } from '/js/controllers/editor.js'
 
 function setup() {
   const container = document.getElementById('web-component-test')
@@ -24,10 +25,11 @@ function setup() {
   textSection.text = 'This is some body text'
   card.sections.add(textSection)
 
-  const inputView = new InputView(card)
+  const editorView = new EditorView()
+  new EditorController(card, editorView)
 
   container.appendChild(cardView)
-  controls.appendChild(inputView)
+  controls.appendChild(editorView)
 }
 
 setup()

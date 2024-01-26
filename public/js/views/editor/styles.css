@@ -1,4 +1,4 @@
-.input {
+.editor {
   background-color: white;
   border-radius: 5px;
   margin: 1rem;
@@ -8,6 +8,6 @@
   min-width: 30rem;
 }
 
-.input > input {
+.editor > input {
   margin-bottom: 1rem;
 }
