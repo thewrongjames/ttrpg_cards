@@ -1,7 +1,9 @@
+import { Card } from '/js/models/card.js'
+import { CardText, CardTags } from '/js/models/card-sections/index.js'
+
 import { EditorView } from '/js/views/editor/index.js'
 import { CardView } from '/js/views/card/index.js'
-import { Card } from '/js/models/card.js'
-import { CardText } from '/js/models/card-sections.js'
+
 import { CardController } from '/js/controllers/card.js'
 import { EditorController } from '/js/controllers/editor.js'
 
@@ -19,11 +21,17 @@ function setup() {
   const cardView = new CardView()
   new CardController(card, cardView)
 
-  card.name = 'something'
-  card.type = 'something else'
-  const textSection = new CardText()
-  card.sections.add(textSection)
-  textSection.text = 'This is some body text'
+  card.name = 'Message'
+  card.type = 'Cantrip 1'
+
+  const tagsSection = new CardTags()
+  card.sections.add(tagsSection)
+  ;['Auditory', 'Cantrip', 'Illusion', 'Linguistic', 'Mental']
+    .forEach(tag => tagsSection.tags.add(tag))
+
+  const descriptionSection = new CardText()
+  card.sections.add(descriptionSection)
+  descriptionSection.text = 'You mouth words quietly, but instead of coming out of your mouth, they\'re transferred directly to the ears of the target. While others can\'t hear your words any better than if you normally mouthed them, the target can hear your words as if they were standing next to you. The target can give a brief response as a reaction, or as a free action on their next turn if they wish, but they must be able to see you and be within range to do so. If they respond, their response is delivered directly to your ear, just like the original message.'
 
   const editorView = new EditorView()
   new EditorController(card, editorView)

@@ -1,0 +1,11 @@
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5mm;
+}
+
+.card-tags > div {
+  background-color: lightgrey;
+  font-size: 0.9em;
+  padding: 0.5mm;
+}

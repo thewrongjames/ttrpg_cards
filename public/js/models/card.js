@@ -1,14 +1,14 @@
 import { Listenable } from '/js/library/models/listenable.js'
-import { ListenableSections } from '/js/library/models/listenable-sections.js'
+import { ListenableList } from '/js/library/models/listenable-list.js'
 
-/** @typedef {import('/js/models/card-sections.js').CardSection} CardSection */
+/** @typedef {import('/js/models/card-sections/index.js').CardSection} CardSection */
 
 /** @extends Listenable<'name'|'type', {}> */
 export class Card extends Listenable {
   #name = ''
   #type = ''
-  /** @type {ListenableSections<CardSection>} */
-  #sections = new ListenableSections()
+  /** @type {ListenableList<CardSection>} */
+  #sections = new ListenableList()
 
   /** @param {string} newName */
   set name(newName) {

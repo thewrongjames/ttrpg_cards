@@ -6,5 +6,6 @@
 - Handle adding new cards
 - Handle selecting which card you want to edit
 - Handle deleting cards, including removing listeners
+- Remove any styles associated with components from the root styles file.
 
 - Come up with a name for the project. The card-view component should be project-card, where project is replaced with the project name (and other component names should be changed accordingly.)
