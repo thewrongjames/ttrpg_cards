@@ -45,7 +45,7 @@ export class CardController {
       view = this.#getViewConnectedToCardTags(cardSection)
       break
     case 'CardDetails':
-      view = this.#getViewConntectToCardDetails(cardSection)
+      view = this.#getViewConnectedToCardDetails(cardSection)
       break
     }
 
@@ -73,6 +73,8 @@ export class CardController {
       const exhaustivenessCheck = cardSection
     }
     }
+
+    this.#cardView.removeSection(index)
   }
 
   /**
@@ -110,7 +112,7 @@ export class CardController {
    * @param {CardDetails} cardDetails
    * @returns {CardDetailsView} 
    */
-  #getViewConntectToCardDetails(cardDetails) {
+  #getViewConnectedToCardDetails(cardDetails) {
     const cardDetailsView = new CardDetailsView()
 
     cardDetails.details.subscribe('add', ({index, item: detail}) => {

@@ -36,4 +36,8 @@ body {
   .page {
     margin: 0;
   }
+
+  #controls {
+    display: none;
+  }
 }

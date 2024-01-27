@@ -2,7 +2,7 @@ import { Card } from '/js/models/card.js'
 import { CardText, CardTags, CardDetails } from '/js/models/card-sections/index.js'
 import { CardDetail } from '/js/models/card-sections/card-details.js'
 
-import { EditorView } from '/js/views/editor/index.js'
+import { CardEditorView } from '/js/views/card-editor/index.js'
 import { CardView } from '/js/views/card/index.js'
 
 import { CardController } from '/js/controllers/card.js'
@@ -59,11 +59,11 @@ function setup() {
   heighteningToThird.key = 'Heightened (3rd)'
   heighteningToThird.value = 'The spell\'s range increases to 500 feet.'
 
-  const editorView = new EditorView()
-  new EditorController(card, editorView)
+  const cardEditorView = new CardEditorView()
+  new EditorController(card, cardEditorView)
 
   container.appendChild(cardView)
-  controls.appendChild(editorView)
+  controls.appendChild(cardEditorView)
 }
 
 setup()

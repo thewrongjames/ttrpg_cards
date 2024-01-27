@@ -4,12 +4,15 @@ import { StyledComponent } from '/js/library/styled-component/index.js'
 /** @typedef {import('/js/models/card.js').Card} Card */
 /** @typedef {import('/js/models/card-sections/index.js').CardSectionName} CardSectionName */
 
-export class EditorView extends StyledComponent {
+export class CardEditorView extends StyledComponent {
+  /** @type {Record<number, HTMLElement>} */
+  #sections = {}
   /** @type {SelectView<CardSectionName>} */
   #sectionAdderSelector
 
   #nameInput
   #typeInput
+  #sectionsContainer
   #sectionAdderButton
 
   constructor() {
@@ -23,6 +26,9 @@ export class EditorView extends StyledComponent {
     this.#typeInput.setAttribute('id', 'editor-type')
     this.#typeInput.setAttribute('type', 'text')
 
+    this.#sectionsContainer = document.createElement('div')
+    this.#sectionsContainer.setAttribute('class', 'sections')
+
     this.#sectionAdderSelector = new SelectView([
       ['CardText', 'Text'],
       ['CardTags', 'Tags'],
@@ -35,7 +41,7 @@ export class EditorView extends StyledComponent {
   }
 
   connectedCallback() {
-    const shadow = this.getStyledShadow('/js/views/editor/styles.css')
+    const shadow = this.getStyledShadow('/js/views/card-editor/styles.css')
 
     const container = document.createElement('div')
     container.setAttribute('class', 'editor')
@@ -57,6 +63,7 @@ export class EditorView extends StyledComponent {
     container.appendChild(this.#nameInput)
     container.appendChild(typeLabel)
     container.appendChild(this.#typeInput)
+    container.appendChild(this.#sectionsContainer)
     container.appendChild(sectionAdder)
 
     shadow.appendChild(container)
@@ -69,6 +76,25 @@ export class EditorView extends StyledComponent {
   get typeInput() {
     return this.#typeInput
   }
+
+  /**
+   * @param {number} index 
+   * @param {HTMLElement} element 
+   */
+  addSection(index, element) {
+    // We wrap the section in a div so we can do some common styling here.
+    const sectionContainer = document.createElement('div')
+    sectionContainer.appendChild(element)
+
+    this.#sections[index] = sectionContainer
+    this.#sectionsContainer.appendChild(sectionContainer)
+  }
+  
+  /** @param {number} index */
+  removeSection(index) {
+    this.#sections[index]?.remove()
+    delete this.#sections[index]
+  }
 }
 
-customElements.define('editor-view', EditorView)
+customElements.define('card-editor-view', CardEditorView)
