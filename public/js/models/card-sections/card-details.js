@@ -27,9 +27,9 @@ export class CardDetail extends Listenable {
 }
 
 export class CardDetails {
-  /** @returns {'CardDetails'} */
+  static sectionName = /** @type {const} */('CardDetails')
   get sectionName() {
-    return 'CardDetails'
+    return CardDetails.sectionName
   }
 
   /** @type {ListenableList<CardDetail>} */

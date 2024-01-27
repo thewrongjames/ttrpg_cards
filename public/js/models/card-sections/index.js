@@ -9,3 +9,11 @@ export {
 }
 
 /** @typedef {CardText|CardTags|CardDetails} CardSection */
+
+/** @typedef {CardSection['sectionName']} CardSectionName */
+
+export const CardSections = {
+  [CardText.sectionName]: CardText,
+  [CardTags.sectionName]: CardTags,
+  [CardDetails.sectionName]: CardDetails,
+}

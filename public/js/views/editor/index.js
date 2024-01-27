@@ -1,10 +1,16 @@
+import { SelectView } from '/js/views/select/index.js'
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
 /** @typedef {import('/js/models/card.js').Card} Card */
+/** @typedef {import('/js/models/card-sections/index.js').CardSectionName} CardSectionName */
 
 export class EditorView extends StyledComponent {
+  /** @type {SelectView<CardSectionName>} */
+  #sectionAdderSelector
+
   #nameInput
   #typeInput
+  #sectionAdderButton
 
   constructor() {
     super()
@@ -16,6 +22,16 @@ export class EditorView extends StyledComponent {
     this.#typeInput = document.createElement('input')
     this.#typeInput.setAttribute('id', 'editor-type')
     this.#typeInput.setAttribute('type', 'text')
+
+    this.#sectionAdderSelector = new SelectView([
+      ['CardText', 'Text'],
+      ['CardTags', 'Tags'],
+      ['CardDetails', 'Details'],
+    ])
+
+    this.#sectionAdderButton = document.createElement('button')
+    this.#sectionAdderButton.innerText = 'Add'
+    this.#sectionAdderButton.addEventListener('click', () => console.log(this.#sectionAdderSelector.value))
   }
 
   connectedCallback() {
@@ -32,16 +48,16 @@ export class EditorView extends StyledComponent {
     typeLabel.setAttribute('for', 'editor-type')
     typeLabel.innerText = 'Type:'
 
-    const sectionsTest = document.getElementById('editor-sections-test')
+    const sectionAdder = document.createElement('div')
+    sectionAdder.setAttribute('class', 'section-adder')
+    sectionAdder.appendChild(this.#sectionAdderSelector)
+    sectionAdder.appendChild(this.#sectionAdderButton)
 
     container.appendChild(nameLabel)
     container.appendChild(this.#nameInput)
     container.appendChild(typeLabel)
     container.appendChild(this.#typeInput)
-
-    if (sectionsTest instanceof HTMLTemplateElement) {
-      container.appendChild(sectionsTest.content.cloneNode(true))
-    }
+    container.appendChild(sectionAdder)
 
     shadow.appendChild(container)
   }

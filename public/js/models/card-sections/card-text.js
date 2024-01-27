@@ -2,9 +2,9 @@ import { Listenable } from '/js/library/models/listenable.js'
 
 /** @extends Listenable<'text', {}> */
 export class CardText extends Listenable {
-  /** @returns {'CardText'} */
+  static sectionName = /** @type {const} */('CardText')
   get sectionName() {
-    return 'CardText'
+    return CardText.sectionName
   }
 
   #text = ''

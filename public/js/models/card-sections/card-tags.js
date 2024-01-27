@@ -1,9 +1,9 @@
 import { ListenableList } from '/js/library/models/listenable-list.js'
 
 export class CardTags {
-  /** @returns {'CardTags'} */
+  static sectionName = /** @type {const} */('CardTags')
   get sectionName() {
-    return 'CardTags'
+    return CardTags.sectionName
   }
 
   /** @type {ListenableList<string>} */
