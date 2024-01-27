@@ -16,9 +16,11 @@ export class CardView extends StyledComponent {
 
     this.#name = document.createElement('p')
     this.#name.setAttribute('class', 'card-name')
-
+    this.name = ''
+    
     this.#type = document.createElement('p')
     this.#type.setAttribute('class', 'card-type')
+    this.type = ''
 
     this.#container.appendChild(this.#name)
     this.#container.appendChild(this.#type)
@@ -32,11 +34,21 @@ export class CardView extends StyledComponent {
   /** @param {string} name */
   set name(name) {
     this.#name.innerText = name
+    if (name === '') {
+      this.#name.setAttribute('hidden', '')
+    } else {
+      this.#name.removeAttribute('hidden')
+    }
   }
 
   /** @param {string} type */
   set type(type) {
     this.#type.innerText = type
+    if (type === '') {
+      this.#type.setAttribute('hidden', '')
+    } else {
+      this.#type.removeAttribute('hidden')
+    }
   }
 
   /**

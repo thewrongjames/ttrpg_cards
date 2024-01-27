@@ -24,3 +24,7 @@
   text-align: center;
   font-style: italic;
 }
+
+.card .card-name[hidden], .card .card-type[hidden] {
+  display: none;
+}
