@@ -10,7 +10,7 @@ export class CardTextView extends StyledComponent {
   }
 
   connectedCallback() {
-    const shadow = this.getStyledShadow('/js/views/card-text/styles.css')
+    const shadow = this.getShadow(['/js/views/card-text/styles.css'])
     shadow.appendChild(this.#text)
   }
 

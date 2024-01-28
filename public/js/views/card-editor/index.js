@@ -47,7 +47,7 @@ export class CardEditorView extends StyledComponent {
   }
 
   connectedCallback() {
-    const shadow = this.getStyledShadow('/js/views/card-editor/styles.css')
+    const shadow = this.getShadow(['/js/views/card-editor/styles.css'])
 
     const container = document.createElement('div')
     container.setAttribute('class', 'editor')

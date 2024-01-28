@@ -1,0 +1,9 @@
+.card-section-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-section-editor > .remove-button {
+  order: 1;
+}

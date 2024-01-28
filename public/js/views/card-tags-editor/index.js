@@ -1,17 +1,18 @@
-import { StyledComponent } from '/js/library/styled-component/index.js'
+import { CardSectionEditorView } from '/js/views/card-section-editor/index.js'
 
-export class CardTagsEditorView extends StyledComponent {
+export class CardTagsEditorView extends CardSectionEditorView {
   constructor() {
-    super()
-  }
-
-  connectedCallback() {
-    const shadow = this.getStyledShadow('/js/views/card-tags-editor/styles.css')
+    super('card-tags-editor')
 
     const text = document.createElement('div')
     text.innerText = 'CardTagsEditorView'
 
-    shadow.appendChild(text)
+    this.container.appendChild(text)
+  }
+
+  connectedCallback() {
+    const shadow = this.getShadow(['/js/views/card-tags-editor/styles.css'])
+    shadow.appendChild(this.container)
   }
 }
 

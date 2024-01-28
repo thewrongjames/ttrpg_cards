@@ -27,7 +27,7 @@ export class CardView extends StyledComponent {
   }
 
   connectedCallback() {
-    const shadow = this.getStyledShadow('/js/views/card/styles.css')
+    const shadow = this.getShadow(['/js/views/card/styles.css'])
     shadow.appendChild(this.#container)
   }
 

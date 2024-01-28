@@ -4,22 +4,24 @@ export class StyledComponent extends HTMLElement {
   }
 
   /**
-   * @param {string} styleSheetPath
+   * @param {string[]} styleSheetPaths
    * @returns {ShadowRoot}
    */
-  getStyledShadow(styleSheetPath) {
+  getShadow(styleSheetPaths) {
     const shadow = this.attachShadow({mode: 'open'})
 
     const commonStylesLink = document.createElement('link')
     commonStylesLink.setAttribute('rel', 'stylesheet')
     commonStylesLink.setAttribute('href', '/js/library/styled-component/common-styles.css')
-
-    const componentStylesLink = document.createElement('link')
-    componentStylesLink.setAttribute('rel', 'stylesheet')
-    componentStylesLink.setAttribute('href', styleSheetPath)
-
     shadow.appendChild(commonStylesLink)
-    shadow.appendChild(componentStylesLink)
+
+    for (const styleSheetPath of styleSheetPaths) {
+      const stylesLink = document.createElement('link')
+      stylesLink.setAttribute('rel', 'stylesheet')
+      stylesLink.setAttribute('href', styleSheetPath)
+      shadow.appendChild(stylesLink)
+    }
+
     return shadow
   }
 }

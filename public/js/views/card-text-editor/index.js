@@ -1,40 +1,24 @@
-import { StyledComponent } from '/js/library/styled-component/index.js'
+import { CardSectionEditorView } from '/js/views/card-section-editor/index.js'
 
-export class CardTextEditorView extends StyledComponent {
-  /** @type {(() => void)|undefined} */
-  #onRemoveButtonClicked
+export class CardTextEditorView extends CardSectionEditorView {
   /** @type {(() => void)|undefined} */
   #onTextChange
 
   #textarea
-  #removeButton
 
   constructor() {
-    super()
+    super('card-text-editor')
 
     this.#textarea = document.createElement('textarea')
     this.#textarea.addEventListener('input', () => this.#onTextChange?.())
 
-    this.#removeButton = document.createElement('button')
-    this.#removeButton.innerText = 'Remove'
-    this.#removeButton.addEventListener('click', () => this.#onRemoveButtonClicked?.())
+    this.container.appendChild(this.#textarea)
   }
 
   connectedCallback() {
-    const shadow = this.getStyledShadow('/js/views/card-text-editor/styles.css')
+    const shadow = this.getShadow(['/js/views/card-text-editor/styles.css'])
 
-    const container = document.createElement('div')
-    container.setAttribute('class', 'card-text-editor')
-
-    container.appendChild(this.#textarea)
-    container.appendChild(this.#removeButton)
-
-    shadow.appendChild(container)
-  }
-
-  /** @param {(() => void)|undefined} callback  */
-  set onRemoveButtonClicked(callback) {
-    this.#onRemoveButtonClicked = callback
+    shadow.appendChild(this.container)
   }
 
   /** @param {(() => void)|undefined} callback  */

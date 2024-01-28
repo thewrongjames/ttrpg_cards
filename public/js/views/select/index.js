@@ -24,7 +24,7 @@ export class SelectView extends StyledComponent {
   }
 
   connectedCallback() {
-    const shadow = this.getStyledShadow('/js/views/select/styles.css')
+    const shadow = this.getShadow(['/js/views/select/styles.css'])
     shadow.appendChild(this.#selector)
   }
 
