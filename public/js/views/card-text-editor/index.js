@@ -17,7 +17,6 @@ export class CardTextEditorView extends CardSectionEditorView {
 
   connectedCallback() {
     const shadow = this.getShadow(['/js/views/card-text-editor/styles.css'])
-
     shadow.appendChild(this.container)
   }
 

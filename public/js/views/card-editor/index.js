@@ -1,5 +1,7 @@
-import { SelectView } from '/js/views/select/index.js'
 import { StyledComponent } from '/js/library/styled-component/index.js'
+import { IndexError } from '/js/library/errors/index-error.js'
+
+import { SelectView } from '/js/views/select/index.js'
 
 /** @typedef {import('/js/models/card.js').Card} Card */
 /** @typedef {import('/js/models/card-sections/index.js').CardSectionName} CardSectionName */
@@ -103,9 +105,14 @@ export class CardEditorView extends StyledComponent {
 
   /**
    * @param {number} index 
-   * @param {HTMLElement} element 
+   * @param {HTMLElement} element
+   * @throws {IndexError} If there is already a section at the given index.
    */
   addSection(index, element) {
+    if (this.#sections[index] !== undefined) {
+      throw new IndexError(`there is already a section at index ${index}`)
+    }
+
     // We wrap the section in a div so we can do some common styling here.
     const sectionContainer = document.createElement('div')
     sectionContainer.appendChild(element)
@@ -114,7 +121,10 @@ export class CardEditorView extends StyledComponent {
     this.#sectionsContainer.appendChild(sectionContainer)
   }
   
-  /** @param {number} index */
+  /**
+   * Remove the section at the given index if there is one, do nothing if there is not.
+   * @param {number} index
+   */
   removeSection(index) {
     this.#sections[index]?.remove()
     delete this.#sections[index]

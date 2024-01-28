@@ -1,3 +1,5 @@
+import { IndexError } from '/js/library/errors/index-error.js'
+
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
 export class CardTagsView extends StyledComponent {
@@ -20,16 +22,24 @@ export class CardTagsView extends StyledComponent {
 
   /**
    * @param {number} index 
-   * @param {string} text 
+   * @param {string} text
+   * @throws {IndexError} If there is already a tag at the given index.
    */
   addTag(index, text) {
+    if (this.#tags[index] !== undefined) {
+      throw new IndexError(`there is already a tag at index ${index}`)
+    }
+
     const tag = document.createElement('div')
     tag.innerText = text
     this.#tags[index] = tag
     this.#container.appendChild(tag)
   }
 
-  /** @param {number} index */
+  /**
+   * Remove the tag at the given index if there is one, do nothing if there isn't.
+   * @param {number} index
+   */
   removeTag(index) { 
     this.#tags[index]?.remove()
     delete this.#tags[index]

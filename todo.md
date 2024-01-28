@@ -9,6 +9,8 @@
 - Remove any styles associated with components from the root styles file.
 - Add serialisation.
 - Save to local storage on any change.
+- Load from local storage on initialisation.
+  - I think this will need some way to trigger all the triggers after the objects are created. Perhaps they could all have a trigger-all method. Maybe they all implement an interface that requires it.
 - Support export and import to/from a file.
 - Support the option to show only the front-of-card pages, only the back-of-card pages, or both, interspersed, for double sided printing.
 

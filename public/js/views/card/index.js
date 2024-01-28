@@ -1,3 +1,5 @@
+import { IndexError } from '/js/library/errors/index-error.js'
+
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
 export class CardView extends StyledComponent {
@@ -53,14 +55,22 @@ export class CardView extends StyledComponent {
 
   /**
    * @param {number} index 
-   * @param {HTMLElement} element 
+   * @param {HTMLElement} element
+   * @throws {IndexError} If there is already a section at the given index.
    */
   addSection(index, element) {
+    if (this.#sections[index] !== undefined) {
+      throw new IndexError(`there is already a section at index ${index}`)
+    }
+
     this.#sections[index] = element
     this.#container.appendChild(element)
   }
   
-  /** @param {number} index */
+  /**
+   * Remove the section at the given index if there is one, do nothing if there isn't.
+   * @param {number} index
+   */
   removeSection(index) {
     this.#sections[index]?.remove()
     delete this.#sections[index]

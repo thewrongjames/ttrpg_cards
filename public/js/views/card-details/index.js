@@ -1,4 +1,5 @@
 import { IndexError } from '/js/library/errors/index-error.js'
+
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
 export class CardDetailsView extends StyledComponent {
@@ -22,9 +23,14 @@ export class CardDetailsView extends StyledComponent {
   /**
    * @param {number} index 
    * @param {string} detailKeyText 
-   * @param {string} detailValueText 
+   * @param {string} detailValueText
+   * @throws {IndexError} If there is already a detail at the given index.
    */
   addDetail(index, detailKeyText, detailValueText) {
+    if (this.#details[index] !== undefined) {
+      throw new IndexError(`there is already a detail at index ${index}`)
+    }
+
     const detailKey = document.createElement('div')
     detailKey.setAttribute('class', 'card-detail-key')
     detailKey.innerText = detailKeyText
@@ -37,7 +43,10 @@ export class CardDetailsView extends StyledComponent {
     this.#container.appendChild(detailValue)
   }
 
-  /** @param {number} index */
+  /**
+   * Remove the detail at the given index if there is one, do nothing if there isn't.
+   * @param {number} index
+   */
   removeDetail(index) { 
     this.#details[index]?.key.remove()
     this.#details[index]?.value.remove()
@@ -47,6 +56,7 @@ export class CardDetailsView extends StyledComponent {
   /**
    * @param {number} index
    * @param {string} text
+   * @throws {IndexError} If there is no detail at the given index.
    */
   setDetailKey(index, text) {
     const keyElement = this.#details[index]?.key
@@ -59,6 +69,7 @@ export class CardDetailsView extends StyledComponent {
   /**
    * @param {number} index
    * @param {string} text
+   * @throws {IndexError} If there is no detail at the given index.
    */
   setDetailValue(index, text) {
     const valueElement = this.#details[index]?.value
