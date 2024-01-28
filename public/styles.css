@@ -2,22 +2,37 @@
   box-sizing: border-box;
 }
 
+:root {
+  height: 100% 
+}
+
 body {
   margin: 0;
   background-color: grey;
   font-family: sans-serif;
+  height: 100%;
+  min-width: 300px;
+}
+
+#container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100%;
 }
 
 #controls {
-  position: absolute;
-  top: 0;
-  left: 0;
+  min-width: 500px;
+  padding: 1rem;
+}
+
+#pages {
+  overflow: auto;
 }
 
 .page {
   width: 210mm;
   height: 297mm;
-  margin: 5mm auto;
+  margin: 1rem auto;
   background-color: white;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -26,18 +41,39 @@ body {
   padding: 2mm;
 }
 
-/* For if I use an example image as a card for scaling. */
+/* For if I use filler cards or an example image as a card for scaling. */
 .card {
   width: 63mm;
   height: 88mm;
+  border: 1px solid black;
 }
 
 @media print {
+  #controls {
+    display: none;
+  }
+
+  #pages {
+    overflow: initial;
+  }
+  
   .page {
     margin: 0;
   }
+}
+
+@media screen and (max-width: 900px) {
+  #container {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
 
   #controls {
-    display: none;
+    min-width: 0;
+    width: 100%;
+  }
+
+  #pages {
+    overflow-x: auto;
   }
 }
