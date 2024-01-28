@@ -83,7 +83,7 @@ export class CardController {
    */
   #getViewConnectedToCardText(cardText) {
     const cardTextView = new CardTextView()
-    cardText.subscribe('text', () => cardTextView.text.innerText = cardText.text)
+    cardText.subscribe('text', () => cardTextView.text = cardText.text)
     return cardTextView
   }
 

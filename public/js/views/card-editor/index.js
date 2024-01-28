@@ -9,6 +9,10 @@ export class CardEditorView extends StyledComponent {
   #sections = {}
   /** @type {SelectView<CardSectionName>} */
   #sectionAdderSelector
+  /** @type {(() => void)|undefined} */
+  #onNameTextChange
+  /** @type {(() => void)|undefined} */
+  #onTypeTextChange
 
   #nameInput
   #typeInput
@@ -21,10 +25,12 @@ export class CardEditorView extends StyledComponent {
     this.#nameInput = document.createElement('input')
     this.#nameInput.setAttribute('id', 'editor-name')
     this.#nameInput.setAttribute('type', 'text')
-
+    this.#nameInput.addEventListener('input', () => this.#onNameTextChange?.())
+    
     this.#typeInput = document.createElement('input')
     this.#typeInput.setAttribute('id', 'editor-type')
     this.#typeInput.setAttribute('type', 'text')
+    this.#typeInput.addEventListener('input', () => this.#onTypeTextChange?.())
 
     this.#sectionsContainer = document.createElement('div')
     this.#sectionsContainer.setAttribute('class', 'sections')
@@ -69,12 +75,30 @@ export class CardEditorView extends StyledComponent {
     shadow.appendChild(container)
   }
 
-  get nameInput() {
-    return this.#nameInput
+  get nameText() {
+    return this.#nameInput.value
+  }
+  /** @param {string} newNameText */
+  set nameText(newNameText) {
+    this.#nameInput.value = newNameText
   }
 
-  get typeInput() {
-    return this.#typeInput
+  get typeText() {
+    return this.#typeInput.value
+  }
+  /** @param {string} newTypeText  */
+  set typeText(newTypeText) {
+    this.#typeInput.value = newTypeText
+  }
+
+  /** @param {(() => void)|undefined} callback */
+  set onNameTextChange(callback) {
+    this.#onNameTextChange = callback
+  }
+
+  /** @param {(() => void)|undefined} callback */
+  set onTypeTextChange(callback) {
+    this.#onTypeTextChange = callback
   }
 
   /**

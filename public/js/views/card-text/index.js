@@ -15,7 +15,11 @@ export class CardTextView extends StyledComponent {
   }
 
   get text() {
-    return this.#text
+    return this.#text.innerText
+  }
+  /** @param {string} newText  */
+  set text(newText) {
+    this.#text.innerText = newText
   }
 }
 

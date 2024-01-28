@@ -1,0 +1,10 @@
+.card-text-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-text-editor textarea {
+  width: 100%;
+  resize: vertical;
+}
