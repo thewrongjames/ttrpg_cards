@@ -21,7 +21,7 @@ body {
 }
 
 #controls {
-  min-width: 500px;
+  width: 32rem;
   padding: 1rem;
 }
 
@@ -69,7 +69,6 @@ body {
   }
 
   #controls {
-    min-width: 0;
     width: 100%;
   }
 

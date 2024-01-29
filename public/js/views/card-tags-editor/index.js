@@ -5,14 +5,37 @@ import { CardSectionEditorView } from '/js/views/card-section-editor/index.js'
 export class CardTagsEditorView extends CardSectionEditorView {
   /** @type {Record<number, HTMLElement>} */
   #tags = {}
+  /** @type {(() => void)|undefined} */
+  #onAddTag
+  /** @type {HTMLElement} */
+  #tagsContainer
+
+  #newTagInput
 
   constructor() {
     super('card-tags-editor')
 
-    const text = document.createElement('div')
-    text.innerText = 'CardTagsEditorView'
+    this.#tagsContainer = document.createElement('div')
+    this.#tagsContainer.classList.add('tags')
 
-    this.container.appendChild(text)
+    this.#newTagInput = document.createElement('input')
+    this.#newTagInput.setAttribute('type', 'text')
+
+    const addTagButton = document.createElement('button')
+    addTagButton.innerText = 'Add'
+    addTagButton.setAttribute('type', 'submit')
+
+    const newTagForm = document.createElement('form')
+    newTagForm.classList.add('new-tag-controls')
+    newTagForm.appendChild(this.#newTagInput)
+    newTagForm.appendChild(addTagButton)
+    newTagForm.addEventListener('submit', event => {
+      event.preventDefault()
+      this.#onAddTag?.()
+    })
+
+    this.container.appendChild(this.#tagsContainer)
+    this.container.appendChild(newTagForm)
   }
 
   connectedCallback() {
@@ -28,6 +51,7 @@ export class CardTagsEditorView extends CardSectionEditorView {
    */
   addTag(index, text, removalCallback) {
     if (this.#tags[index] !== undefined) {
+      console.log(this.#tags)
       throw new IndexError(`there is already a tag at index ${index}`)
     }
 
@@ -45,6 +69,7 @@ export class CardTagsEditorView extends CardSectionEditorView {
     tag.appendChild(removeButton)
 
     this.#tags[index] = tag
+    this.#tagsContainer.appendChild(tag)
   }
 
   /**
@@ -54,6 +79,19 @@ export class CardTagsEditorView extends CardSectionEditorView {
   removeTag(index) {
     this.#tags[index]?.remove()
     delete this.#tags[index]
+  }
+
+  get newTagText() {
+    return this.#newTagInput.value
+  }
+  /** @param {string} newNewTagText  */
+  set newTagText(newNewTagText) {
+    this.#newTagInput.value = newNewTagText
+  }
+
+  /** @param {(() => void)|undefined} newOnAddTag  */
+  set onAddTag(newOnAddTag) {
+    this.#onAddTag = newOnAddTag
   }
 }
 

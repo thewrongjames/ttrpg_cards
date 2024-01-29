@@ -44,4 +44,21 @@ export class ListenableList extends Listenable {
   all() {
     return Object.values(this.#items)
   }
+
+  /** @returns {[number, Item][]} */
+  entries() {
+    /** @type {[number, Item][]} */
+    const entries = []
+    for (const [key, item] of Object.entries(this.#items)) {
+      // All the keys should be integers.
+      const index = Number.parseInt(key)
+      if (Number.isNaN(index)) {
+        continue
+      }
+
+      entries.push([index, item])
+    }
+    
+    return entries
+  }
 }

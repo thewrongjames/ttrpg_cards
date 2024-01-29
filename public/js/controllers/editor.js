@@ -1,5 +1,3 @@
-import { CardText, CardTags, CardDetails } from '/js/models/card-sections/index.js'
-
 import { CardTextEditorView } from '/js/views/card-text-editor/index.js'
 import { CardTagsEditorView } from '/js/views/card-tags-editor/index.js'
 import { CardDetailsEditorView } from '/js/views/card-details-editor/index.js'
@@ -7,8 +5,12 @@ import { CardDetailsEditorView } from '/js/views/card-details-editor/index.js'
 /** @typedef {import('/js/models/card.js').Card} Card */
 /** @typedef {import('js/models/card-sections/index.js').CardSection} CardSection */
 /** @typedef {import('js/models/card-sections/index.js').CardSectionName} CardSectionName */
+/** @typedef {import('js/models/card-sections/index.js').CardText} CardText */
+/** @typedef {import('js/models/card-sections/index.js').CardTags} CardTags */
+/** @typedef {import('js/models/card-sections/index.js').CardDetails} CardDetails */
 
 /** @typedef {import('/js/views/card-editor/index.js').CardEditorView} CardEditorView */
+/** @typedef {import('/js/views/card-section-editor/index.js').CardSectionEditorView} CardSectionEditorView */
 
 export class EditorController {
   #card
@@ -51,66 +53,78 @@ export class EditorController {
    * @param {CardSection} cardSection 
    */
   #addCardSection(index, cardSection) {
-    /** @type {HTMLElement} */
+    /** @type {CardSectionEditorView} */
     let view
 
     switch (cardSection.sectionName) {
     case 'CardText':
-      view = this.#getViewConnectedToCardText(index, cardSection)
+      view = this.#getViewConnectedToCardText(cardSection)
       break
     case 'CardTags':
-      view = this.#getViewConnectedToCardTags(index, cardSection)
+      view = this.#getViewConnectedToCardTags(cardSection)
       break
     case 'CardDetails':
-      view = this.#getViewConnectedToCardDetails(index, cardSection)
+      view = this.#getViewConnectedToCardDetails(cardSection)
       break
+    }
+
+    view.onRemoveButtonClicked = () => {
+      this.#card.sections.remove(index)
+      this.#cardEditorView.removeSection(index)
     }
 
     this.#cardEditorView.addSection(index, view)
   }
 
   /**
-   * @param {number} index
    * @param {CardText} cardText
    * @returns {CardTextEditorView}
    */
-  #getViewConnectedToCardText(index, cardText) {
+  #getViewConnectedToCardText(cardText) {
     const cardTextEditorView = new CardTextEditorView()
 
     cardTextEditorView.text = cardText.text
     cardTextEditorView.onTextChange = () => cardText.text = cardTextEditorView.text
 
-    cardTextEditorView.onRemoveButtonClicked = () => {
-      // Disconnect the view's callbacks.
-      cardTextEditorView.onTextChange = undefined
-      cardTextEditorView.onRemoveButtonClicked = undefined
-      
-      // Remove the section from the model.
-      this.#card.sections.remove(index)
-      
-      // Remove the section from the editor UI.
-      this.#cardEditorView.removeSection(index)
-    }
-
     return cardTextEditorView
   }
 
   /**
-   * @param {number} index
    * @param {CardTags} cardTags 
    * @returns {CardTagsEditorView}
    */
-  #getViewConnectedToCardTags(index, cardTags) {
+  #getViewConnectedToCardTags(cardTags) {
     const cardTagsEditorView = new CardTagsEditorView()
+    
+    /** @type {(index: number, text: string) => void} */
+    const addTag = (index, text) => cardTagsEditorView.addTag(
+      index,
+      text,
+      () => cardTags.tags.remove(index),
+    )
+
+    cardTags.tags.subscribe('remove', ({index}) => cardTagsEditorView.removeTag(index))
+    cardTags.tags.subscribe('add', ({index, item}) => addTag(index, item))
+
+    cardTagsEditorView.onAddTag = () => {
+      const newTagText = cardTagsEditorView.newTagText
+      cardTagsEditorView.newTagText = ''
+      cardTags.tags.add(newTagText)
+    }
+
+    // Display any existing tags.
+    for (const [index, tagText] of cardTags.tags.entries()) {
+      addTag(index, tagText)
+    }
+
     return cardTagsEditorView
   }
 
   /**
-   * @param {number} index
    * @param {CardDetails} cardDetails
    * @returns {CardDetailsEditorView} 
    */
-  #getViewConnectedToCardDetails(index, cardDetails) {
+  #getViewConnectedToCardDetails(cardDetails) {
     const cardDetailsEditorView = new CardDetailsEditorView()
     return cardDetailsEditorView
   }
