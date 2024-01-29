@@ -1,7 +1,5 @@
 # To Do
 
-- Setup input fields to modify the sections.
-- The controls shouldn't scroll with the page.
 - Support outside-of-constructor setup and tear-down of top level listeners in the controllers. I believe this will be a pre-requisite for handling multiple cards.
 - Handle adding new cards.
 - Handle selecting which card you want to edit.

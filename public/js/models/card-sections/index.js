@@ -12,7 +12,7 @@ export {
 
 /** @typedef {CardSection['sectionName']} CardSectionName */
 
-export const CardSections = {
+export const cardSections = {
   [CardText.sectionName]: CardText,
   [CardTags.sectionName]: CardTags,
   [CardDetails.sectionName]: CardDetails,

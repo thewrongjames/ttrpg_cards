@@ -3,6 +3,7 @@ import { CardDetail } from '/js/models/card-sections/card-details.js'
 import { CardTextEditorView } from '/js/views/card-text-editor/index.js'
 import { CardTagsEditorView } from '/js/views/card-tags-editor/index.js'
 import { CardDetailsEditorView } from '/js/views/card-details-editor/index.js'
+import { cardSections } from '/js/models/card-sections/index.js'
 
 /** @typedef {import('/js/models/card.js').Card} Card */
 /** @typedef {import('js/models/card-sections/index.js').CardSection} CardSection */
@@ -37,6 +38,8 @@ export class EditorController {
 
     this.#cardEditorView.onNameTextChange = () => this.#card.name = this.#cardEditorView.nameText
     this.#cardEditorView.onTypeTextChange = () => this.#card.type = this.#cardEditorView.typeText
+
+    this.#cardEditorView.onAddSectionClicked = sectionName => this.#addNewCardSection(sectionName)
   }
 
   /**
@@ -45,7 +48,9 @@ export class EditorController {
    * @param {CardSectionName} sectionName
    */
   #addNewCardSection(sectionName) {
-
+    const cardSection = new cardSections[sectionName]()
+    const index = this.#card.sections.add(cardSection)
+    this.#addCardSection(index, cardSection)
   }
 
   /**
@@ -157,7 +162,6 @@ export class EditorController {
     // When the view wants to add a detail, we add an empty detail to the model. The listener above
     // will ensure that it then gets added to the view.
     cardDetailsEditorView.onAddDetail = () => {
-      console.log('here')
       cardDetails.details.add(new CardDetail())
     }
 

@@ -15,6 +15,8 @@ export class CardEditorView extends StyledComponent {
   #onNameTextChange
   /** @type {(() => void)|undefined} */
   #onTypeTextChange
+  /** @type {((cardSectionName: CardSectionName) => void)|undefined} */
+  #onAddSectionClicked
 
   #nameInput
   #typeInput
@@ -45,7 +47,10 @@ export class CardEditorView extends StyledComponent {
 
     this.#sectionAdderButton = document.createElement('button')
     this.#sectionAdderButton.innerText = 'Add'
-    this.#sectionAdderButton.addEventListener('click', () => console.log(this.#sectionAdderSelector.value))
+    this.#sectionAdderButton.addEventListener(
+      'click',
+      () => this.#onAddSectionClicked?.(this.#sectionAdderSelector.value),
+    )
   }
 
   connectedCallback() {
@@ -101,6 +106,11 @@ export class CardEditorView extends StyledComponent {
   /** @param {(() => void)|undefined} callback */
   set onTypeTextChange(callback) {
     this.#onTypeTextChange = callback
+  }
+
+  /** @param {((cardSectionName: CardSectionName) => void)|undefined} callback */
+  set onAddSectionClicked(callback) {
+    this.#onAddSectionClicked = callback
   }
 
   /**
