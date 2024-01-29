@@ -1,3 +1,5 @@
+import { CardDetail } from '/js/models/card-sections/card-details.js'
+
 import { CardTextEditorView } from '/js/views/card-text-editor/index.js'
 import { CardTagsEditorView } from '/js/views/card-tags-editor/index.js'
 import { CardDetailsEditorView } from '/js/views/card-details-editor/index.js'
@@ -96,23 +98,29 @@ export class EditorController {
   #getViewConnectedToCardTags(cardTags) {
     const cardTagsEditorView = new CardTagsEditorView()
     
-    /** @type {(index: number, text: string) => void} */
+    /**
+     * Add a tag to the view that knows how to remove itself from the model.
+     * @type {(index: number, text: string) => void}
+     */
     const addTag = (index, text) => cardTagsEditorView.addTag(
       index,
       text,
       () => cardTags.tags.remove(index),
     )
 
+    // Update the view when the model changes.
     cardTags.tags.subscribe('remove', ({index}) => cardTagsEditorView.removeTag(index))
     cardTags.tags.subscribe('add', ({index, item}) => addTag(index, item))
 
+    // When the view wants to add a tag, add it to the model. The listener above will ensure it then
+    // gets added to the view.
     cardTagsEditorView.onAddTag = () => {
       const newTagText = cardTagsEditorView.newTagText
       cardTagsEditorView.newTagText = ''
       cardTags.tags.add(newTagText)
     }
 
-    // Display any existing tags.
+    // Add tags that already exist on the model to the view.
     for (const [index, tagText] of cardTags.tags.entries()) {
       addTag(index, tagText)
     }
@@ -126,6 +134,38 @@ export class EditorController {
    */
   #getViewConnectedToCardDetails(cardDetails) {
     const cardDetailsEditorView = new CardDetailsEditorView()
+
+    /**
+     * Add a detail to the view that knows how to update its fields in, and remove itself from, the
+     * model
+     * @param {number} index 
+     * @param {CardDetail} detail
+     */
+    const addDetail = (index, detail) => cardDetailsEditorView.addDetail(
+      index,
+      detail.key,
+      detail.value,
+      newKey => detail.key = newKey,
+      newValue => detail.value = newValue,
+      () => cardDetails.details.remove(index),
+    )
+
+    // Update the view when the model changes.
+    cardDetails.details.subscribe('remove', ({index}) => cardDetailsEditorView.removeTag(index))
+    cardDetails.details.subscribe('add', ({index, item}) => addDetail(index, item))
+
+    // When the view wants to add a detail, we add an empty detail to the model. The listener above
+    // will ensure that it then gets added to the view.
+    cardDetailsEditorView.onAddDetail = () => {
+      console.log('here')
+      cardDetails.details.add(new CardDetail())
+    }
+
+    // Add pre-existing model details to the view.
+    for (const [index, detail] of cardDetails.details.entries()) {
+      addDetail(index, detail)
+    }
+
     return cardDetailsEditorView
   }
 }

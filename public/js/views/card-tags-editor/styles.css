@@ -13,6 +13,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
+  font-size: 0.8rem;
 }
 
 .card-tags-editor .tags .tag {

@@ -46,24 +46,23 @@ export class CardTagsEditorView extends CardSectionEditorView {
   /**
    * @param {number} index 
    * @param {string} text 
-   * @param {() => void} removalCallback
+   * @param {() => void} onRemove
    * @throws {IndexError} If there is already a tag at the given index.
    */
-  addTag(index, text, removalCallback) {
+  addTag(index, text, onRemove) {
     if (this.#tags[index] !== undefined) {
-      console.log(this.#tags)
       throw new IndexError(`there is already a tag at index ${index}`)
     }
 
     const tag = document.createElement('div')
-    tag.setAttribute('class', 'tag')
+    tag.classList.add('tag')
 
     const tagText = document.createElement('span')
     tagText.innerText = text
 
     const removeButton = document.createElement('button')
     removeButton.innerText = 'Remove'
-    removeButton.addEventListener('click', removalCallback)
+    removeButton.addEventListener('click', onRemove)
 
     tag.appendChild(tagText)
     tag.appendChild(removeButton)

@@ -12,6 +12,9 @@
 - Load from local storage on initialisation.
   - I think this will need some way to trigger all the triggers after the objects are created. Perhaps they could all have a trigger-all method. Maybe they all implement an interface that requires it.
 - Support export and import to/from a file.
+- Have a button to trigger the print dialogue.
 - Support the option to show only the front-of-card pages, only the back-of-card pages, or both, interspersed, for double sided printing.
+- Drag and drop to re-order tags and details.
 
-- Come up with a name for the project. The card-view component should be project-card, where project is replaced with the project name (and other component names should be changed accordingly.)
+- Come up with a name for the project. The card-view component should be project-card, where project is replaced with the project name (and other component names should be changed accordingly.)\
+  - Cardio?

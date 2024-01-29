@@ -1,0 +1,24 @@
+.card-details-editor .details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-details-editor .details .detail {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.card-details-editor .details .detail input {
+  min-width: 0;
+}
+
+.card-details-editor .details .detail .key-field {
+  flex-grow: 1;
+}
+
+
+.card-details-editor .details .detail .value-field {
+  flex-grow: 2;
+}
