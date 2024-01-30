@@ -32,7 +32,8 @@ export class EditorController {
     this.#cardEditorView.nameText = this.#card.name
     this.#cardEditorView.typeText = this.#card.type
 
-    this.#card.sections.all().forEach((section, index) => this.#addCardSection(index, section))
+    this.#card.sections.entries()
+      .forEach(([index, section]) => this.#addCardSection(index, section))
 
     // Propagate changes back to the model.
 

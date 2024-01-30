@@ -7,6 +7,7 @@ import { CardDetailsView } from '/js/views/card-details/index.js'
 /** @typedef {import('/js/models/card-sections/index.js').CardText} CardText */
 /** @typedef {import('/js/models/card-sections/index.js').CardTags} CardTags */
 /** @typedef {import('/js/models/card-sections/index.js').CardDetails} CardDetails */
+/** @typedef {import('/js/models/card-sections/card-details').CardDetail} CardDetail */
 
 /** @typedef {import('/js/views/card/index.js').CardView} CardView */
 
@@ -24,9 +25,13 @@ export class CardController {
 
     this.#card.subscribe('name', () => this.#cardView.name = this.#card.name)
     this.#card.subscribe('type', () => this.#cardView.type = this.#card.type)
-
     this.#card.sections.subscribe('add', ({index, item}) => this.#addCardSection(index, item))
     this.#card.sections.subscribe('remove', ({index, item}) => this.#removeCardSection(index, item))
+
+    this.#cardView.name = this.#card.name
+    this.#cardView.type = this.#card.type
+    this.#card.sections.entries()
+      .forEach(([index, section]) => this.#addCardSection(index, section))
   }
 
   /**
@@ -83,7 +88,11 @@ export class CardController {
    */
   #getViewConnectedToCardText(cardText) {
     const cardTextView = new CardTextView()
+
     cardText.subscribe('text', () => cardTextView.text = cardText.text)
+
+    cardTextView.text = cardText.text
+
     return cardTextView
   }
 
@@ -98,8 +107,12 @@ export class CardController {
    */
   #getViewConnectedToCardTags(cardTags) {
     const cardTagsView = new CardTagsView()
+
     cardTags.tags.subscribe('add', ({index, item: tag}) => cardTagsView.addTag(index, tag))
     cardTags.tags.subscribe('remove', ({index}) => cardTagsView.removeTag(index))
+
+    cardTags.tags.entries().forEach(([index, tagText]) => cardTagsView.addTag(index, tagText))
+
     return cardTagsView
   }
 
@@ -115,16 +128,20 @@ export class CardController {
   #getViewConnectedToCardDetails(cardDetails) {
     const cardDetailsView = new CardDetailsView()
 
-    cardDetails.details.subscribe('add', ({index, item: detail}) => {
+    /** @type {(index: number, detail: CardDetail) => void} */
+    const addDetail = (index, detail) => {
       cardDetailsView.addDetail(index, detail.key, detail.value)
       detail.subscribe('key', () => cardDetailsView.setDetailKey(index, detail.key))
       detail.subscribe('value', () => cardDetailsView.setDetailValue(index, detail.value))
-    })
-    
+    }
+
+    cardDetails.details.subscribe('add', ({index, item: detail}) => addDetail(index, detail))
     cardDetails.details.subscribe('remove', ({index, item: detail}) => {
       cardDetailsView.removeDetail(index)
       detail.unsubscribeAll()
     })
+
+    cardDetails.details.entries().forEach(([index, detail]) => addDetail(index, detail))
 
     return cardDetailsView
   }

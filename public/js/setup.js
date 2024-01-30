@@ -8,19 +8,9 @@ import { CardView } from '/js/views/card/index.js'
 import { CardController } from '/js/controllers/card.js'
 import { EditorController } from '/js/controllers/editor.js'
 
-function setup() {
-  const container = document.getElementById('web-component-test')
-  if (container === null) {
-    throw new Error('no element with the ID "web-component-test"')
-  }
-  const controls = document.getElementById('controls')
-  if (controls === null) {
-    throw new Error('no element with the ID "controls"')
-  }
-
+/** @returns {Card} */
+function makeMessageCard() {
   const card = new Card()
-  const cardView = new CardView()
-  new CardController(card, cardView)
 
   card.name = 'Message'
   card.type = 'Cantrip 1'
@@ -58,6 +48,24 @@ function setup() {
   heighteningSection.details.add(heighteningToThird)
   heighteningToThird.key = 'Heightened (3rd)'
   heighteningToThird.value = 'The spell\'s range increases to 500 feet.'
+
+  return card
+}
+
+function setup() {
+  const container = document.getElementById('web-component-test')
+  if (container === null) {
+    throw new Error('no element with the ID "web-component-test"')
+  }
+  const controls = document.getElementById('controls')
+  if (controls === null) {
+    throw new Error('no element with the ID "controls"')
+  }
+
+  const card = makeMessageCard()
+
+  const cardView = new CardView()
+  new CardController(card, cardView)
 
   const cardEditorView = new CardEditorView()
   new EditorController(card, cardEditorView)
