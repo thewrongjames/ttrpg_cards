@@ -23,6 +23,9 @@ body {
 #controls {
   width: 35rem;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 #pages {

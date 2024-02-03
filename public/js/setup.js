@@ -4,9 +4,11 @@ import { CardDetail } from '/js/models/card-sections/card-details.js'
 
 import { CardEditorView } from '/js/views/card-editor/index.js'
 import { CardView } from '/js/views/card/index.js'
+import { CardsControlsView } from '/js/views/cards-controls/index.js'
 
 import { CardController } from '/js/controllers/card.js'
 import { EditorController } from '/js/controllers/editor.js'
+import { CardsController } from '/js/controllers/cards.js'
 
 /** @returns {Card} */
 function makeMessageCard() {
@@ -65,12 +67,15 @@ function setup() {
   const card = makeMessageCard()
 
   const cardView = new CardView()
-  new CardController(card, cardView)
+  const cardController = new CardController(card, cardView)
+  cardController.connect(container)
+
+  const cardsControlsView = new CardsControlsView()
+  const cardsController = new CardsController(cardsControlsView)
+  cardsController.connect(controls)
 
   const cardEditorView = new CardEditorView()
   new EditorController(card, cardEditorView)
-
-  container.appendChild(cardView)
   controls.appendChild(cardEditorView)
 }
 

@@ -22,23 +22,45 @@ export class CardController {
   constructor(card, cardView) {
     this.#card = card
     this.#cardView = cardView
+  }
 
+  /**
+   * Make the view reflect changes the model, and attach the view to the given DOM element parent.
+   * @param {HTMLElement} parent 
+   */
+  connect(parent) {
     this.#card.subscribe('name', () => this.#cardView.name = this.#card.name)
     this.#card.subscribe('type', () => this.#cardView.type = this.#card.type)
-    this.#card.sections.subscribe('add', ({index, item}) => this.#addCardSection(index, item))
-    this.#card.sections.subscribe('remove', ({index, item}) => this.#removeCardSection(index, item))
+    this.#card.sections.subscribe('add', ({index, item}) => this.#addCardViewSection(index, item))
+    this.#card.sections.subscribe(
+      'remove',
+      ({index, item}) => this.#removeCardViewSection(index, item),
+    )
 
     this.#cardView.name = this.#card.name
     this.#cardView.type = this.#card.type
     this.#card.sections.entries()
-      .forEach(([index, section]) => this.#addCardSection(index, section))
+      .forEach(([index, section]) => this.#addCardViewSection(index, section))
+    
+    parent.appendChild(this.#cardView)
+  }
+
+  /** Disconnect the view from the model, and remove the model from the DOM. */
+  disconnect() {
+    this.#card.sections.entries()
+      .forEach(([index, section]) => this.#removeCardViewSection(index, section))
+
+    this.#card.unsubscribeAll()
+    this.#card.sections.unsubscribeAll()
+
+    this.#cardView.remove()
   }
 
   /**
    * @param {number} index 
    * @param {CardSection} cardSection 
    */
-  #addCardSection(index, cardSection) {
+  #addCardViewSection(index, cardSection) {
     /** @type {HTMLElement} */
     let view
 
@@ -61,7 +83,7 @@ export class CardController {
    * @param {number} index 
    * @param {CardSection} cardSection 
    */
-  #removeCardSection(index, cardSection) {
+  #removeCardViewSection(index, cardSection) {
     switch (cardSection.sectionName) {
     case 'CardText':
       this.#disconnectCardText(cardSection)
