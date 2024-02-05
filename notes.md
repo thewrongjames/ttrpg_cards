@@ -17,3 +17,29 @@
 - How does that work for arrays?
 - I don't think this generic proxy stuff is the path I want to go down. I think I should keep everything strict. The card sections (like, the collection) should be a class that also extends listenable.
 - Need some way of telling listeners about additions and removals. Maybe I could have an action type?
+
+- Thinking about modelling pages.
+  - Maybe the view should support arbitrary pages with cards in arbitrary positions.
+  - And it's the model that provided the array-like behaviour.
+
+- Thinking about modelling pages again.
+  - No, the view won't support arbitrary stuff. That just means more work.
+  - I think the view should be the only thing that knows about pages.
+  - The model is an array, and not the current every increasing keys just ignore the holes situation.
+  - It's going to fill itself in if stuff gets removed.
+  - The view should handle this, and pages.
+
+- Thinking about it again again.
+  - Okay, so, I think the view should actually not care about tracking the arrays.
+  - It makes sense that that is a data modelling problem.
+  - And I was making up solutions about checking indices are in sync between the model and the view and I don't like that.
+  - The view should just be told what to do.
+  - Argh damn it, no, this doesn't work well because I loose the benefits of them just sliding back to the previous page.
+  - Do I want the controller to have to delete and move everything?
+  - Well... that's going to have to happen somewhere
+  - Does it really make sense for the view to own that sliding?
+  - Okay, so, we're only ever removing one card at a time.
+    - So we can fix up that hole, but for every page after the one in which the card was removed, moving the first element to the previous page.
+    - This means it would be nice for the view to have the notion of pages.
+    - And the model can just have a notion of an array of cards.
+    - I think then we want to keep all the page logic in one place, and as the view needs to have some, that one place should be the view.

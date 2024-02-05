@@ -24,11 +24,8 @@ export class CardController {
     this.#cardView = cardView
   }
 
-  /**
-   * Make the view reflect changes the model, and attach the view to the given DOM element parent.
-   * @param {HTMLElement} parent 
-   */
-  connect(parent) {
+  /** Make the view reflect changes the model. */
+  connect() {
     this.#card.subscribe('name', () => this.#cardView.name = this.#card.name)
     this.#card.subscribe('type', () => this.#cardView.type = this.#card.type)
     this.#card.sections.subscribe('add', ({index, item}) => this.#addCardViewSection(index, item))
@@ -41,19 +38,15 @@ export class CardController {
     this.#cardView.type = this.#card.type
     this.#card.sections.entries()
       .forEach(([index, section]) => this.#addCardViewSection(index, section))
-    
-    parent.appendChild(this.#cardView)
   }
 
-  /** Disconnect the view from the model, and remove the model from the DOM. */
+  /** Disconnect the view from the model.*/
   disconnect() {
     this.#card.sections.entries()
       .forEach(([index, section]) => this.#removeCardViewSection(index, section))
 
     this.#card.unsubscribeAll()
     this.#card.sections.unsubscribeAll()
-
-    this.#cardView.remove()
   }
 
   /**

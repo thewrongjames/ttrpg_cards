@@ -1,9 +1,5 @@
 # To Do
 
-- Add a cards controls view and controller for managing high level buttons like add card and print and whatnot.
-- Add a pages view that handles the layout of the cards.
-- Support outside-of-constructor setup and tear-down of top level listeners in the controllers. I believe this will be a pre-requisite for handling multiple cards.
-- Handle adding new cards.
 - Handle selecting which card you want to edit.
 - Handle deleting cards, including removing listeners.
 - Remove any styles associated with components from the root styles file.

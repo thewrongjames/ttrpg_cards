@@ -4,33 +4,16 @@
     <title>TTRPG Cards</title>
     <link rel="stylesheet" href="/styles.css">
     <script type="module" src="/js/setup.js"></script>
+    <script type="module" src="/js/views/cards-controls/index.js"></script>
+    <script type="module" src="/js/views/pages/index.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   </head>
   <body>
     <div id="container">
-      <div id="controls"></div>
-      <div id="pages">
-        <div class="page">
-          <div id="web-component-test"></div>
-          <img class="card" src="/mtg_example.jpg" />
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-        </div>
-        <div class="page">
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-          <div class="card"></div>
-        </div>
+      <div id="controls-container">
+        <cards-controls-view id="cards-controls"/>
       </div>
+      <pages-view id="pages"/>
     </div>
   </body>
 </html>
