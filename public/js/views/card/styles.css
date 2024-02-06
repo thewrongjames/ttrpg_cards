@@ -28,3 +28,8 @@
 .card .card-name[hidden], .card .card-type[hidden] {
   display: none;
 }
+
+.card:hover {
+  cursor: pointer;
+  box-shadow: 0 0 20px blue;
+}

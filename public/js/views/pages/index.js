@@ -31,14 +31,13 @@ export class PagesView extends StyledComponent {
   addCard(cardView) {
     const cardIndex = this.#cards.length
     const pageIndex = Math.floor(cardIndex / NUMBER_OF_CARDS_PER_PAGE)
-    console.log(cardIndex, pageIndex)
 
     let page = this.#pages[pageIndex]
-    console.log(page)
     if (page === undefined) {
       page = document.createElement('div')
       page.classList.add('page')
       this.#container.appendChild(page)
+      
       this.#pages.push(page)
     }
 

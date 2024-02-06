@@ -1,6 +1,8 @@
 import { Listenable } from '/js/library/models/listenable.js'
 import { ListenableList } from '/js/library/models/listenable-list.js'
 
+/** @typedef {import('/js/library/models/listenable.js').UnsubscribeAllAble} UnsubscribeAllAble */
+
 /** @extends Listenable<'key'|'value', {}> */
 export class CardDetail extends Listenable {
   #key = ''
@@ -26,6 +28,7 @@ export class CardDetail extends Listenable {
   }
 }
 
+/** @implements {UnsubscribeAllAble} */
 export class CardDetails {
   static sectionName = /** @type {const} */('CardDetails')
   get sectionName() {
@@ -37,5 +40,9 @@ export class CardDetails {
 
   get details() {
     return this.#details
+  }
+
+  unsubscribeAll() {
+    this.#details.unsubscribeAll()
   }
 }

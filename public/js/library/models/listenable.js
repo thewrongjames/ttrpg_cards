@@ -1,7 +1,13 @@
 /**
+ * @typedef {object} UnsubscribeAllAble
+ * @property {() => void} unsubscribeAll
+ */
+
+/**
  * A base class to support classes that wish to notify subscribers.
  * @template {string|number} ListenableName
  * @template {object} Event
+ * @implements {UnsubscribeAllAble}
  */
 export class Listenable {
   /** @typedef {(event: Event) => void} Listener */

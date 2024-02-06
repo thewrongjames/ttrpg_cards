@@ -20,6 +20,8 @@ export class EditorController {
   #cardEditorView
 
   /**
+   * Create an EditorController, connecting up the given card (which can be changed later) and the
+   * given cardEditorView (which cannot be changed later).
    * @param {Card} card 
    * @param {CardEditorView} cardEditorView 
    */
@@ -27,20 +29,52 @@ export class EditorController {
     this.#card = card
     this.#cardEditorView = cardEditorView
 
+    this.#connect()
+  }
+
+  /**
+   * Connect the editor view to control the given card, after disconnecting any
+   * previously connected card.
+   * @param {Card} card 
+   */
+  connect(card) {
+    this.#disconnect()
+    this.#card = card
+    this.#connect()
+  }
+
+  /**
+   * Connect the editor view to the currently set this.#card. This assumes that neither is connected
+   * to anything else.
+   */
+  #connect() {
     // Setup the initial values of the input fields from the model.
 
     this.#cardEditorView.nameText = this.#card.name
     this.#cardEditorView.typeText = this.#card.type
-
+    
     this.#card.sections.entries()
       .forEach(([index, section]) => this.#addCardSection(index, section))
-
+    
     // Propagate changes back to the model.
-
+    
     this.#cardEditorView.onNameTextChange = () => this.#card.name = this.#cardEditorView.nameText
     this.#cardEditorView.onTypeTextChange = () => this.#card.type = this.#cardEditorView.typeText
-
+    
     this.#cardEditorView.onAddSectionClicked = sectionName => this.#addNewCardSection(sectionName)
+  }
+
+  /** Disconnect the currently set this.#card from the editor view and clear the editor view. */
+  #disconnect() {
+    this.#cardEditorView.nameText = ''
+    this.#cardEditorView.typeText = ''
+
+    this.#card.sections.all().forEach(cardSection => cardSection.unsubscribeAll())
+    this.#cardEditorView.removeAllSections()
+
+    this.#cardEditorView.onNameTextChange = undefined
+    this.#cardEditorView.onTypeTextChange = undefined
+    this.#cardEditorView.onAddSectionClicked = undefined
   }
 
   /**

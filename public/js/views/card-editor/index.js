@@ -139,6 +139,11 @@ export class CardEditorView extends StyledComponent {
     this.#sections[index]?.remove()
     delete this.#sections[index]
   }
+
+  removeAllSections() {
+    Object.values(this.#sections).forEach(section => section.remove())
+    this.#sections = {}
+  }
 }
 
 customElements.define('card-editor-view', CardEditorView)

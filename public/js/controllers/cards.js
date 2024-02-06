@@ -2,13 +2,13 @@ import { Card } from '/js/models/card.js'
 import { CardText, CardTags, CardDetails } from '/js/models/card-sections/index.js'
 import { CardDetail } from '/js/models/card-sections/card-details.js'
 
-import { CardEditorView } from '/js/views/card-editor/index.js'
 import { CardView } from '/js/views/card/index.js'
 
 import { CardController } from '/js/controllers/card.js'
 import { EditorController } from '/js/controllers/editor.js'
 
 /** @typedef {import('/js/views/cards-controls/index.js').CardsControlsView} CardsControlsView */
+/** @typedef {import('/js/views/card-editor/index.js').CardEditorView} CardEditorView */
 /** @typedef {import('/js/views/pages/index.js').PagesView} PagesView */
 
 /** @returns {Card} */
@@ -55,40 +55,31 @@ function makeMessageCard() {
   return card
 }
 
-
 export class CardsController {
   #cardsControlsView
   #pagesView
 
   /**
    * @param {CardsControlsView} cardsControlsView
+   * @param {CardEditorView} cardEditorView
    * @param {PagesView} pagesView
    */
-  constructor(cardsControlsView, pagesView) {
+  constructor(cardsControlsView, cardEditorView, pagesView) {
     this.#cardsControlsView = cardsControlsView
     this.#pagesView = pagesView
 
     this.#cardsControlsView.onPrintClicked = () => console.log('print clicked')
     this.#cardsControlsView.onAddCardClicked = () => {
-      console.log('hello')
       this.#pagesView.addCard(new CardView())
     }
 
-    // TODO: Don't do this here.
-
-    const controlsContainer = document.getElementById('controls-container')
-    if (controlsContainer === null) {
-      throw new Error('no element with the ID "controls-container"')
-    }
-
+    // TODO: Don't create an example card.
     const card = makeMessageCard()
     const cardView = new CardView()
     const cardController = new CardController(card, cardView)
     cardController.connect()
 
-    const cardEditorView = new CardEditorView()
     new EditorController(card, cardEditorView)
-    controlsContainer.appendChild(cardEditorView)
 
     this.#pagesView.addCard(cardView)
   }

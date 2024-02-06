@@ -5,15 +5,17 @@
     <link rel="stylesheet" href="/styles.css">
     <script type="module" src="/js/setup.js"></script>
     <script type="module" src="/js/views/cards-controls/index.js"></script>
+    <script type="module" src="/js/views/card-editor/index.js"></script>
     <script type="module" src="/js/views/pages/index.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   </head>
   <body>
     <div id="container">
       <div id="controls-container">
-        <cards-controls-view id="cards-controls"/>
+        <cards-controls-view id="cards-controls"></cards-controls-view>
+        <card-editor-view id="card-editor-view"></card-editor-view>
       </div>
-      <pages-view id="pages"/>
+      <pages-view id="pages"></pages-view>
     </div>
   </body>
 </html>

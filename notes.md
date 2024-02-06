@@ -43,3 +43,8 @@
     - This means it would be nice for the view to have the notion of pages.
     - And the model can just have a notion of an array of cards.
     - I think then we want to keep all the page logic in one place, and as the view needs to have some, that one place should be the view.
+
+- I think I had previously been setting this up with the idea that I would have a list of editor controllers.
+  - They would be created and destroyed at the same time as the cards so I wouldn't need to worry about disconnecting them.
+  - But this would mean multiple editor views.
+  - I think it would be nicer if there could be just one.
