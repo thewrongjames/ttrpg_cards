@@ -1,12 +1,9 @@
 # To Do
 
-- Handle selecting which card you want to edit.
 - Handle deleting cards, including removing listeners.
-- Remove any styles associated with components from the root styles file.
 - Add serialisation.
 - Save to local storage on any change.
 - Load from local storage on initialisation.
-  - I think this will need some way to trigger all the triggers after the objects are created. Perhaps they could all have a trigger-all method. Maybe they all implement an interface that requires it.
 - Support export and import to/from a file.
 - Have a button to trigger the print dialogue.
 - Support the option to show only the front-of-card pages, only the back-of-card pages, or both, interspersed, for double sided printing.

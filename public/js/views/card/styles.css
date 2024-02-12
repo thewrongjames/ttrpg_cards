@@ -10,6 +10,12 @@
   font-size: 7pt;
 }
 
+@media screen {
+  .card[selected] {
+    border-color: blue;
+  }
+}
+
 .card p {
   margin: 0;
 }

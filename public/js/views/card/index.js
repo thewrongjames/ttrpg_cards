@@ -3,8 +3,12 @@ import { IndexError } from '/js/library/errors/index-error.js'
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
 export class CardView extends StyledComponent {
+  static #selectedAttributeName = 'selected'
+
   /** @type {Record<number, HTMLElement>} */
   #sections = {}
+  /** @type {(() => void)|undefined} */
+  #onClick
 
   #container
   #name
@@ -15,6 +19,7 @@ export class CardView extends StyledComponent {
 
     this.#container = document.createElement('div')
     this.#container.setAttribute('class', 'card')
+    this.#container.addEventListener('click', () => this.#onClick?.())
 
     this.#name = document.createElement('p')
     this.#name.setAttribute('class', 'card-name')
@@ -74,6 +79,26 @@ export class CardView extends StyledComponent {
   removeSection(index) {
     this.#sections[index]?.remove()
     delete this.#sections[index]
+  }
+
+  /** @param {(() => void)|undefined} newOnClick  */
+  set onClick(newOnClick) {
+    this.#onClick = newOnClick
+  }
+
+  get selected() {
+    return this.#container.hasAttribute(CardView.#selectedAttributeName)
+  }
+
+  /** @param {boolean} newSelected */
+  set selected(newSelected) {
+    console.log('there', {newSelected})
+
+    if (newSelected) {
+      this.#container.setAttribute(CardView.#selectedAttributeName, 'true')
+    } else {
+      this.#container.removeAttribute(CardView.#selectedAttributeName)
+    }
   }
 }
 

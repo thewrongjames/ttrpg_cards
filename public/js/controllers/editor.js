@@ -16,6 +16,9 @@ import { cardSections } from '/js/models/card-sections/index.js'
 /** @typedef {import('/js/views/card-section-editor/index.js').CardSectionEditorView} CardSectionEditorView */
 
 export class EditorController {
+  /** @type {Set<() => void>} */
+  #sectionUnsubscribers = new Set()
+
   #card
   #cardEditorView
 
@@ -69,7 +72,8 @@ export class EditorController {
     this.#cardEditorView.nameText = ''
     this.#cardEditorView.typeText = ''
 
-    this.#card.sections.all().forEach(cardSection => cardSection.unsubscribeAll())
+    this.#sectionUnsubscribers.forEach(sectionUnsubscriber => sectionUnsubscriber())
+    this.#sectionUnsubscribers.clear()
     this.#cardEditorView.removeAllSections()
 
     this.#cardEditorView.onNameTextChange = undefined
@@ -149,8 +153,12 @@ export class EditorController {
     )
 
     // Update the view when the model changes.
-    cardTags.tags.subscribe('remove', ({index}) => cardTagsEditorView.removeTag(index))
-    cardTags.tags.subscribe('add', ({index, item}) => addTag(index, item))
+    this.#sectionUnsubscribers.add(
+      cardTags.tags.subscribe('remove', ({index}) => cardTagsEditorView.removeTag(index)),
+    )
+    this.#sectionUnsubscribers.add(
+      cardTags.tags.subscribe('add', ({index, item}) => addTag(index, item)),
+    )
 
     // When the view wants to add a tag, add it to the model. The listener above will ensure it then
     // gets added to the view.
@@ -191,8 +199,12 @@ export class EditorController {
     )
 
     // Update the view when the model changes.
-    cardDetails.details.subscribe('remove', ({index}) => cardDetailsEditorView.removeTag(index))
-    cardDetails.details.subscribe('add', ({index, item}) => addDetail(index, item))
+    this.#sectionUnsubscribers.add(
+      cardDetails.details.subscribe('remove', ({index}) => cardDetailsEditorView.removeTag(index)),
+    )
+    this.#sectionUnsubscribers.add(
+      cardDetails.details.subscribe('add', ({index, item}) => addDetail(index, item)),
+    )
 
     // When the view wants to add a detail, we add an empty detail to the model. The listener above
     // will ensure that it then gets added to the view.

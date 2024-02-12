@@ -58,6 +58,10 @@ function makeMessageCard() {
 export class CardsController {
   #cardsControlsView
   #pagesView
+  #editorController
+
+  /** @type {CardController|undefined} */
+  #selectedCardController
 
   /**
    * @param {CardsControlsView} cardsControlsView
@@ -69,18 +73,41 @@ export class CardsController {
     this.#pagesView = pagesView
 
     this.#cardsControlsView.onPrintClicked = () => console.log('print clicked')
-    this.#cardsControlsView.onAddCardClicked = () => {
-      this.#pagesView.addCard(new CardView())
-    }
+    this.#cardsControlsView.onAddCardClicked = () => this.#addCard(new Card(), false)
 
     // TODO: Don't create an example card.
     const card = makeMessageCard()
+    this.#editorController = new EditorController(card, cardEditorView)
+    
+    this.#addCard(card, true)
+  }
+
+  /**
+   * @param {Card} card
+   * @param {boolean} selectCard
+   */
+  #addCard(card, selectCard) {
     const cardView = new CardView()
     const cardController = new CardController(card, cardView)
+
+    cardView.onClick = () => this.#selectCardController(cardController)
+    if (selectCard) {
+      this.#selectCardController(cardController)
+    }
+
     cardController.connect()
 
-    new EditorController(card, cardEditorView)
-
     this.#pagesView.addCard(cardView)
+  }
+
+  /** @param {CardController} cardController  */
+  #selectCardController(cardController) {
+    if (this.#selectedCardController !== undefined) {
+      this.#selectedCardController.cardView.selected = false
+    }
+    this.#selectedCardController = cardController
+
+    this.#selectedCardController.cardView.selected = true
+    this.#editorController.connect(this.#selectedCardController.card)
   }
 }

@@ -24,6 +24,14 @@ export class CardController {
     this.#cardView = cardView
   }
 
+  get card() {
+    return this.#card
+  }
+
+  get cardView() {
+    return this.#cardView
+  }
+
   /** Make the view reflect changes the model. */
   connect() {
     this.#card.subscribe('name', () => this.#cardView.name = this.#card.name)

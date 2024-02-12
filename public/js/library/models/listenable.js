@@ -18,12 +18,16 @@ export class Listenable {
   /**
    * Subscribe the given listener to be triggered on the given name.
    * @param {ListenableName} listenedName 
-   * @param {Listener} listener 
+   * @param {Listener} listener
+   * @returns {() => void} A function that unsubscribes the given listener from the given
+   * listenedName.
    */
   subscribe(listenedName, listener) {
     const subscriptions = this.#subscriptions.get(listenedName) || new Set()
     subscriptions.add(listener)
     this.#subscriptions.set(listenedName, subscriptions)
+
+    return () => this.unsubscribe(listenedName, listener)
   }
 
   /**
