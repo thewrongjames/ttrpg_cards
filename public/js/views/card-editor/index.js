@@ -17,11 +17,14 @@ export class CardEditorView extends StyledComponent {
   #onTypeTextChange
   /** @type {((cardSectionName: CardSectionName) => void)|undefined} */
   #onAddSectionClicked
+  /** @type {(() => void)|undefined} */
+  #onRemoveCardClicked
 
   #nameInput
   #typeInput
   #sectionsContainer
   #sectionAdderButton
+  #removeCardButton
 
   constructor() {
     super()
@@ -57,27 +60,39 @@ export class CardEditorView extends StyledComponent {
     const shadow = this.getShadow(['/js/views/card-editor/styles.css'])
 
     const container = document.createElement('div')
-    container.setAttribute('class', 'editor')
+    container.classList.add('editor')
 
     const nameLabel = document.createElement('label')
     nameLabel.setAttribute('for', 'editor-name')
     nameLabel.innerText = 'Name:'
+    const nameContainer = document.createElement('div')
+    nameContainer.classList.add('input-container')
+    nameContainer.appendChild(nameLabel)
+    nameContainer.appendChild(this.#nameInput)
 
     const typeLabel = document.createElement('label')
     typeLabel.setAttribute('for', 'editor-type')
     typeLabel.innerText = 'Type:'
+    const typeContainer = document.createElement('div')
+    typeContainer.classList.add('input-container')
+    typeContainer.appendChild(typeLabel)
+    typeContainer.appendChild(this.#typeInput)
 
     const sectionAdder = document.createElement('div')
     sectionAdder.setAttribute('class', 'section-adder')
     sectionAdder.appendChild(this.#sectionAdderSelector)
     sectionAdder.appendChild(this.#sectionAdderButton)
 
-    container.appendChild(nameLabel)
-    container.appendChild(this.#nameInput)
-    container.appendChild(typeLabel)
-    container.appendChild(this.#typeInput)
+    const removeCardButton = document.createElement('button')
+    removeCardButton.classList.add('remove-card-button')
+    removeCardButton.addEventListener('click', () => this.#onRemoveCardClicked?.())
+    removeCardButton.innerText = 'Remove card'
+
+    container.appendChild(nameContainer)
+    container.appendChild(typeContainer)
     container.appendChild(this.#sectionsContainer)
     container.appendChild(sectionAdder)
+    container.appendChild(removeCardButton)
 
     shadow.appendChild(container)
   }
@@ -111,6 +126,11 @@ export class CardEditorView extends StyledComponent {
   /** @param {((cardSectionName: CardSectionName) => void)|undefined} callback */
   set onAddSectionClicked(callback) {
     this.#onAddSectionClicked = callback
+  }
+
+  /** @param {(() => void)|undefined} callback  */
+  set onRemoveCardClicked(callback) {
+    this.#onRemoveCardClicked = callback
   }
 
   /**

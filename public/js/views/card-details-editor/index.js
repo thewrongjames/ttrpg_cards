@@ -18,7 +18,7 @@ export class CardDetailsEditorView extends CardSectionEditorView {
 
     const addDetailButton = document.createElement('button')
     addDetailButton.classList.add('new-detail-button')
-    addDetailButton.innerText = 'New Detail'
+    addDetailButton.innerText = 'New detail'
     addDetailButton.addEventListener('click', () => this.#onAddDetail?.())
 
     this.container.appendChild(this.#detailsContainer)
