@@ -28,6 +28,12 @@ body {
   gap: 1rem;
 }
 
+#pages {
+  font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 /* For if I use filler cards or an example image as a card for scaling. */
 .card {
   width: 63mm;
