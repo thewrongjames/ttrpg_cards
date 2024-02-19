@@ -5,6 +5,8 @@ export class CardsControlsView extends StyledComponent {
   onAddCardClicked
   /** @type {(() => void)|undefined} */
   onPrintClicked
+  /** @type {(() => void)|undefined} */
+  onRemoveSelectedCardClicked
 
   constructor() {
     super()
@@ -29,10 +31,19 @@ export class CardsControlsView extends StyledComponent {
     const cardBackSettings = document.createElement('div')
     cardBackSettings.innerText = 'Something to control the displaying of card backs.'
 
+    const removeSelectedCardButton = document.createElement('button')
+    removeSelectedCardButton.innerText = 'Remove selected card'
+    removeSelectedCardButton.addEventListener('click', () => this.onRemoveSelectedCardClicked?.())
+
+    const selectedCardActionRow = document.createElement('div')
+    selectedCardActionRow.classList.add('button-row')
+    selectedCardActionRow.appendChild(removeSelectedCardButton)
+
     const container = document.createElement('div')
     container.classList.add('card-controls')
     container.appendChild(globalActionRow)
     container.appendChild(cardBackSettings)
+    container.appendChild(selectedCardActionRow)
     shadow.appendChild(container)
   }
 }
