@@ -35,6 +35,9 @@ export class CardView extends StyledComponent {
     this.shadowRoot.appendChild(this.#container)
   }
 
+  get name() {
+    return this.#name.innerText
+  }
   /** @param {string} name */
   set name(name) {
     this.#name.innerText = name
@@ -45,6 +48,9 @@ export class CardView extends StyledComponent {
     }
   }
 
+  get type() {
+    return this.#type.innerText
+  }
   /** @param {string} type */
   set type(type) {
     this.#type.innerText = type

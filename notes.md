@@ -48,3 +48,41 @@
   - They would be created and destroyed at the same time as the cards so I wouldn't need to worry about disconnecting them.
   - But this would mean multiple editor views.
   - I think it would be nicer if there could be just one.
+
+- Deletion bug
+  - Steps to replicate
+    - All with the page size reduced to three cards.
+    - 1st try:
+      - add 2nd
+      - add 3rd
+      - add 4th
+      - add 5th
+      - add 6th
+      - add 7th
+      - add 8th
+      - remove 2nd
+      - remove 3rd
+      - remove 2nd
+    - 2nd try:
+      - add 2nd
+      - add 3rd
+      - add 4th
+      - add 5th
+      - add 6th
+      - add 7th
+      - remove 3rd
+      - remove 2nd
+    - 3rd try:
+      - same as above, but the order of the last removals can be switched.
+    - 4th try:
+      - Add cards until you have seven cards.
+      - Remove any two cards from the first page.
+      - Then you get a gap on the first page.
+  - Notes
+    - Just by doing two deletions anywhere you can get weird behaviour, but it isn't as predicatable.
+  - Okay there is actually a much simpler, but invisible, bug.
+    - Replicate:
+      - Fill a page with cards, and add one card to the next page.
+      - Delete any one card.
+    - The pages component's pages array will now only contain the empty page.
+  - There we go. I was removing the wrong page from the pages array because I was using the index in the remaining pages as the actual index of the page.

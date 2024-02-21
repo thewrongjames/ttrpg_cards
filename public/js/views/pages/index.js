@@ -2,9 +2,9 @@ import { DOMStateError } from '/js/library/errors/dom-state-error.js'
 import { IndexError } from '/js/library/errors/index-error.js'
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
-/** @typedef {import("/js/views/card/index.js").CardView} CardView */
+import { CardView } from '/js/views/card/index.js'
 
-const NUMBER_OF_CARDS_PER_PAGE = 9
+const NUMBER_OF_CARDS_PER_PAGE = 3
 
 export class PagesView extends StyledComponent {
   /** @type {HTMLDivElement} */
@@ -25,6 +25,8 @@ export class PagesView extends StyledComponent {
 
   /** @param {CardView} cardView */
   addCard(cardView) {
+    this.#logStatus('addCard start')
+
     const cardIndex = this.#cards.length
     const pageIndex = Math.floor(cardIndex / NUMBER_OF_CARDS_PER_PAGE)
 
@@ -39,10 +41,14 @@ export class PagesView extends StyledComponent {
 
     this.#cards.push(cardView)
     page.appendChild(cardView)
+
+    this.#logStatus('addCard end')
   }
 
   /** @param {CardView} cardView  */
   removeCard(cardView) {
+    this.#logStatus('removeCard start')
+
     const cardIndex = this.#cards.indexOf(cardView)
     if (cardIndex === -1) {
       throw new IndexError('the given card view is not currently on the page')
@@ -59,7 +65,7 @@ export class PagesView extends StyledComponent {
 
     // Move the first card on every page after the page containing the removed card to be the last
     // card on the previous page.
-    for (const [currentPageIndex, currentPage] of this.#pages.slice(pageIndex + 1).entries()) {
+    for (const [pageOffset, currentPage] of this.#pages.slice(pageIndex + 1).entries()) {
       const firstCard = currentPage.firstChild
       if (firstCard === null) {
         throw new DOMStateError('found page with no cards')
@@ -73,9 +79,28 @@ export class PagesView extends StyledComponent {
       // If the page is now empty, we can remove it.
       if (!currentPage.hasChildNodes()) {
         currentPage.remove()
-        this.#pages.splice(currentPageIndex, 1)
+        const [deletedPage] = this.#pages.splice(pageIndex + 1 + pageOffset, 1)
+        if (deletedPage !== currentPage) {
+          throw new DOMStateError('removed incorrect page from pages array')
+        }
       }
     }
+
+    this.#logStatus('removeCard end')
+  }
+
+  /** @param {string} prefix  */
+  #logStatus(prefix) {
+    console.log({
+      prefix,
+      cards: this.#cards.map(card => card.name),
+      pages: this.#pages.map(page => Array.from(page.children).map(child => {
+        if (!(child instanceof CardView)) {
+          return `Non-CardView child ${child}`
+        }
+        return child.name
+      })),
+    })
   }
 }
 
