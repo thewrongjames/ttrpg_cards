@@ -10,7 +10,7 @@ export class SelectView extends StyledComponent {
 
   /** @param {[Value, string][]} valuesAndDisplayText */
   constructor(valuesAndDisplayText) {
-    super()
+    super(['/js/views/select/styles.css'])
 
     this.#values = valuesAndDisplayText.map(([value]) => value)
 
@@ -21,11 +21,8 @@ export class SelectView extends StyledComponent {
       option.innerText = displayText
       this.#selector.appendChild(option)
     }
-  }
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/select/styles.css'])
-    shadow.appendChild(this.#selector)
+    this.shadowRoot.appendChild(this.#selector)
   }
 
   /** @returns {Value} */

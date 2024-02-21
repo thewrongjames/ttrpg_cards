@@ -15,7 +15,7 @@ export class CardView extends StyledComponent {
   #type
   
   constructor() {
-    super()
+    super(['/js/views/card/styles.css'])
 
     this.#container = document.createElement('div')
     this.#container.setAttribute('class', 'card')
@@ -31,11 +31,8 @@ export class CardView extends StyledComponent {
 
     this.#container.appendChild(this.#name)
     this.#container.appendChild(this.#type)
-  }
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/card/styles.css'])
-    shadow.appendChild(this.#container)
+    this.shadowRoot.appendChild(this.#container)
   }
 
   /** @param {string} name */
@@ -92,8 +89,6 @@ export class CardView extends StyledComponent {
 
   /** @param {boolean} newSelected */
   set selected(newSelected) {
-    console.log('there', {newSelected})
-
     if (newSelected) {
       this.#container.setAttribute(CardView.#selectedAttributeName, 'true')
     } else {

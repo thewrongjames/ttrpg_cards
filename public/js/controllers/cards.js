@@ -72,13 +72,13 @@ export class CardsController {
     this.#cardsControlsView = cardsControlsView
     this.#pagesView = pagesView
 
-    this.#cardsControlsView.onPrintClicked = () => console.log('print clicked')
-    this.#cardsControlsView.onAddCardClicked = () => this.#addCard(new Card(), false)
+    this.#cardsControlsView.onPrintClicked = () => print()
+    this.#cardsControlsView.onAddCardClicked = () => this.#addCard(new Card(), true)
 
+    this.#editorController = new EditorController(cardEditorView)
+    
     // TODO: Don't create an example card.
     const card = makeMessageCard()
-    this.#editorController = new EditorController(card, cardEditorView)
-    
     this.#addCard(card, true)
   }
 
@@ -90,17 +90,16 @@ export class CardsController {
     const cardView = new CardView()
     const cardController = new CardController(card, cardView)
 
+    this.#pagesView.addCard(cardView)
     cardView.onClick = () => this.#selectCardController(cardController)
+    
     if (selectCard) {
       this.#selectCardController(cardController)
     }
 
-    cardController.connect()
-
-    this.#pagesView.addCard(cardView)
   }
 
-  /** @param {CardController} cardController  */
+  /** @param {CardController} cardController */
   #selectCardController(cardController) {
     if (this.#selectedCardController !== undefined) {
       this.#selectedCardController.cardView.selected = false
@@ -108,6 +107,12 @@ export class CardsController {
     this.#selectedCardController = cardController
 
     this.#selectedCardController.cardView.selected = true
-    this.#editorController.connect(this.#selectedCardController.card)
+
+    const removeCard = () => {
+      this.#editorController.connect(undefined, undefined)
+      this.#selectedCardController = undefined
+      this.#pagesView.removeCard(cardController.cardView)
+    }
+    this.#editorController.connect(this.#selectedCardController.card, removeCard)
   }
 }

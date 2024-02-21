@@ -32,13 +32,6 @@ body {
   overflow: auto;
 }
 
-/* For if I use filler cards or an example image as a card for scaling. */
-.card {
-  width: 63mm;
-  height: 88mm;
-  border: 1px solid black;
-}
-
 @media print {
   #controls-container {
     display: none;

@@ -9,15 +9,12 @@ export class CardTagsView extends StyledComponent {
   #container
 
   constructor() {
-    super()
+    super(['/js/views/card-tags/styles.css'])
 
     this.#container = document.createElement('div')
     this.#container.setAttribute('class', 'card-tags')
-  }
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/card-tags/styles.css'])
-    shadow.appendChild(this.#container)
+    this.shadowRoot.appendChild(this.#container)
   }
 
   /**

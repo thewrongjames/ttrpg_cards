@@ -6,7 +6,7 @@
     "allowJs": true,
     "checkJs": true,
     "noEmit": true,
-    "target": "ES2015",
+    "target": "es2017",
     "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": true,
     "paths": {

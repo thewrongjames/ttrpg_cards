@@ -9,15 +9,12 @@ export class CardDetailsView extends StyledComponent {
   #container
 
   constructor() {
-    super()
+    super(['/js/views/card-details/styles.css'])
 
     this.#container = document.createElement('div')
     this.#container.setAttribute('class', 'card-details')
-  }
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/card-details/styles.css'])
-    shadow.appendChild(this.#container)
+    this.shadowRoot.appendChild(this.#container)
   }
 
   /**

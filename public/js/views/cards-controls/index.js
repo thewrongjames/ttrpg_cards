@@ -7,12 +7,8 @@ export class CardsControlsView extends StyledComponent {
   onPrintClicked
 
   constructor() {
-    super()
-  }
+    super(['/js/views/cards-controls/styles.css'])
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/cards-controls/styles.css'])
-    
     const printButton = document.createElement('button')
     printButton.innerText = 'Print'
     printButton.addEventListener('click', () => this.onPrintClicked?.())
@@ -37,7 +33,8 @@ export class CardsControlsView extends StyledComponent {
     container.appendChild(globalActionRow)
     container.appendChild(cardBackSettings)
     container.appendChild(selectedCardActionRow)
-    shadow.appendChild(container)
+    
+    this.shadowRoot.appendChild(container)
   }
 }
 

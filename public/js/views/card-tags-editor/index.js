@@ -13,7 +13,7 @@ export class CardTagsEditorView extends CardSectionEditorView {
   #newTagInput
 
   constructor() {
-    super('card-tags-editor')
+    super('card-tags-editor', ['/js/views/card-tags-editor/styles.css'])
 
     this.#tagsContainer = document.createElement('div')
     this.#tagsContainer.classList.add('tags')
@@ -36,11 +36,8 @@ export class CardTagsEditorView extends CardSectionEditorView {
 
     this.container.appendChild(this.#tagsContainer)
     this.container.appendChild(newTagForm)
-  }
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/card-tags-editor/styles.css'])
-    shadow.appendChild(this.container)
+    this.shadowRoot.appendChild(this.container)
   }
 
   /**

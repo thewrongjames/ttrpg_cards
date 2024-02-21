@@ -11,9 +11,12 @@ export class CardSectionEditorView extends StyledComponent {
   #container
   #removeButton
 
-  /** @param {string} cssClassName  */
-  constructor(cssClassName) {
-    super()
+  /**
+   * @param {string} cssClassName
+   * @param {string[]} styleSheetPaths
+   */
+  constructor(cssClassName, styleSheetPaths) {
+    super(['/js/views/card-section-editor/styles.css', ...styleSheetPaths])
 
     this.#container = document.createElement('div')
     this.#container.setAttribute('class', `card-section-editor ${cssClassName}`)
@@ -24,17 +27,6 @@ export class CardSectionEditorView extends StyledComponent {
     this.#removeButton.addEventListener('click', () => this.#onRemoveButtonClicked?.())
 
     this.#container.appendChild(this.#removeButton)
-  }
-
-  /**
-   * @param {string[]} styleSheetPaths
-   * @returns {ShadowRoot}
-   */
-  getShadow(styleSheetPaths) {
-    return super.getShadow([
-      '/js/views/card-section-editor/styles.css',
-      ...styleSheetPaths],
-    )
   }
 
   /** @param {(() => void)|undefined} callback  */

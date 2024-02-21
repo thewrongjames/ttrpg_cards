@@ -15,16 +15,12 @@ export class PagesView extends StyledComponent {
   #cards = []
 
   constructor() {
-    super()
+    super(['/js/views/pages/styles.css'])
 
     this.#container = document.createElement('div')
     this.#container.classList.add('pages')
-  }
 
-
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/pages/styles.css'])
-    shadow.appendChild(this.#container)
+    this.shadowRoot.appendChild(this.#container)
   }
 
   /** @param {CardView} cardView */
@@ -45,22 +41,26 @@ export class PagesView extends StyledComponent {
     page.appendChild(cardView)
   }
 
-  /** @param {number} cardIndex  */
-  removeCard(cardIndex) {
-    const card = this.#cards[cardIndex]
-    if (card === undefined) {
-      throw new IndexError(`there is no card with index ${cardIndex}`)
+  /** @param {CardView} cardView  */
+  removeCard(cardView) {
+    const cardIndex = this.#cards.indexOf(cardView)
+    if (cardIndex === -1) {
+      throw new IndexError('the given card view is not currently on the page')
     }
 
-    const pageIndex = cardIndex % NUMBER_OF_CARDS_PER_PAGE
+    const pageIndex = Math.floor(cardIndex / NUMBER_OF_CARDS_PER_PAGE)
     let previousPage = this.#pages[pageIndex]
     if (previousPage === undefined) {
       throw new IndexError(`there is no page with index ${pageIndex}`)
     }
 
-    card.remove()
-    for (const page of this.#pages.slice(pageIndex)) {
-      const firstCard = page.firstChild
+    cardView.remove()
+    this.#cards.splice(cardIndex, 1)
+
+    // Move the first card on every page after the page containing the removed card to be the last
+    // card on the previous page.
+    for (const [currentPageIndex, currentPage] of this.#pages.slice(pageIndex + 1).entries()) {
+      const firstCard = currentPage.firstChild
       if (firstCard === null) {
         throw new DOMStateError('found page with no cards')
       }
@@ -68,11 +68,13 @@ export class PagesView extends StyledComponent {
       firstCard.remove()
       previousPage.appendChild(firstCard)
 
-      if (page.children.length === 0) {
-        page.remove()
-      }
+      previousPage = currentPage
 
-      previousPage = page
+      // If the page is now empty, we can remove it.
+      if (!currentPage.hasChildNodes()) {
+        currentPage.remove()
+        this.#pages.splice(currentPageIndex, 1)
+      }
     }
   }
 }

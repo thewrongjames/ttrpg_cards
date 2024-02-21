@@ -7,17 +7,14 @@ export class CardTextEditorView extends CardSectionEditorView {
   #textarea
 
   constructor() {
-    super('card-text-editor')
+    super('card-text-editor', ['/js/views/card-text-editor/styles.css'])
 
     this.#textarea = document.createElement('textarea')
     this.#textarea.addEventListener('input', () => this.#onTextChange?.())
 
     this.container.appendChild(this.#textarea)
-  }
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/card-text-editor/styles.css'])
-    shadow.appendChild(this.container)
+    this.shadowRoot.appendChild(this.container)
   }
 
   /** @param {(() => void)|undefined} callback  */

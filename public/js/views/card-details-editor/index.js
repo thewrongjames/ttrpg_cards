@@ -11,7 +11,7 @@ export class CardDetailsEditorView extends CardSectionEditorView {
   #detailsContainer
 
   constructor() {
-    super('card-details-editor')
+    super('card-details-editor', ['/js/views/card-details-editor/styles.css'])
 
     this.#detailsContainer = document.createElement('detail')
     this.#detailsContainer.classList.add('details')
@@ -23,11 +23,8 @@ export class CardDetailsEditorView extends CardSectionEditorView {
 
     this.container.appendChild(this.#detailsContainer)
     this.container.appendChild(addDetailButton)
-  }
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/card-details-editor/styles.css'])
-    shadow.appendChild(this.container)
+    this.shadowRoot.appendChild(this.container)
   }
 
   /**

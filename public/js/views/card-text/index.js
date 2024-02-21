@@ -4,14 +4,11 @@ export class CardTextView extends StyledComponent {
   #text
 
   constructor() {
-    super()
+    super(['/js/views/card-text/styles.css'])
 
     this.#text = document.createElement('p')
-  }
 
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/card-text/styles.css'])
-    shadow.appendChild(this.#text)
+    this.shadowRoot.appendChild(this.#text)
   }
 
   get text() {

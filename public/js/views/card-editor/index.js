@@ -7,6 +7,8 @@ import { SelectView } from '/js/views/select/index.js'
 /** @typedef {import('/js/models/card-sections/index.js').CardSectionName} CardSectionName */
 
 export class CardEditorView extends StyledComponent {
+  static #cardSelectedAttributeName = 'card-selected'
+
   /** @type {Record<number, HTMLElement>} */
   #sections = {}
   /** @type {SelectView<CardSectionName>} */
@@ -24,20 +26,47 @@ export class CardEditorView extends StyledComponent {
   #typeInput
   #sectionsContainer
   #sectionAdderButton
-  #removeCardButton
+  #container
+  #withSelectedCardContainer
+  #withoutSelectedCardContainer
 
   constructor() {
-    super()
+    super(['/js/views/card-editor/styles.css'])
+
+    this.#container = document.createElement('div')
+    this.#container.classList.add('card-editor')
+
+    this.#withSelectedCardContainer = document.createElement('div')
+    this.#withSelectedCardContainer.classList.add('with-selected-card')
+
+    this.#withoutSelectedCardContainer = document.createElement('div')
+    this.#withoutSelectedCardContainer.classList.add('without-selected-card')
 
     this.#nameInput = document.createElement('input')
     this.#nameInput.setAttribute('id', 'editor-name')
     this.#nameInput.setAttribute('type', 'text')
     this.#nameInput.addEventListener('input', () => this.#onNameTextChange?.())
     
+    const nameLabel = document.createElement('label')
+    nameLabel.setAttribute('for', 'editor-name')
+    nameLabel.innerText = 'Name:'
+    const nameContainer = document.createElement('div')
+    nameContainer.classList.add('input-container')
+    nameContainer.appendChild(nameLabel)
+    nameContainer.appendChild(this.#nameInput)
+
     this.#typeInput = document.createElement('input')
     this.#typeInput.setAttribute('id', 'editor-type')
     this.#typeInput.setAttribute('type', 'text')
     this.#typeInput.addEventListener('input', () => this.#onTypeTextChange?.())
+
+    const typeLabel = document.createElement('label')
+    typeLabel.setAttribute('for', 'editor-type')
+    typeLabel.innerText = 'Type:'
+    const typeContainer = document.createElement('div')
+    typeContainer.classList.add('input-container')
+    typeContainer.appendChild(typeLabel)
+    typeContainer.appendChild(this.#typeInput)
 
     this.#sectionsContainer = document.createElement('div')
     this.#sectionsContainer.setAttribute('class', 'sections')
@@ -54,29 +83,6 @@ export class CardEditorView extends StyledComponent {
       'click',
       () => this.#onAddSectionClicked?.(this.#sectionAdderSelector.value),
     )
-  }
-
-  connectedCallback() {
-    const shadow = this.getShadow(['/js/views/card-editor/styles.css'])
-
-    const container = document.createElement('div')
-    container.classList.add('editor')
-
-    const nameLabel = document.createElement('label')
-    nameLabel.setAttribute('for', 'editor-name')
-    nameLabel.innerText = 'Name:'
-    const nameContainer = document.createElement('div')
-    nameContainer.classList.add('input-container')
-    nameContainer.appendChild(nameLabel)
-    nameContainer.appendChild(this.#nameInput)
-
-    const typeLabel = document.createElement('label')
-    typeLabel.setAttribute('for', 'editor-type')
-    typeLabel.innerText = 'Type:'
-    const typeContainer = document.createElement('div')
-    typeContainer.classList.add('input-container')
-    typeContainer.appendChild(typeLabel)
-    typeContainer.appendChild(this.#typeInput)
 
     const sectionAdder = document.createElement('div')
     sectionAdder.setAttribute('class', 'section-adder')
@@ -88,13 +94,21 @@ export class CardEditorView extends StyledComponent {
     removeCardButton.addEventListener('click', () => this.#onRemoveCardClicked?.())
     removeCardButton.innerText = 'Remove card'
 
-    container.appendChild(nameContainer)
-    container.appendChild(typeContainer)
-    container.appendChild(this.#sectionsContainer)
-    container.appendChild(sectionAdder)
-    container.appendChild(removeCardButton)
+    this.#withSelectedCardContainer.appendChild(nameContainer)
+    this.#withSelectedCardContainer.appendChild(typeContainer)
+    this.#withSelectedCardContainer.appendChild(this.#sectionsContainer)
+    this.#withSelectedCardContainer.appendChild(sectionAdder)
+    this.#withSelectedCardContainer.appendChild(removeCardButton)
 
-    shadow.appendChild(container)
+    const noCardSelectedMessage = document.createElement('p')
+    noCardSelectedMessage.innerText = 'No card selected. Click \'Add card\' above to create one.'
+
+    this.#withoutSelectedCardContainer.appendChild(noCardSelectedMessage)
+
+    this.#container.appendChild(this.#withSelectedCardContainer)
+    this.#container.appendChild(this.#withoutSelectedCardContainer)
+
+    this.shadowRoot.appendChild(this.#container)
   }
 
   get nameText() {
@@ -163,6 +177,19 @@ export class CardEditorView extends StyledComponent {
   removeAllSections() {
     Object.values(this.#sections).forEach(section => section.remove())
     this.#sections = {}
+  }
+
+  /** @returns {boolean} */
+  get cardSelected() {
+    return this.#container.hasAttribute(CardEditorView.#cardSelectedAttributeName)
+  }
+  /** @param {boolean} newCardSelected  */
+  set cardSelected(newCardSelected) {
+    if (newCardSelected) {
+      this.#container.setAttribute(CardEditorView.#cardSelectedAttributeName, 'true')
+    } else {
+      this.#container.removeAttribute(CardEditorView.#cardSelectedAttributeName)
+    }
   }
 }
 

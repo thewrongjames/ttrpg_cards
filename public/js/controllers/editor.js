@@ -19,55 +19,55 @@ export class EditorController {
   /** @type {Set<() => void>} */
   #sectionUnsubscribers = new Set()
 
-  #card
   #cardEditorView
 
   /**
-   * Create an EditorController, connecting up the given card (which can be changed later) and the
-   * given cardEditorView (which cannot be changed later).
-   * @param {Card} card 
+   * Create an EditorController using the given cardEditorView. That view will be hooked up to any
+   * Card that is later connected to this controller.
    * @param {CardEditorView} cardEditorView 
    */
-  constructor(card, cardEditorView) {
-    this.#card = card
+  constructor(cardEditorView) {
     this.#cardEditorView = cardEditorView
-
-    this.#connect()
   }
 
   /**
-   * Connect the editor view to control the given card, after disconnecting any
-   * previously connected card.
-   * @param {Card} card 
+   * Disconnect any previously connected card model from the card editor view, and, if the given
+   * card is not undefined, connect the editor view to the given card model.
+   * @param {Card|undefined} card
+   * @param {(() => void)|undefined} removalCallback
    */
-  connect(card) {
+  connect(card, removalCallback) {
+    this.#cardEditorView.cardSelected = card !== undefined
     this.#disconnect()
-    this.#card = card
-    this.#connect()
+    if (card !== undefined) {
+      this.#connect(card, removalCallback)
+    }
   }
 
   /**
    * Connect the editor view to the currently set this.#card. This assumes that neither is connected
    * to anything else.
+   * @param {Card} card
+   * @param {(() => void)|undefined} removalCallback
    */
-  #connect() {
+  #connect(card, removalCallback) {
     // Setup the initial values of the input fields from the model.
 
-    this.#cardEditorView.nameText = this.#card.name
-    this.#cardEditorView.typeText = this.#card.type
+    this.#cardEditorView.nameText = card.name
+    this.#cardEditorView.typeText = card.type
     
-    this.#card.sections.entries()
-      .forEach(([index, section]) => this.#addCardSection(index, section))
+    card.sections.entries()
+      .forEach(([index, section]) => this.#addCardSection(card, index, section))
     
     // Propagate changes back to the model.
     
-    this.#cardEditorView.onNameTextChange = () => this.#card.name = this.#cardEditorView.nameText
-    this.#cardEditorView.onTypeTextChange = () => this.#card.type = this.#cardEditorView.typeText
-    
-    this.#cardEditorView.onAddSectionClicked = sectionName => this.#addNewCardSection(sectionName)
+    this.#cardEditorView.onNameTextChange = () => card.name = this.#cardEditorView.nameText
+    this.#cardEditorView.onTypeTextChange = () => card.type = this.#cardEditorView.typeText
+    this.#cardEditorView.onAddSectionClicked = sectionName => this.#addNewCardSection(card, sectionName)
+    this.#cardEditorView.onRemoveCardClicked = removalCallback
   }
 
-  /** Disconnect the currently set this.#card from the editor view and clear the editor view. */
+  /** Disconnect the currently connected card from the editor view and clear the editor view. */
   #disconnect() {
     this.#cardEditorView.nameText = ''
     this.#cardEditorView.typeText = ''
@@ -79,26 +79,29 @@ export class EditorController {
     this.#cardEditorView.onNameTextChange = undefined
     this.#cardEditorView.onTypeTextChange = undefined
     this.#cardEditorView.onAddSectionClicked = undefined
+    this.#cardEditorView.onRemoveCardClicked = undefined
   }
 
   /**
    * Create a new empty card section with the given name on both the model and the editor, connected
    * up so changes on the editor are pushed back to the model.
+   * @param {Card} card
    * @param {CardSectionName} sectionName
    */
-  #addNewCardSection(sectionName) {
+  #addNewCardSection(card, sectionName) {
     const cardSection = new cardSections[sectionName]()
-    const index = this.#card.sections.add(cardSection)
-    this.#addCardSection(index, cardSection)
+    const index = card.sections.add(cardSection)
+    this.#addCardSection(card, index, cardSection)
   }
 
   /**
    * Create the UI in the editor for controlling the given card section. It should update the model
    * in accordance with changes in the editor view, and handle it's own removal.
-   * @param {number} index 
+   * @param {Card} card
+   * @param {number} index
    * @param {CardSection} cardSection 
    */
-  #addCardSection(index, cardSection) {
+  #addCardSection(card, index, cardSection) {
     /** @type {CardSectionEditorView} */
     let view
 
@@ -115,7 +118,7 @@ export class EditorController {
     }
 
     view.onRemoveButtonClicked = () => {
-      this.#card.sections.remove(index)
+      card.sections.remove(index)
       this.#cardEditorView.removeSection(index)
     }
 
