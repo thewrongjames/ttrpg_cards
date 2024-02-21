@@ -7,8 +7,6 @@ import { CardView } from '/js/views/card/index.js'
 import { CardController } from '/js/controllers/card.js'
 import { EditorController } from '/js/controllers/editor.js'
 
-import { makeRandomMemorableName } from '/js/library/random-memorable-names.js'
-
 /** @typedef {import('/js/views/cards-controls/index.js').CardsControlsView} CardsControlsView */
 /** @typedef {import('/js/views/card-editor/index.js').CardEditorView} CardEditorView */
 /** @typedef {import('/js/views/pages/index.js').PagesView} PagesView */
@@ -89,7 +87,6 @@ export class CardsController {
    * @param {boolean} selectCard
    */
   #addCard(card, selectCard) {
-    card.name = makeRandomMemorableName()
     const cardView = new CardView()
     const cardController = new CardController(card, cardView)
 

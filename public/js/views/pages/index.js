@@ -2,7 +2,7 @@ import { DOMStateError } from '/js/library/errors/dom-state-error.js'
 import { IndexError } from '/js/library/errors/index-error.js'
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
-import { CardView } from '/js/views/card/index.js'
+/** @typedef {import("/js/views/card/index.js").CardView} CardView */
 
 const NUMBER_OF_CARDS_PER_PAGE = 3
 
@@ -25,8 +25,6 @@ export class PagesView extends StyledComponent {
 
   /** @param {CardView} cardView */
   addCard(cardView) {
-    this.#logStatus('addCard start')
-
     const cardIndex = this.#cards.length
     const pageIndex = Math.floor(cardIndex / NUMBER_OF_CARDS_PER_PAGE)
 
@@ -41,14 +39,10 @@ export class PagesView extends StyledComponent {
 
     this.#cards.push(cardView)
     page.appendChild(cardView)
-
-    this.#logStatus('addCard end')
   }
 
   /** @param {CardView} cardView  */
   removeCard(cardView) {
-    this.#logStatus('removeCard start')
-
     const cardIndex = this.#cards.indexOf(cardView)
     if (cardIndex === -1) {
       throw new IndexError('the given card view is not currently on the page')
@@ -85,22 +79,6 @@ export class PagesView extends StyledComponent {
         }
       }
     }
-
-    this.#logStatus('removeCard end')
-  }
-
-  /** @param {string} prefix  */
-  #logStatus(prefix) {
-    console.log({
-      prefix,
-      cards: this.#cards.map(card => card.name),
-      pages: this.#pages.map(page => Array.from(page.children).map(child => {
-        if (!(child instanceof CardView)) {
-          return `Non-CardView child ${child}`
-        }
-        return child.name
-      })),
-    })
   }
 }
 
