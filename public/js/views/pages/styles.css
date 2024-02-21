@@ -6,8 +6,7 @@
 
 .page {
   width: 210mm;
-  /* height: 297mm; */
-  height: calc(297mm / 3);
+  height: 297mm;
   margin: 1rem auto;
   background-color: white;
   display: grid;

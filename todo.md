@@ -1,7 +1,5 @@
 # To Do
 
-- Support having no card selected.
-- Handle deleting cards, including removing listeners.
 - Add serialisation.
 - Save to local storage on any change.
 - Load from local storage on initialisation.

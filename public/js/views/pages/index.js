@@ -4,7 +4,7 @@ import { StyledComponent } from '/js/library/styled-component/index.js'
 
 /** @typedef {import("/js/views/card/index.js").CardView} CardView */
 
-const NUMBER_OF_CARDS_PER_PAGE = 3
+const NUMBER_OF_CARDS_PER_PAGE = 9
 
 export class PagesView extends StyledComponent {
   /** @type {HTMLDivElement} */
