@@ -41,8 +41,9 @@ export class ListenableList extends Listenable {
     this._trigger('remove', {index, item})
   }
 
-  all() {
-    return Object.values(this.#items)
+  /** @returns {Iterable<Item>} */
+  items() {
+    return this.#items.values()
   }
 
   /** @returns {Iterable<[number, Item]>} */

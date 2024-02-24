@@ -175,7 +175,7 @@ export class CardEditorView extends StyledComponent {
   }
 
   removeAllSections() {
-    Object.values(this.#sections).forEach(section => section.remove())
+    this.#sections.forEach(section => section.remove())
     this.#sections.clear()
   }
 

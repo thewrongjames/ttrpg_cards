@@ -164,7 +164,9 @@ export class CardController {
 
   /** @param {CardDetails} cardDetails  */
   #disconnectCardDetails(cardDetails) {
-    cardDetails.details.all().forEach(detail => detail.unsubscribeAll())
+    for (const detail of cardDetails.details.items()) {
+      detail.unsubscribeAll()
+    }
     cardDetails.details.unsubscribeAll()
   }
 }
