@@ -1,11 +1,13 @@
 import { Card } from '/js/models/card.js'
 import { CardText, CardTags, CardDetails } from '/js/models/card-sections/index.js'
 import { CardDetail } from '/js/models/card-sections/card-details.js'
+import { Cards } from '/js/models/cards.js'
 
 import { CardView } from '/js/views/card/index.js'
 
 import { CardController } from '/js/controllers/card.js'
 import { EditorController } from '/js/controllers/editor.js'
+import { allTriggers } from '/js/library/models/listenable.js'
 
 /** @typedef {import('/js/views/cards-controls/index.js').CardsControlsView} CardsControlsView */
 /** @typedef {import('/js/views/card-editor/index.js').CardEditorView} CardEditorView */
@@ -63,6 +65,8 @@ export class CardsController {
   /** @type {CardController|undefined} */
   #selectedCardController
 
+  #cards = new Cards()
+
   /**
    * @param {CardsControlsView} cardsControlsView
    * @param {CardEditorView} cardEditorView
@@ -80,6 +84,7 @@ export class CardsController {
     // TODO: Don't create an example card.
     const card = makeMessageCard()
     this.#addCard(card, true)
+
   }
 
   /**
@@ -87,6 +92,7 @@ export class CardsController {
    * @param {boolean} selectCard
    */
   #addCard(card, selectCard) {
+    this.#cards.append(card)
     const cardView = new CardView()
     const cardController = new CardController(card, cardView)
 
@@ -109,6 +115,7 @@ export class CardsController {
     this.#selectedCardController.cardView.selected = true
 
     const removeCard = () => {
+      this.#cards.remove(cardController.card)
       this.#editorController.connect(undefined, undefined)
       this.#selectedCardController = undefined
       this.#pagesView.removeCard(cardController.cardView)

@@ -1,23 +1,20 @@
-/**
- * @typedef {object} UnsubscribeAllAble
- * @property {() => void} unsubscribeAll
- */
+export const allTriggers = Symbol('all-changes')
 
 /**
  * A base class to support classes that wish to notify subscribers.
- * @template {string|number} ListenableName
+ * @template {string} TriggerableName
  * @template {object} Event
- * @implements {UnsubscribeAllAble}
  */
 export class Listenable {
   /** @typedef {(event: Event) => void} Listener */
+  /** @typedef {TriggerableName|typeof allTriggers} SubscribableName */
 
-  /** @type {Map<ListenableName, Set<Listener>>} */
+  /** @type {Map<SubscribableName, Set<Listener>>} */
   #subscriptions = new Map()
 
   /**
    * Subscribe the given listener to be triggered on the given name.
-   * @param {ListenableName} listenedName 
+   * @param {SubscribableName} listenedName 
    * @param {Listener} listener
    * @returns {() => void} A function that unsubscribes the given listener from the given
    * listenedName.
@@ -33,7 +30,7 @@ export class Listenable {
   /**
    * Unsubscribe the given listener to be triggered on the given name, if it was previously
    * subscribed.
-   * @param {ListenableName} listenedName 
+   * @param {SubscribableName} listenedName 
    * @param {Listener} listener
    * @returns {boolean} true if the listener was subscribed to the listened name (and has now been
    * removed), and false is it was not subscribed (and so has not been removed).
@@ -55,13 +52,16 @@ export class Listenable {
   }
 
   /**
-   * Trigger all the subscriptions for the given name. The subclasses must invoke this, which is why
-   * it isn't private.
-   * @param {ListenableName} name 
+   * Trigger all the subscriptions for the given name, and subscriptions to "allTriggers".
+   * The subclasses must invoke this, which is why it isn't private.
+   * @param {TriggerableName} name 
    * @param {Event} event 
    */
   _trigger(name, event) {
     for (const subscription of this.#subscriptions.get(name) || []) {
+      subscription(event)
+    }
+    for (const subscription of this.#subscriptions.get(allTriggers) || []) {
       subscription(event)
     }
   }

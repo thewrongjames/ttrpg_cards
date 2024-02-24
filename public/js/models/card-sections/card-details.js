@@ -1,7 +1,5 @@
-import { Listenable } from '/js/library/models/listenable.js'
+import { Listenable, allTriggers } from '/js/library/models/listenable.js'
 import { ListenableList } from '/js/library/models/listenable-list.js'
-
-/** @typedef {import('/js/library/models/listenable.js').UnsubscribeAllAble} UnsubscribeAllAble */
 
 /** @extends Listenable<'key'|'value', {}> */
 export class CardDetail extends Listenable {
@@ -28,8 +26,8 @@ export class CardDetail extends Listenable {
   }
 }
 
-/** @implements {UnsubscribeAllAble} */
-export class CardDetails {
+/** @extends {Listenable<'details-triggered', {}>} */
+export class CardDetails extends Listenable {
   static sectionName = /** @type {const} */('CardDetails')
   get sectionName() {
     return CardDetails.sectionName
@@ -38,11 +36,13 @@ export class CardDetails {
   /** @type {ListenableList<CardDetail>} */
   #details = new ListenableList()
 
-  get details() {
-    return this.#details
+  constructor() {
+    super()
+
+    this.#details.subscribe(allTriggers, () => this._trigger('details-triggered', {}))
   }
 
-  unsubscribeAll() {
-    this.#details.unsubscribeAll()
+  get details() {
+    return this.#details
   }
 }

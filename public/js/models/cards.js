@@ -1,43 +1,28 @@
-import { IndexError } from '/js/library/errors/index-error.js'
-
-import { Listenable } from '/js/library/models/listenable.js'
+import { Listenable, allTriggers } from '/js/library/models/listenable.js'
 
 /** @typedef {import('/js/models/card.js').Card} Card */
 
-/** @extends Listenable<'append'|'remove', {index: number, card: Card}> */
+/** @extends Listenable<'append'|'remove'|'card-triggered', {}> */
 export class Cards extends Listenable {
-  /** @type {Card[]} */
-  #cards = []
-
+  // The built-in Map maintains it's insertion order when iterated over.
   /**
-   * @param {Card} card
-   * @returns {number} The index of the newly added card.
+   * This stores the cards, and 
+   * @type {Map<Card,()=>void>}
    */
+  #cards = new Map()
+
+  /** @param {Card} card */
   append(card) {
-    const index = this.#cards.push(card) - 1
-    this._trigger('append', {index, card})
-    return index
+    const trigger = () => this._trigger('card-triggered', {})
+    const removeSubscription = card.subscribe(allTriggers, trigger)
+
+    this.#cards.set(card, removeSubscription)
+    this._trigger('append', {})
   }
 
-  /**
-   * @param {number} index
-   * @throws {IndexError} If there is no card at the given index.
-   */
-  remove(index) {
-    const card = this.#cards[index]
-    if (card === undefined) {
-      throw new IndexError(`no card at index ${index}`)
-    }
-
-    this.#cards.splice(index, 1)
-    this._trigger('remove', {index, card})
-  }
-
-  /**
-   * @param {number} index
-   * @returns {Card|undefined}
-   */
-  get(index) {
-    return this.#cards[index]
+  /** @param {Card} card */
+  remove(card) {
+    this.#cards.delete(card)
+    this._trigger('remove', {})
   }
 }
