@@ -9,8 +9,8 @@ import { SelectView } from '/js/views/select/index.js'
 export class CardEditorView extends StyledComponent {
   static #cardSelectedAttributeName = 'card-selected'
 
-  /** @type {Record<number, HTMLElement>} */
-  #sections = {}
+  /** @type {Map<number, HTMLElement>} */
+  #sections = new Map()
   /** @type {SelectView<CardSectionName>} */
   #sectionAdderSelector
   /** @type {(() => void)|undefined} */
@@ -153,7 +153,7 @@ export class CardEditorView extends StyledComponent {
    * @throws {IndexError} If there is already a section at the given index.
    */
   addSection(index, element) {
-    if (this.#sections[index] !== undefined) {
+    if (this.#sections.get(index) !== undefined) {
       throw new IndexError(`there is already a section at index ${index}`)
     }
 
@@ -161,7 +161,7 @@ export class CardEditorView extends StyledComponent {
     const sectionContainer = document.createElement('div')
     sectionContainer.appendChild(element)
 
-    this.#sections[index] = sectionContainer
+    this.#sections.set(index, sectionContainer)
     this.#sectionsContainer.appendChild(sectionContainer)
   }
   
@@ -170,13 +170,13 @@ export class CardEditorView extends StyledComponent {
    * @param {number} index
    */
   removeSection(index) {
-    this.#sections[index]?.remove()
-    delete this.#sections[index]
+    this.#sections.get(index)?.remove()
+    this.#sections.delete(index)
   }
 
   removeAllSections() {
     Object.values(this.#sections).forEach(section => section.remove())
-    this.#sections = {}
+    this.#sections.clear()
   }
 
   /** @returns {boolean} */

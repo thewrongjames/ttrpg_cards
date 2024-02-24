@@ -5,8 +5,8 @@ import { StyledComponent } from '/js/library/styled-component/index.js'
 export class CardView extends StyledComponent {
   static #selectedAttributeName = 'selected'
 
-  /** @type {Record<number, HTMLElement>} */
-  #sections = {}
+  /** @type {Map<number, HTMLElement>} */
+  #sections = new Map()
   /** @type {(() => void)|undefined} */
   #onClick
 
@@ -67,11 +67,11 @@ export class CardView extends StyledComponent {
    * @throws {IndexError} If there is already a section at the given index.
    */
   addSection(index, element) {
-    if (this.#sections[index] !== undefined) {
+    if (this.#sections.get(index) !== undefined) {
       throw new IndexError(`there is already a section at index ${index}`)
     }
 
-    this.#sections[index] = element
+    this.#sections.set(index, element)
     this.#container.appendChild(element)
   }
   
@@ -80,8 +80,8 @@ export class CardView extends StyledComponent {
    * @param {number} index
    */
   removeSection(index) {
-    this.#sections[index]?.remove()
-    delete this.#sections[index]
+    this.#sections.get(index)?.remove()
+    this.#sections.delete(index)
   }
 
   /** @param {(() => void)|undefined} newOnClick  */

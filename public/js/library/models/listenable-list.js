@@ -7,8 +7,8 @@ import { Listenable } from '/js/library/models/listenable.js'
  * @extends Listenable<'add'|'remove', {index: number, item: Item}>
  */
 export class ListenableList extends Listenable {
-  /** @type {Record<number, Item>} */
-  #items = {}
+  /** @type {Map<number, Item>} */
+  #items = new Map()
   #nextSectionIndex = 0
 
   /**
@@ -16,7 +16,7 @@ export class ListenableList extends Listenable {
    * @returns {Item|undefined}
    */
   get(index) {
-    return this.#items[index]
+    return this.#items.get(index)
   }
   
   /**
@@ -26,7 +26,7 @@ export class ListenableList extends Listenable {
   add(item) {
     const index = this.#nextSectionIndex++
     
-    this.#items[index] = item
+    this.#items.set(index, item)
     this._trigger('add', {index, item})
 
     return index
@@ -34,10 +34,10 @@ export class ListenableList extends Listenable {
   
   /** @param {number} index */
   remove(index) {
-    const item = this.#items[index]
+    const item = this.#items.get(index)
     if (item === undefined) return
 
-    delete this.#items[index]
+    this.#items.delete(index)
     this._trigger('remove', {index, item})
   }
 
@@ -45,20 +45,8 @@ export class ListenableList extends Listenable {
     return Object.values(this.#items)
   }
 
-  /** @returns {[number, Item][]} */
+  /** @returns {Iterable<[number, Item]>} */
   entries() {
-    /** @type {[number, Item][]} */
-    const entries = []
-    for (const [key, item] of Object.entries(this.#items)) {
-      // All the keys should be integers.
-      const index = Number.parseInt(key)
-      if (Number.isNaN(index)) {
-        continue
-      }
-
-      entries.push([index, item])
-    }
-    
-    return entries
+    return this.#items.entries()
   }
 }

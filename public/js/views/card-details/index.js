@@ -3,8 +3,8 @@ import { IndexError } from '/js/library/errors/index-error.js'
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
 export class CardDetailsView extends StyledComponent {
-  /** @type {Record<number, {key: HTMLElement, value: HTMLElement}>} */
-  #details = {}
+  /** @type {Map<number, {key: HTMLElement, value: HTMLElement}>} */
+  #details = new Map()
 
   #container
 
@@ -24,7 +24,7 @@ export class CardDetailsView extends StyledComponent {
    * @throws {IndexError} If there is already a detail at the given index.
    */
   addDetail(index, detailKeyText, detailValueText) {
-    if (this.#details[index] !== undefined) {
+    if (this.#details.get(index) !== undefined) {
       throw new IndexError(`there is already a detail at index ${index}`)
     }
 
@@ -35,7 +35,7 @@ export class CardDetailsView extends StyledComponent {
     const detailValue = document.createElement('div')
     detailValue.innerText = detailValueText
     
-    this.#details[index] = {key: detailKey, value: detailValue}
+    this.#details.set(index, {key: detailKey, value: detailValue})
     this.#container.appendChild(detailKey)
     this.#container.appendChild(detailValue)
   }
@@ -44,10 +44,10 @@ export class CardDetailsView extends StyledComponent {
    * Remove the detail at the given index if there is one, do nothing if there isn't.
    * @param {number} index
    */
-  removeDetail(index) { 
-    this.#details[index]?.key.remove()
-    this.#details[index]?.value.remove()
-    delete this.#details[index]
+  removeDetail(index) {
+    this.#details.get(index)?.key.remove()
+    this.#details.get(index)?.value.remove()
+    this.#details.delete(index)
   }
 
   /**
@@ -56,7 +56,7 @@ export class CardDetailsView extends StyledComponent {
    * @throws {IndexError} If there is no detail at the given index.
    */
   setDetailKey(index, text) {
-    const keyElement = this.#details[index]?.key
+    const keyElement = this.#details.get(index)?.key
     if (keyElement === undefined) {
       throw new IndexError(`there is no detail at index ${index}`)
     }
@@ -69,7 +69,7 @@ export class CardDetailsView extends StyledComponent {
    * @throws {IndexError} If there is no detail at the given index.
    */
   setDetailValue(index, text) {
-    const valueElement = this.#details[index]?.value
+    const valueElement = this.#details.get(index)?.value
     if (valueElement === undefined) {
       throw new IndexError(`there is no detail at index ${index}`)
     }

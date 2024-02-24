@@ -56,8 +56,9 @@ export class EditorController {
     this.#cardEditorView.nameText = card.name
     this.#cardEditorView.typeText = card.type
     
-    card.sections.entries()
-      .forEach(([index, section]) => this.#addCardSection(card, index, section))
+    for (const [index, section] of card.sections.entries()) {
+      this.#addCardSection(card, index, section)
+    }
     
     // Propagate changes back to the model.
     
@@ -106,15 +107,15 @@ export class EditorController {
     let view
 
     switch (cardSection.sectionName) {
-    case 'CardText':
-      view = this.#getViewConnectedToCardText(cardSection)
-      break
-    case 'CardTags':
-      view = this.#getViewConnectedToCardTags(cardSection)
-      break
-    case 'CardDetails':
-      view = this.#getViewConnectedToCardDetails(cardSection)
-      break
+      case 'CardText':
+        view = this.#getViewConnectedToCardText(cardSection)
+        break
+      case 'CardTags':
+        view = this.#getViewConnectedToCardTags(cardSection)
+        break
+      case 'CardDetails':
+        view = this.#getViewConnectedToCardDetails(cardSection)
+        break
     }
 
     view.onRemoveButtonClicked = () => {

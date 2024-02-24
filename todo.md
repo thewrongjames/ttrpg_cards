@@ -10,8 +10,13 @@
 
 - Come up with a name for the project. The card-view component should be project-card, where project is replaced with the project name (and other component names should be changed accordingly.)\
   - Cardio?
+- Host it online somewhere.
+
+- Support having multiple different sets of cards save-able and load-able by names from local storage.
+- Support a folder structure for these sets of cards in local storage.
 - Zoom in/out on the paper.
 - Drag and drop to re-order tags and details.
 - Support different paper sizes.
 - Support "undo".
 - Drag and drop to re-arrange cards
+- Investigate more efficient serialisations.

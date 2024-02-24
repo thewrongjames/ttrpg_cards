@@ -33,8 +33,9 @@ export class CardController {
 
     this.#cardView.name = this.#card.name
     this.#cardView.type = this.#card.type
-    this.#card.sections.entries()
-      .forEach(([index, section]) => this.#addCardViewSection(index, section))
+    for (const [index, section] of this.#card.sections.entries()) {
+      this.#addCardViewSection(index, section)
+    }
   }
 
   get card() {
@@ -54,15 +55,15 @@ export class CardController {
     let view
 
     switch (cardSection.sectionName) {
-    case 'CardText':
-      view = this.#getViewConnectedToCardText(cardSection)
-      break
-    case 'CardTags':
-      view = this.#getViewConnectedToCardTags(cardSection)
-      break
-    case 'CardDetails':
-      view = this.#getViewConnectedToCardDetails(cardSection)
-      break
+      case 'CardText':
+        view = this.#getViewConnectedToCardText(cardSection)
+        break
+      case 'CardTags':
+        view = this.#getViewConnectedToCardTags(cardSection)
+        break
+      case 'CardDetails':
+        view = this.#getViewConnectedToCardDetails(cardSection)
+        break
     }
 
     this.#cardView.addSection(index, view)
@@ -74,20 +75,20 @@ export class CardController {
    */
   #removeCardViewSection(index, cardSection) {
     switch (cardSection.sectionName) {
-    case 'CardText':
-      this.#disconnectCardText(cardSection)
-      break
-    case 'CardTags':
-      this.#disconnectCardTags(cardSection)
-      break
-    case 'CardDetails':
-      this.#disconnectCardDetails(cardSection)
-      break
-    default: {
+      case 'CardText':
+        this.#disconnectCardText(cardSection)
+        break
+      case 'CardTags':
+        this.#disconnectCardTags(cardSection)
+        break
+      case 'CardDetails':
+        this.#disconnectCardDetails(cardSection)
+        break
+      default: {
       /** @type {never} */
-      // eslint-disable-next-line no-unused-vars
-      const exhaustivenessCheck = cardSection
-    }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const exhaustivenessCheck = cardSection
+      }
     }
 
     this.#cardView.removeSection(index)
@@ -122,7 +123,9 @@ export class CardController {
     cardTags.tags.subscribe('add', ({index, item: tag}) => cardTagsView.addTag(index, tag))
     cardTags.tags.subscribe('remove', ({index}) => cardTagsView.removeTag(index))
 
-    cardTags.tags.entries().forEach(([index, tagText]) => cardTagsView.addTag(index, tagText))
+    for (const [index, tagText] of cardTags.tags.entries()) {
+      cardTagsView.addTag(index, tagText)
+    }
 
     return cardTagsView
   }
@@ -152,7 +155,9 @@ export class CardController {
       detail.unsubscribeAll()
     })
 
-    cardDetails.details.entries().forEach(([index, detail]) => addDetail(index, detail))
+    for (const [index, detail] of cardDetails.details.entries()) {
+      addDetail(index, detail)
+    }
 
     return cardDetailsView
   }

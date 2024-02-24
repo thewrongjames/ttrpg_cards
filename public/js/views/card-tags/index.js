@@ -3,8 +3,8 @@ import { IndexError } from '/js/library/errors/index-error.js'
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
 export class CardTagsView extends StyledComponent {
-  /** @type {Record<number, HTMLElement>} */
-  #tags = {}
+  /** @type {Map<number, HTMLElement>} */
+  #tags = new Map()
 
   #container
 
@@ -23,13 +23,13 @@ export class CardTagsView extends StyledComponent {
    * @throws {IndexError} If there is already a tag at the given index.
    */
   addTag(index, text) {
-    if (this.#tags[index] !== undefined) {
+    if (this.#tags.get(index) !== undefined) {
       throw new IndexError(`there is already a tag at index ${index}`)
     }
 
     const tag = document.createElement('div')
     tag.innerText = text
-    this.#tags[index] = tag
+    this.#tags.set(index, tag)
     this.#container.appendChild(tag)
   }
 
@@ -38,8 +38,8 @@ export class CardTagsView extends StyledComponent {
    * @param {number} index
    */
   removeTag(index) { 
-    this.#tags[index]?.remove()
-    delete this.#tags[index]
+    this.#tags.get(index)?.remove()
+    this.#tags.delete(index)
   }
 }
 

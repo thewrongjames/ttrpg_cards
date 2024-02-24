@@ -3,8 +3,8 @@ import { IndexError } from '/js/library/errors/index-error.js'
 import { CardSectionEditorView } from '/js/views/card-section-editor/index.js'
 
 export class CardTagsEditorView extends CardSectionEditorView {
-  /** @type {Record<number, HTMLElement>} */
-  #tags = {}
+  /** @type {Map<number, HTMLElement>} */
+  #tags = new Map()
   /** @type {(() => void)|undefined} */
   #onAddTag
   /** @type {HTMLElement} */
@@ -47,7 +47,7 @@ export class CardTagsEditorView extends CardSectionEditorView {
    * @throws {IndexError} If there is already a tag at the given index.
    */
   addTag(index, text, onRemove) {
-    if (this.#tags[index] !== undefined) {
+    if (this.#tags.get(index) !== undefined) {
       throw new IndexError(`there is already a tag at index ${index}`)
     }
 
@@ -64,7 +64,7 @@ export class CardTagsEditorView extends CardSectionEditorView {
     tag.appendChild(tagText)
     tag.appendChild(removeButton)
 
-    this.#tags[index] = tag
+    this.#tags.set(index, tag)
     this.#tagsContainer.appendChild(tag)
   }
 
@@ -73,8 +73,8 @@ export class CardTagsEditorView extends CardSectionEditorView {
    * @param {number} index
    */
   removeTag(index) {
-    this.#tags[index]?.remove()
-    delete this.#tags[index]
+    this.#tags.get(index)?.remove()
+    this.#tags.delete(index)
   }
 
   get newTagText() {

@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/thewrongjames/ttrpg_cards#readme",
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^1.6.2",
     "eslint": "^8.56.0",
     "http-server": "^14.1.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^7.0.2"
   }
 }

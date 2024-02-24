@@ -3,8 +3,8 @@ import { IndexError } from '/js/library/errors/index-error.js'
 import { CardSectionEditorView } from '/js/views/card-section-editor/index.js'
 
 export class CardDetailsEditorView extends CardSectionEditorView {
-  /** @type {Record<number, HTMLElement>} */
-  #details = {}
+  /** @type {Map<number, HTMLElement>} */
+  #details = new Map()
   /** @type {(() => void)|undefined} */
   #onAddDetail
   /** @type {HTMLElement} */
@@ -36,7 +36,7 @@ export class CardDetailsEditorView extends CardSectionEditorView {
    * @param {() => void} onRemove 
    */
   addDetail(index, keyText, valueText, onKeyTextChange, onValueTextChange, onRemove) {
-    if (this.#details[index] !== undefined) {
+    if (this.#details.get(index) !== undefined) {
       throw new IndexError(`there is already a detail at index ${index}`)
     }
 
@@ -61,14 +61,14 @@ export class CardDetailsEditorView extends CardSectionEditorView {
     detail.appendChild(valueField)
     detail.appendChild(removeButton)
 
-    this.#details[index] = detail
+    this.#details.set(index, detail)
     this.#detailsContainer.appendChild(detail)
   }
 
   /** @param {number} index  */
   removeTag(index) {
-    this.#details[index]?.remove()
-    delete this.#details[index]
+    this.#details.get(index)?.remove()
+    this.#details.delete(index)
   }
 
   /** @param {(() => void)|undefined} newOnAddDetail */
