@@ -7,7 +7,6 @@ import { CardView } from '/js/views/card/index.js'
 
 import { CardController } from '/js/controllers/card.js'
 import { EditorController } from '/js/controllers/editor.js'
-import { allTriggers } from '/js/library/models/listenable.js'
 
 /** @typedef {import('/js/views/cards-controls/index.js').CardsControlsView} CardsControlsView */
 /** @typedef {import('/js/views/card-editor/index.js').CardEditorView} CardEditorView */
