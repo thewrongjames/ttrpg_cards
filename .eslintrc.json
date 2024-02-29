@@ -14,6 +14,9 @@
   "parser": "@typescript-eslint/parser",
   "rules": {
     "camelcase": "error",
+    "prefer-const": "error",
+    "no-var": "error",
+    "no-use-before-define": "error",
     "@stylistic/indent": ["error", 2],
     "@stylistic/linebreak-style": ["error", "unix"],
     "@stylistic/quotes": ["error", "single"],

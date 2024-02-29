@@ -1,3 +1,5 @@
+import { allTriggers } from '/js/library/models/listenable.js'
+
 import { Card } from '/js/models/card.js'
 import { CardText, CardTags, CardDetails } from '/js/models/card-sections/index.js'
 import { CardDetail } from '/js/models/card-sections/card-details.js'
@@ -72,6 +74,8 @@ export class CardsController {
    * @param {PagesView} pagesView
    */
   constructor(cardsControlsView, cardEditorView, pagesView) {
+    this.#cards.subscribe(allTriggers, () => console.log(this.#cards.toPlainObject()))
+
     this.#cardsControlsView = cardsControlsView
     this.#pagesView = pagesView
 

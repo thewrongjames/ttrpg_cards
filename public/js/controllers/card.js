@@ -85,8 +85,8 @@ export class CardController {
         this.#disconnectCardDetails(cardSection)
         break
       default: {
-      /** @type {never} */
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        /** @type {never} */
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const exhaustivenessCheck = cardSection
       }
     }

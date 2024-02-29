@@ -55,7 +55,11 @@ export class ListenableList extends Listenable {
     this._trigger('remove', {index, item})
   }
 
-  /** @returns {Iterable<[number, Item]>} */
+  /**
+   * Get an iterable of the (index, Item) pairs, in listenable list, in the order that they were
+   * inserted.
+   * @returns {Iterable<[number, Item]>}
+   */
   entries() {
     /**
      * @param {Map<number, ItemBundle>} items
@@ -64,6 +68,24 @@ export class ListenableList extends Listenable {
     function* makeIterator(items) {
       for (const [index, {item}] of items) {
         yield [index, item]
+      }
+    }
+
+    return makeIterator(this.#items)
+  }
+
+  /**
+   * Get an iterable of the every Item in the listenable list, in the order that they were inserted.
+   * @returns {Iterable<Item>}
+   */
+  values() {
+    /**
+     * @param {Map<number, ItemBundle>} items
+     * @returns {Generator<Item>}
+     */
+    function* makeIterator(items) {
+      for (const itemBundle of items.values()) {
+        yield itemBundle.item
       }
     }
 
