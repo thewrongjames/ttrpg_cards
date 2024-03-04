@@ -44,6 +44,13 @@ export class Cards extends Listenable {
     this._trigger('remove', {})
   }
 
+  /** @returns {Iterable<Card>} */
+  values() {
+    // The fact that the cards are actually keys, and not values, is an implementation detail that
+    // we hide from consumers of this model.
+    return this.#cards.keys()
+  }
+
   /** @returns {PlainObjectCards0} */
   toPlainObject() {
     // Note that Map.keys() returns the keys in insertion order, so we don't lose our order.
