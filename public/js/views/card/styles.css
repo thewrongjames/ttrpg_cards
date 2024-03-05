@@ -1,7 +1,8 @@
 .card {
   width: 63mm;
   height: 88mm;
-  border: 1px solid black;
+  border: 1mm double darkslategrey;
+  border-radius: 3mm;
   padding: 2mm;
   display: flex;
   flex-direction: column;

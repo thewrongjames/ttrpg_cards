@@ -1,11 +1,10 @@
 # To Do
 
-- Remove the export of the card sections from the index. There should only be one place to import them.
-- Make the cards pretty.
 - Support export and import to/from a file.
 - Support the option to show only the front-of-card pages, only the back-of-card pages, or both, interspersed, for double sided printing.
 - Fix the mobile view. I've somehow broken the minimum width of the page. It stays at the a4 width.
 
+- Make the cards prettier.
 - Make the default starting card have some instructions / getting started info.
 - Come up with a name for the project. The card-view component should be project-card, where project is replaced with the project name (and other component names should be changed accordingly.)\
   - Cardio?
