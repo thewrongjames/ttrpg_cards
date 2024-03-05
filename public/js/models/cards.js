@@ -20,7 +20,7 @@ import { Card } from '/js/models/card.js'
  * @throws {TypeError}
  */
 
-/** @extends Listenable<'append'|'remove'|'card-triggered', {}> */
+/** @extends Listenable<'append'|'remove'|'card-triggered', {card: Card}> */
 export class Cards extends Listenable {
   // The built-in Map maintains it's insertion order when iterated over.
   /**
@@ -31,17 +31,17 @@ export class Cards extends Listenable {
 
   /** @param {Card} card */
   append(card) {
-    const trigger = () => this._trigger('card-triggered', {})
+    const trigger = () => this._trigger('card-triggered', {card})
     const removeSubscription = card.subscribe(allTriggers, trigger)
 
     this.#cards.set(card, removeSubscription)
-    this._trigger('append', {})
+    this._trigger('append', {card})
   }
 
   /** @param {Card} card */
   remove(card) {
     this.#cards.delete(card)
-    this._trigger('remove', {})
+    this._trigger('remove', {card})
   }
 
   /** @returns {Iterable<Card>} */
@@ -49,6 +49,13 @@ export class Cards extends Listenable {
     // The fact that the cards are actually keys, and not values, is an implementation detail that
     // we hide from consumers of this model.
     return this.#cards.keys()
+  }
+
+  /** Remove every card, triggering 'remove', on each of them. */
+  clear() {
+    for (const card of this.#cards.keys()) {
+      this.remove(card)
+    }
   }
 
   /** @returns {PlainObjectCards0} */

@@ -1,8 +1,10 @@
 import { allTriggers } from '/js/library/models/listenable.js'
 
 import { loadCardsFromStorage, saveCardsToStorage } from '/js/services/storage.js'
+import { makeStartingCard } from '/js/data/starting-cards.js'
 
 import { Card } from '/js/models/card.js'
+import { Cards } from '/js/models/cards.js'
 
 import { CardView } from '/js/views/card/index.js'
 
@@ -17,10 +19,13 @@ export class CardsController {
   #cardsControlsView
   #pagesView
   #editorController
-  #cards
 
-  /** @type {CardController|undefined} */
-  #selectedCardController
+  #cards = new Cards()
+
+  /** @type {CardView|undefined} */
+  #selectedCardView
+  /** @type {Map<Card,CardView>} */
+  #cardViews = new Map
 
   /**
    * @param {CardsControlsView} cardsControlsView
@@ -32,49 +37,63 @@ export class CardsController {
     this.#editorController = new EditorController(cardEditorView)
     this.#pagesView = pagesView
 
-    this.#cards = loadCardsFromStorage()
-    for (const card of this.#cards.values()) {
-      this.#addCard(card, false)
+    // Connect up the model to the view.
+    this.#cards.subscribe('append', ({card}) => {
+      const cardView = new CardView()
+      new CardController(card, cardView)
+      this.#cardViews.set(card, cardView)
+      
+      this.#pagesView.addCard(cardView)
+      cardView.onClick = () => this.#selectCard(card)
+    })
+    this.#cards.subscribe('remove', ({card}) => {
+      this.#editorController.connect(undefined, undefined)
+      this.#selectedCardView = undefined
+      
+      const cardView = this.#cardViews.get(card)
+      if (cardView === undefined) {
+        throw new Error('could not find the view for the card being removed')
+      }
+      this.#pagesView.removeCard(cardView)
+
+      this.#cardViews.delete(card)
+    })
+    
+    // Setup loading from and saving to local storage.
+    for (const card of loadCardsFromStorage().values()) {
+      this.#cards.append(card)
     }
     this.#cards.subscribe(allTriggers, () => saveCardsToStorage(this.#cards))
-
-    this.#cardsControlsView.onPrintClicked = () => print()
-    this.#cardsControlsView.onAddCardClicked = () => this.#addCard(new Card(), true)
-  }
-
-  /**
-   * @param {Card} card
-   * @param {boolean} selectCard
-   */
-  #addCard(card, selectCard) {
-    this.#cards.append(card)
-    const cardView = new CardView()
-    const cardController = new CardController(card, cardView)
-
-    this.#pagesView.addCard(cardView)
-    cardView.onClick = () => this.#selectCardController(cardController)
     
-    if (selectCard) {
-      this.#selectCardController(cardController)
+    // Setup the global buttons.
+    this.#cardsControlsView.onPrintClicked = () => print()
+    this.#cardsControlsView.onResetClicked = () => {
+      this.#cards.clear()
+      const card = makeStartingCard()
+      this.#cards.append(card)
+      this.#selectCard(card)
     }
-
+    this.#cardsControlsView.onAddCardClicked = () => {
+      const card = new Card()
+      this.#cards.append(card)
+      this.#selectCard(card)
+    }
   }
 
-  /** @param {CardController} cardController */
-  #selectCardController(cardController) {
-    if (this.#selectedCardController !== undefined) {
-      this.#selectedCardController.cardView.selected = false
+  /** @param {Card} card  */
+  #selectCard(card) {
+    const newSelectedView = this.#cardViews.get(card)
+    if (newSelectedView === undefined) {
+      throw new Error('could not find the view for given card')
     }
-    this.#selectedCardController = cardController
 
-    this.#selectedCardController.cardView.selected = true
-
-    const removeCard = () => {
-      this.#cards.remove(cardController.card)
-      this.#editorController.connect(undefined, undefined)
-      this.#selectedCardController = undefined
-      this.#pagesView.removeCard(cardController.cardView)
+    if (this.#selectedCardView !== undefined) {
+      this.#selectedCardView.selected = false
     }
-    this.#editorController.connect(this.#selectedCardController.card, removeCard)
+
+    newSelectedView.selected = true
+    this.#selectedCardView = newSelectedView
+
+    this.#editorController.connect(card, () => this.#cards.remove(card))
   }
 }

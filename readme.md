@@ -10,3 +10,7 @@ The project currently has no runtime dependencies, but it does have several deve
   - You may need to either disable caching or hard-reload to have the browser update the static files.
 - `npm run lint` will lint the codebase.
 - `npm run types` will run TypeScript type-checking against the (plain JavaScript) code.
+
+## Similar Projects
+
+- https://rpg-cards.mathiasandresen.dk/ is the best version of this kind of project I can find, much better than whatever I've got going on here.

@@ -5,6 +5,8 @@ export class CardsControlsView extends StyledComponent {
   onAddCardClicked
   /** @type {(() => void)|undefined} */
   onPrintClicked
+  /** @type {(() => void)|undefined} */
+  onResetClicked
 
   constructor() {
     super(['/js/views/cards-controls/styles.css'])
@@ -13,13 +15,18 @@ export class CardsControlsView extends StyledComponent {
     printButton.innerText = 'Print'
     printButton.addEventListener('click', () => this.onPrintClicked?.())
     
+    const resetButton = document.createElement('button')
+    resetButton.innerText = 'Reset'
+    resetButton.addEventListener('click', () => this.onResetClicked?.())
+    
     const addCardButton = document.createElement('button')
     addCardButton.innerText = 'Add card'
     addCardButton.addEventListener('click', () => this.onAddCardClicked?.())
-    
+
     const globalActionRow = document.createElement('div')
     globalActionRow.classList.add('button-row')
     globalActionRow.appendChild(printButton)
+    globalActionRow.appendChild(resetButton)
     globalActionRow.appendChild(addCardButton)
 
     const cardBackSettings = document.createElement('div')
