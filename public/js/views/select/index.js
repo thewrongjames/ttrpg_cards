@@ -27,7 +27,7 @@ export class SelectView extends StyledComponent {
 
   /** @returns {Value} */
   get value() {
-    const value = this.#values.find((validValue => this.#selector.value === validValue))
+    const value = this.#values.find(validValue => this.#selector.value === validValue)
     
     if (value === undefined) {
       throw new DOMStateError(

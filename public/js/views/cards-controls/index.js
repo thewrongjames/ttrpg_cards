@@ -1,4 +1,5 @@
 import { StyledComponent } from '/js/library/styled-component/index.js'
+import { RadioView } from '/js/views/radio/index.js'
 
 export class CardsControlsView extends StyledComponent {
   /** @type {(() => void)|undefined} */
@@ -29,8 +30,12 @@ export class CardsControlsView extends StyledComponent {
     globalActionRow.appendChild(resetButton)
     globalActionRow.appendChild(addCardButton)
 
-    const cardBackSettings = document.createElement('div')
-    cardBackSettings.innerText = 'Something to control the displaying of card backs.'
+    const cardBackSettings = new RadioView(
+      new Map([['front', 'Only Front'], ['back', 'Only Back'], ['both', 'Both']]),
+      'cards-controls-card-back-radio',
+      'both',
+    )
+    cardBackSettings.onChange = value => console.log(`card back radio change: ${value}`)
 
     const selectedCardActionRow = document.createElement('div')
     selectedCardActionRow.classList.add('button-row')
