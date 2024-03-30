@@ -1,9 +1,9 @@
 .button {
-  font-size: 0.8rem;
-  padding: 0.3rem;
-  background-color: lightgrey;
-  border: 1px solid black;
-  border-radius: 5px;
+  font-size: var(--input-font-size);
+  padding: var(--input-padding);
+  background-color: var(--input-background-colour);
+  border: var(--input-border);
+  border-radius: var(--input-border-radius);
   cursor: pointer;
   width: 100%;
 }

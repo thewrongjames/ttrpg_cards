@@ -1,3 +1,13 @@
 select {
-  width: 100%
+  width: 100%;
+  size: var(--input-font-size);
+  padding: var(--input-padding);
+  background-color: var(--input-background-colour);
+  border: var(--input-border);
+  border-radius: var(--input-border-radius);
+  cursor: pointer;
+}
+
+select:hover {
+  box-shadow: var(--hovered-box-shadow);
 }

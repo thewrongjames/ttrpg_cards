@@ -1,7 +1,5 @@
 .radio {
-  --radio-border-thickness: 1px;
-
-  font-size: 0.8rem;
+  font-size: var(--input-font-size);
   display: flex;
 }
 
@@ -10,26 +8,22 @@
 }
 
 .radio label {
-  background-color: lightgrey;
-  padding: 0.3rem;
-  border-style: solid;
-  border-color: black;
-  border-top-width: var(--radio-border-thickness);
-  border-bottom-width: var(--radio-border-thickness);
-  border-left-width: var(--radio-border-thickness);
+  background-color: var(--input-background-colour);
+  padding: var(--input-padding);
+  border: var(--input-border);
   border-right-width: 0;
   cursor: pointer;
 }
 
 .radio label:first-of-type {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-top-left-radius: var(--input-border-radius);
+  border-bottom-left-radius: var(--input-border-radius);
 }
 
 .radio label:last-of-type {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  border-right-width: var(--radio-border-thickness);
+  border-top-right-radius: var(--input-border-radius);
+  border-bottom-right-radius: var(--input-border-radius);
+  border-right: var(--input-border);
 }
 
 .radio label:hover {
@@ -37,5 +31,5 @@
 }
 
 .radio input:checked + label {
-  background-color: white;
+  background-color: var(--input-selected-background-colour);
 }

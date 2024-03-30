@@ -5,6 +5,13 @@
 :root {
   --hovered-box-shadow: inset 0 0 5px black;
 
+  --input-font-size: 0.8rem;
+  --input-padding: 0.4rem;
+  --input-background-colour: white;
+  --input-selected-background-colour: lightgrey;
+  --input-border: 1px solid black;
+  --input-border-radius: 5px;
+
   height: 100% 
 }
 
