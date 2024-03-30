@@ -1,4 +1,5 @@
 import { IndexError } from '/js/library/errors/index-error.js'
+import { ButtonView } from '/js/views/button/index.js'
 
 import { CardSectionEditorView } from '/js/views/card-section-editor/index.js'
 
@@ -21,9 +22,7 @@ export class CardTagsEditorView extends CardSectionEditorView {
     this.#newTagInput = document.createElement('input')
     this.#newTagInput.setAttribute('type', 'text')
 
-    const addTagButton = document.createElement('button')
-    addTagButton.innerText = 'Add'
-    addTagButton.setAttribute('type', 'submit')
+    const addTagButton = new ButtonView('Add', {type: 'submit'})
 
     const newTagForm = document.createElement('form')
     newTagForm.classList.add('new-tag-controls')
@@ -57,9 +56,7 @@ export class CardTagsEditorView extends CardSectionEditorView {
     const tagText = document.createElement('span')
     tagText.innerText = text
 
-    const removeButton = document.createElement('button')
-    removeButton.innerText = 'Remove'
-    removeButton.addEventListener('click', onRemove)
+    const removeButton = new ButtonView('Remove', {type: 'callback', callback: onRemove})
 
     tag.appendChild(tagText)
     tag.appendChild(removeButton)

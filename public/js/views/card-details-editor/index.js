@@ -1,4 +1,5 @@
 import { IndexError } from '/js/library/errors/index-error.js'
+import { ButtonView } from '/js/views/button/index.js'
 
 import { CardSectionEditorView } from '/js/views/card-section-editor/index.js'
 
@@ -13,13 +14,13 @@ export class CardDetailsEditorView extends CardSectionEditorView {
   constructor() {
     super('card-details-editor', ['/js/views/card-details-editor/styles.css'])
 
-    this.#detailsContainer = document.createElement('detail')
+    this.#detailsContainer = document.createElement('div')
     this.#detailsContainer.classList.add('details')
 
-    const addDetailButton = document.createElement('button')
-    addDetailButton.classList.add('new-detail-button')
-    addDetailButton.innerText = 'New detail'
-    addDetailButton.addEventListener('click', () => this.#onAddDetail?.())
+    const addDetailButton = new ButtonView(
+      'New detail',
+      {type: 'callback', callback: () => this.#onAddDetail?.()},
+    )
 
     this.container.appendChild(this.#detailsContainer)
     this.container.appendChild(addDetailButton)
@@ -53,9 +54,7 @@ export class CardDetailsEditorView extends CardSectionEditorView {
     valueField.value = valueText
     valueField.addEventListener('input', () => onValueTextChange(valueField.value))
 
-    const removeButton = document.createElement('button')
-    removeButton.innerText = 'Remove'
-    removeButton.addEventListener('click', onRemove)
+    const removeButton = new ButtonView('Remove', {type: 'callback', callback: onRemove})
 
     detail.appendChild(keyField)
     detail.appendChild(valueField)

@@ -1,4 +1,5 @@
 import { StyledComponent } from '/js/library/styled-component/index.js'
+import { ButtonView } from '/js/views/button/index.js'
 
 /**
  * A component implementing the base functionality of a card section editor view. Subclasses will
@@ -9,7 +10,6 @@ export class CardSectionEditorView extends StyledComponent {
   #onRemoveButtonClicked
 
   #container
-  #removeButton
 
   /**
    * @param {string} cssClassName
@@ -21,12 +21,13 @@ export class CardSectionEditorView extends StyledComponent {
     this.#container = document.createElement('div')
     this.#container.setAttribute('class', `card-section-editor ${cssClassName}`)
 
-    this.#removeButton = document.createElement('button')
-    this.#removeButton.setAttribute('class', 'remove-button')
-    this.#removeButton.innerText = 'Remove'
-    this.#removeButton.addEventListener('click', () => this.#onRemoveButtonClicked?.())
+    const removeButton = new ButtonView(
+      'Remove',
+      {type: 'callback', callback: () => this.#onRemoveButtonClicked?.()},
+    )
+    removeButton.classList.add('remove-button')
 
-    this.#container.appendChild(this.#removeButton)
+    this.#container.appendChild(removeButton)
   }
 
   /** @param {(() => void)|undefined} callback  */

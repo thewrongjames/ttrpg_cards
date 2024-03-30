@@ -1,4 +1,5 @@
 import { StyledComponent } from '/js/library/styled-component/index.js'
+import { ButtonView } from '/js/views/button/index.js'
 import { RadioView } from '/js/views/radio/index.js'
 
 export class CardsControlsView extends StyledComponent {
@@ -12,17 +13,18 @@ export class CardsControlsView extends StyledComponent {
   constructor() {
     super(['/js/views/cards-controls/styles.css'])
 
-    const printButton = document.createElement('button')
-    printButton.innerText = 'Print'
-    printButton.addEventListener('click', () => this.onPrintClicked?.())
-    
-    const resetButton = document.createElement('button')
-    resetButton.innerText = 'Reset'
-    resetButton.addEventListener('click', () => this.onResetClicked?.())
-    
-    const addCardButton = document.createElement('button')
-    addCardButton.innerText = 'Add card'
-    addCardButton.addEventListener('click', () => this.onAddCardClicked?.())
+    const printButton = new ButtonView(
+      'Print',
+      {type: 'callback', callback: () => this.onPrintClicked?.()},
+    )
+    const resetButton = new ButtonView(
+      'Reset',
+      {type: 'callback', callback: () => this.onResetClicked?.()},
+    )
+    const addCardButton = new ButtonView(
+      'Add card',
+      {type: 'callback', callback: () => this.onAddCardClicked?.()},
+    )
 
     const globalActionRow = document.createElement('div')
     globalActionRow.classList.add('button-row')

@@ -11,12 +11,6 @@
   font-size: 8pt;
 }
 
-@media screen {
-  .card[selected] {
-    border-color: blue;
-  }
-}
-
 .card p {
   margin: 0;
 }
@@ -38,5 +32,17 @@
 
 .card:hover {
   cursor: pointer;
-  box-shadow: 0 0 20px blue;
+  box-shadow: var(--hovered-box-shadow);
+}
+
+.card[selected] {
+  border-color: blue;
+  cursor: auto;
+  box-shadow: none;
+}
+
+@media print {
+  .card[selected] {
+    border-color: darkslategray;
+  }
 }

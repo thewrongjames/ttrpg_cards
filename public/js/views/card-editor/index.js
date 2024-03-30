@@ -2,6 +2,7 @@ import { StyledComponent } from '/js/library/styled-component/index.js'
 import { IndexError } from '/js/library/errors/index-error.js'
 
 import { SelectView } from '/js/views/select/index.js'
+import { ButtonView } from '/js/views/button/index.js'
 
 /** @typedef {import('/js/models/card.js').Card} Card */
 /** @typedef {import('/js/models/card-sections/index.js').CardSectionName} CardSectionName */
@@ -77,22 +78,20 @@ export class CardEditorView extends StyledComponent {
       ['CardDetails', 'Details'],
     ])
 
-    this.#sectionAdderButton = document.createElement('button')
-    this.#sectionAdderButton.innerText = 'Add'
-    this.#sectionAdderButton.addEventListener(
-      'click',
-      () => this.#onAddSectionClicked?.(this.#sectionAdderSelector.value),
-    )
+    this.#sectionAdderButton = new ButtonView('Add', {
+      type: 'callback',
+      callback: () => this.#onAddSectionClicked?.(this.#sectionAdderSelector.value),
+    })
 
     const sectionAdder = document.createElement('div')
     sectionAdder.setAttribute('class', 'section-adder')
     sectionAdder.appendChild(this.#sectionAdderSelector)
     sectionAdder.appendChild(this.#sectionAdderButton)
 
-    const removeCardButton = document.createElement('button')
-    removeCardButton.classList.add('remove-card-button')
-    removeCardButton.addEventListener('click', () => this.#onRemoveCardClicked?.())
-    removeCardButton.innerText = 'Remove card'
+    const removeCardButton = new ButtonView(
+      'Remove card',
+      {type: 'callback', callback: () => this.#onRemoveCardClicked?.()},
+    )
 
     this.#withSelectedCardContainer.appendChild(nameContainer)
     this.#withSelectedCardContainer.appendChild(typeContainer)

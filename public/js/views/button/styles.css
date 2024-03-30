@@ -1,0 +1,13 @@
+.button {
+  font-size: 0.8rem;
+  padding: 0.3rem;
+  background-color: lightgrey;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  box-shadow: var(--hovered-box-shadow);
+}
