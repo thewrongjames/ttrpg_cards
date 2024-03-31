@@ -12,11 +12,22 @@ export class CardHeading extends Listenable {
     return CardHeading.sectionName
   }
 
-  #text = ''
-  /** @type {CardHeadingLevel} */
-  #level = 'title'
-  /** @type {CardHeadingJustification} */
-  #justification = 'centre'
+  #text
+  #level
+  #justification
+
+  /**
+   * @param {string} text 
+   * @param {CardHeadingLevel} level 
+   * @param {CardHeadingJustification} justification 
+   */
+  constructor(text, level, justification) {
+    super()
+
+    this.#text = text
+    this.#level = level
+    this.#justification = justification
+  }
 
   get text() {
     return this.#text
@@ -55,13 +66,7 @@ export class CardHeading extends Listenable {
    * @param {PlainObjectCardHeading0} plainObject 
    * @returns {CardHeading}
    */
-  static getFromPlainObjectCardHeading0(plainObject) {
-    const cardHeading = new CardHeading()
-
-    cardHeading.text = plainObject.text
-    cardHeading.level = plainObject.level
-    cardHeading.justification = plainObject.justification
-
-    return cardHeading
+  static getFromPlainObjectCardHeading0({text, level, justification}) {
+    return new CardHeading(text, level, justification)
   }
 }

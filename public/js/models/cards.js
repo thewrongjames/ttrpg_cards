@@ -2,7 +2,7 @@ import { SerialisationError } from '/js/library/errors/serialisation-error.js'
 import { Listenable, allTriggers } from '/js/library/models/listenable.js'
 import { getSerialisationWrapperOrError } from '/js/library/models/serialisation-wrapper.js'
 
-import { getPlainObjectCards0OrError } from '/js/models/plain-object-models/plain-object-cards.js'
+import { getPlainObjectCards0OrError, getPlainObjectCards1OrError } from '/js/models/plain-object-models/plain-object-cards.js'
 import { Card } from '/js/models/card.js'
 
 /**
@@ -11,6 +11,7 @@ import { Card } from '/js/models/card.js'
  */
 
 /** @typedef {import('/js/models/plain-object-models/plain-object-cards').PlainObjectCards0} PlainObjectCards0 */
+/** @typedef {import('/js/models/plain-object-models/plain-object-cards').PlainObjectCards1} PlainObjectCards1 */
 
 /**
  * @callback PlainObjectConverter
@@ -58,7 +59,7 @@ export class Cards extends Listenable {
     }
   }
 
-  /** @returns {PlainObjectCards0} */
+  /** @returns {PlainObjectCards1} */
   toPlainObject() {
     // Note that Map.keys() returns the keys in insertion order, so we don't lose our order.
     return Array.from(this.#cards.keys()).map(card => card.toPlainObject())
@@ -78,9 +79,24 @@ export class Cards extends Listenable {
     return cards
   }
 
+  /** @type {PlainObjectConverter} */
+  static getFromPlainObjectCards1OrError(input, name) {
+    const plainObject = getPlainObjectCards1OrError(input, name)
+
+    const cards = new Cards()
+
+    for (const plainObjectCard1 of plainObject) {
+      const card = Card.getFromPlainObjectCard1(plainObjectCard1)
+      cards.append(card)
+    }
+
+    return cards
+  }
+
   /** @type {Map<unknown, PlainObjectConverter>} */
   static #plainObjectConverters = new Map([
     [0, Cards.getFromPlainObjectCards0OrError],
+    [1, Cards.getFromPlainObjectCards1OrError],
   ])
 
   /**
@@ -88,8 +104,8 @@ export class Cards extends Listenable {
    * @throws {SerialisationError}
    */
   serialise() {
-    /** @type {SerialisationWrapper<PlainObjectCards0>} */
-    const serialisationWrapper = {version: 0, content: this.toPlainObject()}
+    /** @type {SerialisationWrapper<PlainObjectCards1>} */
+    const serialisationWrapper = {version: 1, content: this.toPlainObject()}
     
     /** @type {string} */
     let json

@@ -11,6 +11,12 @@ import { getPlainObjectCardSection0OrError } from '/js/models/plain-object-model
  */
 
 /**
+ * @typedef {object} PlainObjectCard1
+ * @property {(PlainObjectCardSection0)[]} frontSections
+ * @property {(PlainObjectCardSection0)[]} backSections
+ */
+
+/**
  * @param {unknown} input 
  * @param {string} name
  * @throws {TypeError}
@@ -33,5 +39,27 @@ export function getPlainObjectCard0OrError(input, name) {
     name: getStringOrError(object.name, `${name}.name`),
     type: getStringOrError(object.type, `${name}.type`),
     sections: getArrayOfTypeOrError(getPlainObjectCardSection0OrError, object.sections, `${name}.sections`),
+  }
+}
+
+/**
+ * @param {unknown} input 
+ * @param {string} name
+ * @throws {TypeError}
+ * @returns {PlainObjectCard1}
+ */
+export function getPlainObjectCard1OrError(input, name) {
+  const object = getObjectOrError(input, name)
+
+  if (!('front' in object)) {
+    throw new TypeError(`${name}.front does not exist`)
+  }
+  if (!('back' in object)) {
+    throw new TypeError(`${name}.back does not exist`)
+  }
+
+  return {
+    frontSections: getArrayOfTypeOrError(getPlainObjectCardSection0OrError, object.front, `${name}.front`),
+    backSections: getArrayOfTypeOrError(getPlainObjectCardSection0OrError, object.back, `${name}.back`),
   }
 }
