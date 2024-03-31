@@ -1,6 +1,10 @@
 # To Do
 
 - Support the option to show only the front-of-card pages, only the back-of-card pages, or both, interspersed, for double sided printing.
+  - Support the models for card backs
+    - Switch the name and type to just be a section.
+  - Display both the fronts and backs of cards.
+  - Actually switch the display based on the radio button.
 - Try to make all of Capricia's cards.
 
 - Support export and import to/from a file.

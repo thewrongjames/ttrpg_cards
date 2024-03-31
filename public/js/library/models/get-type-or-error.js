@@ -1,4 +1,5 @@
 import { getIndefiniteArticle } from '/js/library/english/get-indefinite-article.js'
+import { getQuotedTextList } from '/js/library/english/get-text-list.js'
 
 /**
  * @param {unknown} input 
@@ -73,15 +74,15 @@ export function getArrayOfTypeOrError(validator, input, name) {
 
 /**
  * @template T
+ * @param {unknown} input 
+ * @param {string} name
  * @param {Map<string, ((input: unknown, name: string) => T)>} validators A map of functions each
  * validating that the input is one of the types of T by throwing type errors if it is not, keyed by
  * the name of what they are validating.
- * @param {unknown} input 
- * @param {string} name
  * @throws {TypeError} If the given input is not a number. 
  * @returns {T} 
  */
-export function getOneOfOrError(validators, input, name) {
+export function getOneOfOrError(input, name, validators) {
   /** @type {string[]} */
   const failureMessages = []
   for (const [validName, validator] of validators.entries()) {
@@ -96,4 +97,22 @@ export function getOneOfOrError(validators, input, name) {
   }
 
   throw new TypeError(failureMessages.join(', '))
+}
+
+/**
+ * @template T
+ * @param {unknown} input 
+ * @param {string} name 
+ * @param {T[]} validValues 
+ * @throws {TypeError}
+ * @returns {T}
+ */
+export function getElementOfArrayOrError(input, name, validValues) {
+  const value = validValues.find(validValue => input === validValue)
+  if (value === undefined) {
+    const validValueNames = validValues.map(validValue => `${validValue}`)
+    throw new TypeError(`${name} is not ${getQuotedTextList(validValueNames, 'or')}`)
+  }
+
+  return value
 }
