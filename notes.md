@@ -86,3 +86,19 @@
       - Delete any one card.
     - The pages component's pages array will now only contain the empty page.
   - There we go. I was removing the wrong page from the pages array because I was using the index in the remaining pages as the actual index of the page.
+
+- Okay, it's been a while.
+  - I need to work out what I was doing with the card back stuff.
+  - I've remembered that I've decided that I'm always rendering both the card fronts and backs.
+  - I just might be hiding some of them, maybe just with data attributes and a CSS selector.
+  - So, the pages need to know if they are for fronts or backs.
+  - Each card view will only be dispalying one of the fronts or backs.
+  - And the editor will only be editing either the front of the back at one time... is that weird?
+  - I guess the editor could be editing both? Maybe that makes the most sense.
+  - I think I should start by just getting the app working again, but with only the card fronts being visible.
+
+```
+{"version":0,"content":[{"name":"Message","type":"Cantrip 1","sections":[{"type":"CardTags","tags":["Auditory","Cantrip","Illusion","Linguistic","Mental"]},{"type":"CardDetails","details":[["Cast","1 action, verbal"],["Range","120 feet"],["Targets","1 creature"]]},{"type":"CardText","text":"You mouth words quietly, but instead of coming out of your mouth, they're transferred directly to the ears of the target. While others can't hear your words any better than if you normally mouthed them, the target can hear your words as if they were standing next to you. The target can give a brief response as a reaction, or as a free action on their next turn if they wish, but they must be able to see you and be within range to do so. If they respond, their response is delivered directly to your ear, just like the original message."},{"type":"CardDetails","details":[["Heightened (3rd)","The spell's range increases to 500 feet."]]}]},{"name":"","type":"","sections":[{"type":"CardText","text":"saghsdgf"}]}]}
+```
+
+- Some version 0 JSON from local storage. Saving here because I think I'll lose it after changing anything.

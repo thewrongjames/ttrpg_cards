@@ -3,7 +3,7 @@ import { IndexError } from '/js/library/errors/index-error.js'
 import { StyledComponent } from '/js/library/styled-component/index.js'
 
 export class CardView extends StyledComponent {
-  static #selectedAttributeName = 'selected'
+  static #selectedAttributeName = 'card-view_selected'
 
   /** @type {Map<number, HTMLElement>} */
   #sections = new Map()

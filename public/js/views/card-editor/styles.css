@@ -15,11 +15,11 @@
   text-align: center;
 }
 
-.card-editor[card-selected] .without-selected-card {
+.card-editor[card-editor-view_card-selected] .without-selected-card {
   display: none;
 }
 
-.card-editor:not([card-selected]) .with-selected-card {
+.card-editor:not([card-editor-view_card-selected]) .with-selected-card {
   display: none;
 }
 

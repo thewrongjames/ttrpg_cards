@@ -33,7 +33,7 @@ export class CardsControlsView extends StyledComponent {
     globalActionRow.appendChild(addCardButton)
 
     const cardBackSettings = new RadioView(
-      new Map([['front', 'Only Front'], ['back', 'Only Back'], ['both', 'Both']]),
+      new Map([['front', 'Fronts'], ['back', 'Backs'], ['both', 'Both']]),
       'cards-controls-card-back-radio',
       'both',
     )

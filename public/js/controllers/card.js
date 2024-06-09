@@ -1,12 +1,14 @@
 import { CardTextView } from '/js/views/card-text/index.js'
 import { CardTagsView } from '/js/views/card-tags/index.js'
 import { CardDetailsView } from '/js/views/card-details/index.js'
+import { CardHeadingView } from '/js/views/card-heading/index.js'
 
 /** @typedef {import('/js/models/card.js').Card} Card */
 /** @typedef {import('/js/models/card-sections/index.js').CardSection} CardSection */
 /** @typedef {import('/js/models/card-sections/index.js').CardText} CardText */
 /** @typedef {import('/js/models/card-sections/index.js').CardTags} CardTags */
 /** @typedef {import('/js/models/card-sections/index.js').CardDetails} CardDetails */
+/** @typedef {import('/js/models/card-sections/index.js').CardHeading} CardHeading */
 /** @typedef {import('/js/models/card-sections/card-details').CardDetail} CardDetail */
 
 /** @typedef {import('/js/views/card/index.js').CardView} CardView */
@@ -23,17 +25,13 @@ export class CardController {
     this.#card = card
     this.#cardView = cardView
 
-    this.#card.subscribe('name', () => this.#cardView.name = this.#card.name)
-    this.#card.subscribe('type', () => this.#cardView.type = this.#card.type)
-    this.#card.sections.subscribe('add', ({index, item}) => this.#addCardViewSection(index, item))
-    this.#card.sections.subscribe(
+    this.#card.frontSections.subscribe('add', ({index, item}) => this.#addCardViewSection(index, item))
+    this.#card.frontSections.subscribe(
       'remove',
       ({index, item}) => this.#removeCardViewSection(index, item),
     )
 
-    this.#cardView.name = this.#card.name
-    this.#cardView.type = this.#card.type
-    for (const [index, section] of this.#card.sections.entries()) {
+    for (const [index, section] of this.#card.frontSections.entries()) {
       this.#addCardViewSection(index, section)
     }
   }
@@ -64,6 +62,9 @@ export class CardController {
       case 'CardDetails':
         view = this.#getViewConnectedToCardDetails(cardSection)
         break
+      case 'CardHeading':
+        view = this.#getViewConnectedToCardHeading(cardSection)
+        break
     }
 
     this.#cardView.addSection(index, view)
@@ -83,6 +84,9 @@ export class CardController {
         break
       case 'CardDetails':
         this.#disconnectCardDetails(cardSection)
+        break
+      case 'CardHeading':
+        this.#disconnectCardHeading(cardSection)
         break
       default: {
         /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -169,5 +173,23 @@ export class CardController {
       detail.unsubscribeAll()
     }
     cardDetails.details.unsubscribeAll()
+  }
+
+  /**
+   * @param {CardHeading} cardHeading
+   * @returns {CardHeadingView}
+   */
+  #getViewConnectedToCardHeading(cardHeading) {
+    const cardHeadingView = new CardHeadingView(cardHeading.text, cardHeading.level, cardHeading.justification)
+    cardHeading.subscribe('text', () => cardHeadingView.text = cardHeading.text)
+    cardHeading.subscribe('level', () => cardHeadingView.level = cardHeading.level)
+    cardHeading.subscribe('justification', () => cardHeadingView.justification = cardHeading.justification)
+
+    return cardHeadingView
+  }
+
+  /** @param {CardHeading} cardHeading */
+  #disconnectCardHeading(cardHeading) {
+    cardHeading.unsubscribeAll()
   }
 }

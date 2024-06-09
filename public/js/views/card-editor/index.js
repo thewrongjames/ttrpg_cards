@@ -8,23 +8,17 @@ import { ButtonView } from '/js/views/button/index.js'
 /** @typedef {import('/js/models/card-sections/index.js').CardSectionName} CardSectionName */
 
 export class CardEditorView extends StyledComponent {
-  static #cardSelectedAttributeName = 'card-selected'
+  static #cardSelectedAttributeName = 'card-editor-view_card-selected'
 
   /** @type {Map<number, HTMLElement>} */
   #sections = new Map()
   /** @type {SelectView<CardSectionName>} */
   #sectionAdderSelector
-  /** @type {(() => void)|undefined} */
-  #onNameTextChange
-  /** @type {(() => void)|undefined} */
-  #onTypeTextChange
   /** @type {((cardSectionName: CardSectionName) => void)|undefined} */
   #onAddSectionClicked
   /** @type {(() => void)|undefined} */
   #onRemoveCardClicked
 
-  #nameInput
-  #typeInput
   #sectionsContainer
   #sectionAdderButton
   #container
@@ -43,40 +37,13 @@ export class CardEditorView extends StyledComponent {
     this.#withoutSelectedCardContainer = document.createElement('div')
     this.#withoutSelectedCardContainer.classList.add('without-selected-card')
 
-    this.#nameInput = document.createElement('input')
-    this.#nameInput.setAttribute('id', 'editor-name')
-    this.#nameInput.setAttribute('type', 'text')
-    this.#nameInput.addEventListener('input', () => this.#onNameTextChange?.())
-    
-    const nameLabel = document.createElement('label')
-    nameLabel.setAttribute('for', 'editor-name')
-    nameLabel.innerText = 'Name:'
-    const nameContainer = document.createElement('div')
-    nameContainer.classList.add('input-container')
-    nameContainer.appendChild(nameLabel)
-    nameContainer.appendChild(this.#nameInput)
-
-    this.#typeInput = document.createElement('input')
-    this.#typeInput.setAttribute('id', 'editor-type')
-    this.#typeInput.setAttribute('type', 'text')
-    this.#typeInput.addEventListener('input', () => this.#onTypeTextChange?.())
-
-    const typeLabel = document.createElement('label')
-    typeLabel.setAttribute('for', 'editor-type')
-    typeLabel.innerText = 'Type:'
-    const typeContainer = document.createElement('div')
-    typeContainer.classList.add('input-container')
-    typeContainer.appendChild(typeLabel)
-    typeContainer.appendChild(this.#typeInput)
-
     this.#sectionsContainer = document.createElement('div')
     this.#sectionsContainer.setAttribute('class', 'sections')
 
-    this.#sectionAdderSelector = new SelectView([
-      ['CardText', 'Text'],
-      ['CardTags', 'Tags'],
-      ['CardDetails', 'Details'],
-    ])
+    this.#sectionAdderSelector = new SelectView(
+      [['CardText', 'Text'], ['CardTags', 'Tags'], ['CardDetails', 'Details'], ['CardHeading', 'Heading']],
+      'CardText'
+    )
 
     this.#sectionAdderButton = new ButtonView('Add', {
       type: 'callback',
@@ -93,8 +60,6 @@ export class CardEditorView extends StyledComponent {
       {type: 'callback', callback: () => this.#onRemoveCardClicked?.()},
     )
 
-    this.#withSelectedCardContainer.appendChild(nameContainer)
-    this.#withSelectedCardContainer.appendChild(typeContainer)
     this.#withSelectedCardContainer.appendChild(this.#sectionsContainer)
     this.#withSelectedCardContainer.appendChild(sectionAdder)
     this.#withSelectedCardContainer.appendChild(removeCardButton)
@@ -108,32 +73,6 @@ export class CardEditorView extends StyledComponent {
     this.#container.appendChild(this.#withoutSelectedCardContainer)
 
     this.shadowRoot.appendChild(this.#container)
-  }
-
-  get nameText() {
-    return this.#nameInput.value
-  }
-  /** @param {string} newNameText */
-  set nameText(newNameText) {
-    this.#nameInput.value = newNameText
-  }
-
-  get typeText() {
-    return this.#typeInput.value
-  }
-  /** @param {string} newTypeText  */
-  set typeText(newTypeText) {
-    this.#typeInput.value = newTypeText
-  }
-
-  /** @param {(() => void)|undefined} callback */
-  set onNameTextChange(callback) {
-    this.#onNameTextChange = callback
-  }
-
-  /** @param {(() => void)|undefined} callback */
-  set onTypeTextChange(callback) {
-    this.#onTypeTextChange = callback
   }
 
   /** @param {((cardSectionName: CardSectionName) => void)|undefined} callback */

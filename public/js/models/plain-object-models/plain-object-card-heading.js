@@ -40,6 +40,6 @@ export function getPlainObjectCardHeading0OrError(input, name) {
     type: object.type,
     text: getStringOrError(object.text, `${name}.text`),
     level: getElementOfArrayOrError(object.level, `${name}.level`, ['title', 'subtitle']),
-    justification: getElementOfArrayOrError(object.level, `${name}.justification`, ['left', 'centre', 'right']),
+    justification: getElementOfArrayOrError(object.justification, `${name}.justification`, ['left', 'centre', 'right']),
   }
 }

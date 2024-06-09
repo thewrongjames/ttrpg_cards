@@ -21,7 +21,7 @@ export class CardHeading extends Listenable {
    * @param {CardHeadingLevel} level 
    * @param {CardHeadingJustification} justification 
    */
-  constructor(text, level, justification) {
+  constructor(text='', level='title', justification='centre') {
     super()
 
     this.#text = text
@@ -35,6 +35,7 @@ export class CardHeading extends Listenable {
   /** @param {string} newText */
   set text(newText) {
     this.#text = newText
+    this._trigger('text', {})
   }
 
   get level() {
@@ -43,13 +44,16 @@ export class CardHeading extends Listenable {
   /** @param {CardHeadingLevel} newLevel */
   set level(newLevel) {
     this.#level = newLevel
+    this._trigger('level', {})
   }
+
   get justification() {
     return this.#justification
   }
   /** @param {CardHeadingJustification} newJustification */
   set justification(newJustification) {
     this.#justification = newJustification
+    this._trigger('justification', {})
   }
 
   /** @returns {PlainObjectCardHeading0} */

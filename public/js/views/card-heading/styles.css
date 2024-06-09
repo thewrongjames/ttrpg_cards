@@ -1,0 +1,24 @@
+p {
+    margin: 0;
+}
+
+p[card-heading-view_level='title'] {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+p[card-heading-view_level='subtitle'] {
+    font-style: italic;
+}
+
+p[card-heading-view_justification='centre'] {
+    text-align: center;
+}
+
+p[card-heading-view_justification='left'] {
+    text-align: left;
+}
+
+p[card-heading-view_justification='right'] {
+    text-align: right;
+}

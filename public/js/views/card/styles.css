@@ -35,14 +35,14 @@
   box-shadow: var(--hovered-box-shadow);
 }
 
-.card[selected] {
+.card[card-view_selected] {
   border-color: blue;
   cursor: auto;
   box-shadow: none;
 }
 
 @media print {
-  .card[selected] {
+  .card[card-view_selected] {
     border-color: darkslategray;
   }
 }

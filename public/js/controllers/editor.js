@@ -1,9 +1,10 @@
 import { CardDetail } from '/js/models/card-sections/card-details.js'
+import { cardSections } from '/js/models/card-sections/index.js'
 
 import { CardTextEditorView } from '/js/views/card-text-editor/index.js'
 import { CardTagsEditorView } from '/js/views/card-tags-editor/index.js'
 import { CardDetailsEditorView } from '/js/views/card-details-editor/index.js'
-import { cardSections } from '/js/models/card-sections/index.js'
+import { CardHeadingEditorView } from '/js/views/card-heading-editor/index.js'
 
 /** @typedef {import('/js/models/card.js').Card} Card */
 /** @typedef {import('js/models/card-sections/index.js').CardSection} CardSection */
@@ -11,6 +12,7 @@ import { cardSections } from '/js/models/card-sections/index.js'
 /** @typedef {import('js/models/card-sections/index.js').CardText} CardText */
 /** @typedef {import('js/models/card-sections/index.js').CardTags} CardTags */
 /** @typedef {import('js/models/card-sections/index.js').CardDetails} CardDetails */
+/** @typedef {import('js/models/card-sections/index.js').CardHeading} CardHeading */
 
 /** @typedef {import('/js/views/card-editor/index.js').CardEditorView} CardEditorView */
 /** @typedef {import('/js/views/card-section-editor/index.js').CardSectionEditorView} CardSectionEditorView */
@@ -45,40 +47,28 @@ export class EditorController {
   }
 
   /**
-   * Connect the editor view to the currently set this.#card. This assumes that neither is connected
-   * to anything else.
+   * Connect the editor view to the given card. This assumes that neither is connected to anything
+   * else.
    * @param {Card} card
    * @param {(() => void)|undefined} removalCallback
    */
   #connect(card, removalCallback) {
     // Setup the initial values of the input fields from the model.
-
-    this.#cardEditorView.nameText = card.name
-    this.#cardEditorView.typeText = card.type
-    
-    for (const [index, section] of card.sections.entries()) {
+    for (const [index, section] of card.frontSections.entries()) {
       this.#addCardSection(card, index, section)
     }
     
     // Propagate changes back to the model.
-    
-    this.#cardEditorView.onNameTextChange = () => card.name = this.#cardEditorView.nameText
-    this.#cardEditorView.onTypeTextChange = () => card.type = this.#cardEditorView.typeText
     this.#cardEditorView.onAddSectionClicked = sectionName => this.#addNewCardSection(card, sectionName)
     this.#cardEditorView.onRemoveCardClicked = removalCallback
   }
 
   /** Disconnect the currently connected card from the editor view and clear the editor view. */
   #disconnect() {
-    this.#cardEditorView.nameText = ''
-    this.#cardEditorView.typeText = ''
-
     this.#sectionUnsubscribers.forEach(sectionUnsubscriber => sectionUnsubscriber())
     this.#sectionUnsubscribers.clear()
     this.#cardEditorView.removeAllSections()
 
-    this.#cardEditorView.onNameTextChange = undefined
-    this.#cardEditorView.onTypeTextChange = undefined
     this.#cardEditorView.onAddSectionClicked = undefined
     this.#cardEditorView.onRemoveCardClicked = undefined
   }
@@ -91,7 +81,7 @@ export class EditorController {
    */
   #addNewCardSection(card, sectionName) {
     const cardSection = new cardSections[sectionName]()
-    const index = card.sections.add(cardSection)
+    const index = card.frontSections.add(cardSection)
     this.#addCardSection(card, index, cardSection)
   }
 
@@ -116,10 +106,13 @@ export class EditorController {
       case 'CardDetails':
         view = this.#getViewConnectedToCardDetails(cardSection)
         break
+      case 'CardHeading':
+        view = this.#getViewConnectedToCardHeading(cardSection)
+        break
     }
 
     view.onRemoveButtonClicked = () => {
-      card.sections.remove(index)
+      card.frontSections.remove(index)
       this.#cardEditorView.removeSection(index)
     }
 
@@ -222,5 +215,24 @@ export class EditorController {
     }
 
     return cardDetailsEditorView
+  }
+
+  /**
+   * @param {CardHeading} cardHeading
+   * @returns {CardHeadingEditorView}
+   */
+  #getViewConnectedToCardHeading(cardHeading) {
+    const cardHeadingEditorView = new CardHeadingEditorView(cardHeading.text, cardHeading.level, cardHeading.justification)
+    cardHeadingEditorView.onTextChange = () => {
+      console.log(1)
+      cardHeading.text = cardHeadingEditorView.text
+    }
+    cardHeadingEditorView.onLevelChange = () => {
+      console.log(2)
+      cardHeading.level = cardHeadingEditorView.level
+    }
+    cardHeadingEditorView.onJustificationChange = () => cardHeading.justification = cardHeadingEditorView.justification
+
+    return cardHeadingEditorView
   }
 }

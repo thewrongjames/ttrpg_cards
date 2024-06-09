@@ -51,15 +51,15 @@ export function getPlainObjectCard0OrError(input, name) {
 export function getPlainObjectCard1OrError(input, name) {
   const object = getObjectOrError(input, name)
 
-  if (!('front' in object)) {
-    throw new TypeError(`${name}.front does not exist`)
+  if (!('frontSections' in object)) {
+    throw new TypeError(`${name}.frontSections does not exist`)
   }
-  if (!('back' in object)) {
-    throw new TypeError(`${name}.back does not exist`)
+  if (!('backSections' in object)) {
+    throw new TypeError(`${name}.backSections does not exist`)
   }
 
   return {
-    frontSections: getArrayOfTypeOrError(getPlainObjectCardSection0OrError, object.front, `${name}.front`),
-    backSections: getArrayOfTypeOrError(getPlainObjectCardSection0OrError, object.back, `${name}.back`),
+    frontSections: getArrayOfTypeOrError(getPlainObjectCardSection0OrError, object.frontSections, `${name}.frontSections`),
+    backSections: getArrayOfTypeOrError(getPlainObjectCardSection0OrError, object.backSections, `${name}.backSections`),
   }
 }
